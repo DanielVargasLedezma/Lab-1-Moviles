@@ -83,8 +83,8 @@ class Login extends Component {
             <div id="contenedor2">
               <div id="maintitle2">
                 <h1>
-                  Sistema de Seguimiento <br />
-                  de Cobros
+                  Sistema de Matricula <br />
+                  Estudiantil
                 </h1>
               </div>
               <div id="image">

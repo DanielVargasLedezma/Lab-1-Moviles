@@ -5,55 +5,133 @@ END;
 
 ------------------------------------------------------------ Carrera --------------------------------------------------------------------------
 CREATE TABLE Carreras(
-    codigo_carrera number(12) not null,
-    nombre VARCHAR2(50),
-    titulo VARCHAR2(250),
+    codigo_carrera number(19) not null,
+    nombre VARCHAR2(255),
+    titulo VARCHAR2(255),
     CONSTRAINT PK_Carrera PRIMARY KEY(codigo_carrera)
 );
 
 ------------------------------------------------------------ Curso --------------------------------------------------------------------------
 
 CREATE TABLE Cursos(
-    codigo_curso number(12) not null,
-    nombre VARCHAR2(50),
-    creditos number(2),
-    horas_semanales NUMBER(2),
+    codigo_curso VARCHAR2(255) not null,
+    nombre VARCHAR2(255),
+    creditos number(5),
+    horas_semanales NUMBER(5),
     CONSTRAINT PK_Curso PRIMARY KEY(codigo_curso)
+);
+
+------------------------------------------------------------ CICLO --------------------------------------------------------------------------
+
+CREATE TABLE CICLOs(
+    ID_CICLO number(19) not null,
+    Aﾃ前 NUMBER(5),
+    NUMERO_CICLO NUMBER(5),
+    FECHA_INICIO DATE,
+    FECHA_FIN DATE,
+    CONSTRAINTS PK_CICLO PRIMARY KEY(ID_CICLO)
 );
 
 ------------------------------------------------------------ Cursos de Carrera --------------------------------------------------------------------------
 
 CREATE TABLE CursosDeCarrera(
-    codigo_carrera number(12) not null,
-    codigo_curso number(12) not null,
-    a number(4),
-    ciclo number(12) not null
+    codigo_carrera number(19) not null,
+    codigo_curso VARCHAR2(255) not null,
+    ID_ciclo number(19) not null,
+    Aﾃ前 number(5),
+    CONSTRAINT PK_Cursos_Carreras PRIMARY KEY(codigo_curso, codigo_carrera, ID_ciclo)
 );
-
 
 ------------------------------------------------------------ Profesor --------------------------------------------------------------------------
 
 CREATE TABLE Profesores(
-    cedula_profesor VARCHAR2(50),
-    nombre VARCHAR2(50),
-    telefono number(12),
-    correoE VARCHAR2(50),
-CONSTRAINTS PK_PROFESOR PRIMARY KEY(cedula_profesor)
+    cedula_profesor VARCHAR2(255) NOT NULL,
+    nombre VARCHAR2(255),
+    telefono number(19),
+    correoE VARCHAR2(255),
+    contraseﾃｱa VARCHAR2(255) NOT NULL,
+    CONSTRAINTS PK_PROFESOR PRIMARY KEY(cedula_profesor)
 );
 
------------------------------------------------------------- For疣eas Cursos de Carrera --------------------------------------------------------------------------
+------------------------------------------------------------ ALUMNO --------------------------------------------------------------------------
 
-ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Carrera_CurCarr FOREIGN KEY (codigo_carrera) REFERENCES GestionAcademica.Carreras (codigo_carrera) on delete cascade;
+CREATE TABLE ALUMNO(
+    CEDULA_ALUMNO VARCHAR2(255) not null,
+    NOMBRE VARCHAR2(255),
+    TELEFONO NUMBER(19),
+    EMAIL VARCHAR2(255),
+    FECHA_NACIMIENTO DATE,
+    CODIGO_CARRERA VARCHAR2(255) not null,
+    contraseﾃｱa VARCHAR2(255) NOT NULL,
+    CONSTRAINTS PK_ALUMNO PRIMARY KEY(CEDULA_ALUMNO)
+);
 
-ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Cur_CurCarr FOREIGN KEY (codigo_curso) REFERENCES GestionAcademica.Cursos (codigo_curso) on delete cascade;
+------------------------------------------------------------ GRUPOs --------------------------------------------------------------------------
+
+CREATE TABLE GRUPOS(
+    NUMERO_GRUPO VARCHAR2(255) not null,
+    CODIGO_CARRERA VARCHAR2(255) not null,
+    CODIGO_CURSO VARCHAR2(255) not null,
+    CEDULA_PROFESOR VARCHAR2(255) not null,
+    ID_CICLO number(19) NOT NULL,
+    HORARIO VARCHAR2(255),
+    CONSTRAINTS PK_GRUPO PRIMARY KEY(NUMERO_GRUPO)
+);
+
+------------------------------------------------------------ GRUPOs -------------------------------------------------------------------------
+
+CREATE TABLE MATRICULAS(
+    Numero_MATRICULA number(19) not null,
+    CEDULA_ALUMNO VARCHAR2(255) not null,
+    NUMERO_GRUPO VARCHAR2(255) not null,
+    NOTA number(5),
+    CONSTRAINTS PK_MATRICULAS PRIMARY KEY(Numero_MATRICULA)
+);
+
+------------------------------------------------------------ Foraneas Cursos de Carrera --------------------------------------------------------------------------
+
+ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Carrera_CurCarr FOREIGN KEY (codigo_carrera) 
+REFERENCES GestionAcademica.Carreras (codigo_carrera) on delete cascade;
+
+ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Cur_CurCarr FOREIGN KEY (codigo_curso) 
+REFERENCES GestionAcademica.Cursos (codigo_curso) on delete cascade;
+
+ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Ciclo_CurCarr FOREIGN KEY (ID_ciclo) 
+REFERENCES GestionAcademica.CICLOs (ID_ciclo) on delete cascade;
 
 
+------------------------------------------------------------ Foraneas Alumno --------------------------------------------------------------------------
+
+ALTER TABLE GestionAcademica.ALUMNOs ADD CONSTRAINT FK_Carrera_ALUMNO FOREIGN KEY (codigo_carrera) 
+REFERENCES GestionAcademica.Carreras (codigo_carrera) on delete cascade;
+
+
+------------------------------------------------------------ Foraneas Grupo --------------------------------------------------------------------------
+
+ALTER TABLE GestionAcademica.grupo ADD CONSTRAINT FK_Carrera_grupo FOREIGN KEY (codigo_carrera) 
+REFERENCES GestionAcademica.Carreras (codigo_carrera) on delete cascade;
+
+ALTER TABLE GestionAcademica.grupo ADD CONSTRAINT FK_Cur_grupo FOREIGN KEY (codigo_curso) 
+REFERENCES GestionAcademica.Cursos (codigo_curso) on delete cascade;
+
+ALTER TABLE GestionAcademica.grupo ADD CONSTRAINT FK_Ciclo_grupo FOREIGN KEY (ID_ciclo) 
+REFERENCES GestionAcademica.CICLOs (ID_ciclo) on delete cascade;
+
+ALTER TABLE GestionAcademica.grupo ADD CONSTRAINT FK_Prof_grupo FOREIGN KEY (cedula_profesor) 
+REFERENCES GestionAcademica.Profesores (cedula_profesor) on delete cascade;
+
+
+------------------------------------------------------------ Foraneas Matriculas --------------------------------------------------------------------------
+
+ALTER TABLE GestionAcademica.matriculas ADD CONSTRAINT FK_ALUMNO_matricula FOREIGN KEY (cedula_alumno) 
+REFERENCES GestionAcademica.ALUMNOs (cedula_alumno) on delete cascade;
+
+ALTER TABLE GestionAcademica.matriculas ADD CONSTRAINT FK_grupo_matricula FOREIGN KEY (numero_grupo) 
+REFERENCES GestionAcademica.grupo (numero_grupo) on delete cascade;
 
 ------------------------------------------------------------ Procedimientos de Carrera --------------------------------------------------------------------------
 
-
-
------------------------------------------------------------- Insertar --------------------------------------------------------------------------
+------------------------------------------------------------ Insertar
 
 CREATE OR REPLACE PROCEDURE insertarCarrera(
     codigo_carrera IN Carreras.codigo_carrera%TYPE, 
@@ -67,7 +145,7 @@ END;
 
 
 
------------------------------------------------------------- Buscar (uno) --------------------------------------------------------------------------
+------------------------------------------------------------ Buscar (uno) 
 
 CREATE OR REPLACE FUNCTION buscarCarrera(codigo_carrera IN Carreras.codigo_carrera%TYPE)
 RETURN Types.ref_cursor 
@@ -83,9 +161,9 @@ END;
 
 
 
------------------------------------------------------------- Buscar cursos de carrera (una) --------------------------------------------------------------------------
+------------------------------------------------------------ Buscar cursos de carrera (una)
 
-CREATE OR REPLACE FUNCTION buscarCursosDeCarrera(codigo_carrera IN Carreras.codigo_carrera%TYPE)
+create or replace FUNCTION buscarCursosDeCarrera(codigo_carrera_in IN Carreras.codigo_carrera%TYPE)
 RETURN Types.ref_cursor 
 AS 
         carrera_cursor types.ref_cursor; 
@@ -93,18 +171,19 @@ BEGIN
     OPEN carrera_cursor FOR 
        SELECT 
             car.codigo_carrera, car.nombre, car.titulo, curr.codigo_curso, curr.nombre, curr.creditos, curr.horas_semanales,  
-            carcurr."AﾑO", carcurr.ciclo
+            carcurr."Aﾃ前", cicl.numero_ciclo, cicl."Aﾃ前", cicl.fecha_inicio, cicl.fecha_finalizacion
        FROM GestionAcademica.Carreras car
-       JOIN GestionAcademica.CursosDeCarrera carcurr ON (car.codigo_carrera = carcurr.codigo_carrera)
+       JOIN GestionAcademica.cursos_de_carreras carcurr ON (car.codigo_carrera = carcurr.codigo_carrera)
        JOIN GestionAcademica.Cursos curr ON (carcurr.codigo_curso = curr.codigo_curso)
-       WHERE (car.codigo_carrera = codigo_carrera); 
-    
+       JOIN GestionAcademica.Ciclos cicl ON (cicl.id_ciclo = carcurr.id_ciclo)
+       WHERE (car.codigo_carrera = codigo_carrera_in); 
+
     RETURN carrera_cursor; 
 END;
 
 
 
------------------------------------------------------------- Buscar (Todas) --------------------------------------------------------------------------
+------------------------------------------------------------ Buscar (Todas)
 
 CREATE OR REPLACE FUNCTION listarCarreras
 RETURN Types.ref_cursor 
@@ -118,7 +197,7 @@ END;
 
 
 
------------------------------------------------------------- Eliminar --------------------------------------------------------------------------
+------------------------------------------------------------ Eliminar
 
 create or replace procedure eliminarCarrera(codigo_carrera IN Carreras.codigo_carrera%TYPE)
 as
@@ -128,7 +207,7 @@ end;
 
 
 
------------------------------------------------------------- Modificar --------------------------------------------------------------------------
+------------------------------------------------------------ Modificar
 
 CREATE OR REPLACE PROCEDURE modificarCarrera (
     codigo_carrera_in IN Carreras.codigo_carrera%TYPE, 
@@ -142,11 +221,8 @@ END;
 
 
 
------------------------------------------------------------- Procedimientos de Profesor --------------------------------------------------------------------------
-
-
-
------------------------------------------------------------- Insertar --------------------------------------------------------------------------
+------------------------------------------------------------ Procedimientos de Profesor
+------------------------------------------------------------ Insertar
 
 CREATE OR REPLACE PROCEDURE insertarProfesor(
     CEDULA_PROFESOR IN Profesores.CEDULA_PROFESOR%TYPE, 
@@ -161,7 +237,7 @@ END;
 
 
 
------------------------------------------------------------- Buscar (uno) --------------------------------------------------------------------------
+------------------------------------------------------------ Buscar (uno)
 
 CREATE OR REPLACE FUNCTION buscarProfesor(CEDULA_PROFESOR IN Profesores.CEDULA_PROFESOR%TYPE)
 RETURN Types.ref_cursor 
@@ -177,7 +253,7 @@ END;
 
 
 
------------------------------------------------------------- Buscar (Todos) --------------------------------------------------------------------------
+------------------------------------------------------------ Buscar (Todos)
 
 CREATE OR REPLACE FUNCTION listarProfesores
 RETURN Types.ref_cursor 
@@ -191,7 +267,7 @@ END;
 
 
 
------------------------------------------------------------- Eliminar --------------------------------------------------------------------------
+------------------------------------------------------------ Eliminar
 
 create or replace procedure eliminarProfesor(CEDULA_PROFESOR IN Profesores.CEDULA_PROFESOR%TYPE)
 as
@@ -201,7 +277,7 @@ end;
 
 
 
------------------------------------------------------------- Modificar --------------------------------------------------------------------------
+------------------------------------------------------------ Modificar
 
 CREATE OR REPLACE PROCEDURE modificarProfesor (
     CEDULA_PROFESOR IN Profesores.CEDULA_PROFESOR%TYPE, 
