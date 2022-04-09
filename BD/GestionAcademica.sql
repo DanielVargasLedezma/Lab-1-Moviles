@@ -88,6 +88,15 @@ CREATE TABLE MATRICULAS(
     CONSTRAINTS PK_MATRICULAS PRIMARY KEY(Numero_MATRICULA)
 );
 
+------------------------------------------------------------ USUARIOS -------------------------------------------------------------------------
+
+CREATE TABLE USUARIOS(
+    CEDULA_usuario VARCHAR2(255),
+    CLAVE VARCHAR2(255),
+    tipo_usuario number(5),
+    CONSTRAINTS PK_USUARIOS PRIMARY KEY(CEDULA_usuario)
+);
+
 ------------------------------------------------------------ Foraneas Cursos de Carrera --------------------------------------------------------------------------
 
 ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Carrera_CurCarr FOREIGN KEY (codigo_carrera) 
