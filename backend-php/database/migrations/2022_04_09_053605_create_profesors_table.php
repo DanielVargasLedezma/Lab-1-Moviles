@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->bigInteger('telefono');
             $table->string('correoE')->unique();
-            $table->string('contraseña');
+            $table->string('clave');
         });
     }
 

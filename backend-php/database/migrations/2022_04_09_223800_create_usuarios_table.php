@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->string('cedula_usuario')->primary();
             $table->smallInteger('tipo_usuario');
-            $table->string('contraseña');
+            $table->string('clave');
         });
     }
 

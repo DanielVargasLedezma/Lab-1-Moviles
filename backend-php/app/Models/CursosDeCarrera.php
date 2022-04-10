@@ -12,7 +12,37 @@ class CursosDeCarrera extends Model
 
     protected $table = 'cursos_de_carreras';
 
-    protected $primaryKey = ['codigo_carrera', 'codigo_curso', 'codigo_ciclo'];
+    protected $primaryKey = ['codigo_carrera', 'codigo_curso', 'id_ciclo'];
+
+    protected $keyType = ['int', 'string', 'int'];
+
+    public $incrementing = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'codigo_carrera',
+        'codigo_curso',
+        'id_ciclo',
+        'año',
+    ];
+
+    /**
+     * The name of the "created at" column.
+     *
+     * @var string|null
+     */
+    const CREATED_AT = null;
+
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string|null
+     */
+    const UPDATED_AT = null;
 
     // /**
     //  * Set the keys for a save update query.

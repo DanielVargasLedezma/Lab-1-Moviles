@@ -24,4 +24,18 @@ class Ciclo extends Model
         'fecha_inicio',
         'fecha_finalizacion',
     ];
+
+    /**
+     * The name of the "created at" column.
+     *
+     * @var string|null
+     */
+    const CREATED_AT = null;
+
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string|null
+     */
+    const UPDATED_AT = null;
 }

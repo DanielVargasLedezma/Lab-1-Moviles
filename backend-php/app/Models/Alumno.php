@@ -30,7 +30,7 @@ class Alumno extends Authenticatable
         'correoE',
         'fecha_nacimiento',
         'codigo_carrera',
-        'contraseña',
+        'clave',
     ];
 
     /**
@@ -39,11 +39,25 @@ class Alumno extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'contraseña',
+        'clave',
     ];
 
-    // public function cursos()
-    // {
-    //     return $this->hasMany(Telefono::class, 'id_corresp', 'id_usuario');
-    // }
+    /**
+     * The name of the "created at" column.
+     *
+     * @var string|null
+     */
+    const CREATED_AT = null;
+
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string|null
+     */
+    const UPDATED_AT = null;
+
+    public function carrera()
+    {
+        return $this->belongsTo(Carrera::class, 'codigo_carrera', 'codigo_carrera');
+    }
 }
