@@ -15,7 +15,9 @@ class CarreraController extends Controller
      */
     public function index()
     {
-        //
+        return CarreraResource::collection(
+            Carrera::all()
+        );
     }
 
     /**

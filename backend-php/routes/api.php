@@ -32,4 +32,6 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
     Route::delete('/logout', [LoggoutController::class, 'logout']);
 
     Route::post('/crear-carrera', [CarreraController::class, 'store']);
+
+    Route::get('/carreras', [CarreraController::class, 'index']);
 });

@@ -22,8 +22,11 @@ class Grupo extends Model
      */
     protected $fillable = [
         'numero_grupo',
-        'nombre',
-        'titulo',
+        'codigo_carrera',
+        'codigo_curso',
+        'cedula_profesor',
+        'id_ciclo',
+        'horario',
     ];
 
     /**

@@ -20,7 +20,7 @@ class Ciclo extends Model
      */
     protected $fillable = [
         'numero_ciclo',
-        'año',
+        'year',
         'fecha_inicio',
         'fecha_finalizacion',
     ];

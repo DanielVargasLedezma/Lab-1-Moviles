@@ -14,7 +14,7 @@ class CursosDeCarrera extends Model
 
     protected $primaryKey = ['codigo_carrera', 'codigo_curso', 'id_ciclo'];
 
-    protected $keyType = ['int', 'string', 'int'];
+    protected $keyType = ['string', 'string', 'int'];
 
     public $incrementing = false;
 
@@ -27,7 +27,7 @@ class CursosDeCarrera extends Model
         'codigo_carrera',
         'codigo_curso',
         'id_ciclo',
-        'año',
+        'year',
     ];
 
     /**

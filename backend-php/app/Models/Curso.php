@@ -15,8 +15,6 @@ class Curso extends Model
 
     protected $keyType = 'string';
 
-    public $incrementing = false;
-
     /**
      * The attributes that are mass assignable.
      *

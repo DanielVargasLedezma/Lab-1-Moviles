@@ -13,7 +13,7 @@ class Carrera extends Model
 
     protected $primaryKey = 'codigo_carrera';
 
-    public $incrementing = false;
+    protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.

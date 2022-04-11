@@ -8,10 +8,10 @@ export default {
     const formData = new FormData();
 
     formData.append("cedula_usuario", user.cedula);
-    formData.append("password", user.password);
+    formData.append("clave", user.password);
 
     return await axios
-      .post(global.url + "login", formData)
+      .post(global.url + "login/user", formData)
       .then((res) => {
         if (res.status === 201) {
           return res.data;

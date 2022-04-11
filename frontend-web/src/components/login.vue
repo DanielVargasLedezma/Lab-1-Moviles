@@ -7,7 +7,7 @@
         </div>
         <div id="maintitle1">
           <h1>
-            Sistema de Matricula <br />
+            Sistema de Matrícula <br />
             Estudiantil
           </h1>
         </div>
@@ -24,11 +24,7 @@
                   :class="[
                     {
                       error: (v$.user.cedula.$error && sent) || invalid,
-                      correct:
-                        !v$.user.cedula.$error &&
-                        username_touched &&
-                        sent &&
-                        !invalid,
+                      correct: !v$.user.cedula.$error && !invalid,
                     },
                   ]"
                 />
@@ -48,11 +44,7 @@
                   :class="[
                     {
                       error: (v$.user.password.$error && sent) || invalid,
-                      correct:
-                        !v$.user.password.$error &&
-                        password_touched &&
-                        sent &&
-                        !invalid,
+                      correct: !v$.user.password.$error && !invalid,
                     },
                   ]"
                 />
@@ -88,8 +80,9 @@
               <input
                 type="radio"
                 id="radio-1"
-                name="login-type"
+                name="tipo_usuario"
                 value="1"
+                @change="checkInput"
                 v-model="user.tipo_usuario"
               />
               <label for="radio-1" class="radio-label">Administrador</label
@@ -99,8 +92,9 @@
               <input
                 type="radio"
                 id="radio-2"
-                name="login-type"
+                name="tipo_usuario"
                 value="2"
+                @change="checkInput"
                 v-model="user.tipo_usuario"
               />
               <label for="radio-2" class="radio-label">Matriculador</label
@@ -110,8 +104,9 @@
               <input
                 type="radio"
                 id="radio-3"
-                name="login-type"
+                name="tipo_usuario"
                 value="3"
+                @change="checkInput"
                 v-model="user.tipo_usuario"
               />
               <label for="radio-3" class="radio-label">Profesor</label>
@@ -120,8 +115,9 @@
               <input
                 type="radio"
                 id="radio-4"
-                name="login-type"
+                name="tipo_usuario"
                 value="4"
+                @change="checkInput"
                 v-model="user.tipo_usuario"
               />
               <label for="radio-4" class="radio-label">Estudiante</label>
@@ -130,17 +126,12 @@
           <div id="errortext">
             <p
               v-if="
-                ((v$.user.password.$error && sent) || invalid) &&
-                ((v$.user.cedula.$error && sent) || invalid)
+                (v$.user.password.$error || invalid) &&
+                (v$.user.cedula.$error || invalid)
               "
             >
               Credenciales Incorrectas.
             </p>
-            <p
-              v-else-if="
-                !v$.user.password.$error && password_touched && !invalid
-              "
-            ></p>
           </div>
           <div id="btnlog">
             <button
@@ -159,7 +150,7 @@
       <div id="contenedor2">
         <div id="maintitle2">
           <h1>
-            Sistema de Matricula <br />
+            Sistema de Matrícula <br />
             Estudiantil
           </h1>
         </div>
@@ -180,8 +171,12 @@ import { required, numeric, helpers } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 
-import User from "../models/usuario.js";
+import ProfesorController from "../controllers/profesorController.js";
+import AlumnoController from "../controllers/alumnoController.js";
 import UserController from "../controllers/userController.js";
+import Profesor from "../models/profesor.js";
+import Alumno from "../models/alumno.js";
+import User from "../models/usuario.js";
 
 const alpha_with_spaces_special_and_underscore = helpers.regex(/^[\w-\s]+$/);
 
@@ -191,9 +186,6 @@ export default {
       show: false,
       v$: useValidate(),
       user: new User(),
-      sent: false,
-      username_touched: false,
-      password_touched: false,
       invalid: false,
       type: "password",
       btnText: "Mostrar",
@@ -210,20 +202,7 @@ export default {
   },
   mounted() {
     if (this.LoggedState) {
-      switch (this.UsuarioLoggeado.tipo_usuario) {
-        case 1:
-          this.$router.push("/inicio-admin");
-          break;
-        case 2:
-          this.$router.push("/inicio-super");
-          break;
-        case 3:
-          this.$router.push("/inicio-gestor");
-          break;
-        case 4:
-          this.$router.push("/inicio-gestor");
-          break;
-      }
+      this.$router.push("/inicio");
     }
   },
   computed: {
@@ -254,77 +233,97 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     async manejoDatos() {
-      this.sent = true;
       this.v$.$validate();
 
       if (!this.v$.$error) {
-        switch (this.UsuarioLoggeado.tipo_usuario) {
-          case 1:
-            this.$router.push("/inicio-admin");
+        switch (this.user.tipo_usuario) {
+          case "1" || "2":
+            await UserController.login(this.user)
+              .then((res) => {
+                this.setUserLogged(
+                  new User(
+                    res.usuario.cedula_usuario,
+                    "",
+                    parseInt(res.usuario.tipo_usuario)
+                  )
+                );
+
+                this.setToken(res.token);
+                this.setLoggedState(true);
+
+                this.$router.push("/inicio");
+              })
+              .catch((err) => {
+                console.error(err);
+                this.invalid = true;
+              });
             break;
-          case 2:
-            this.$router.push("/inicio-super");
+          case "3":
+            await ProfesorController.login(this.user)
+              .then((res) => {
+                this.setUserLogged(
+                  new Profesor(
+                    res.profesor.cedula_profesor,
+                    "",
+                    3,
+                    res.profesor.nombre,
+                    res.profesor.telefono,
+                    res.profesor.correo
+                  )
+                );
+
+                this.setToken(res.token);
+                this.setLoggedState(true);
+
+                this.$router.push("/inicio");
+              })
+              .catch((err) => {
+                console.error(err);
+                this.invalid = true;
+              });
             break;
-          case 3:
-            this.$router.push("/inicio-gestor");
-            break;
-          case 4:
-            this.$router.push("/inicio-gestor");
+          case "4":
+            await AlumnoController.login(this.user)
+              .then((res) => {
+                this.setUserLogged(
+                  new Alumno(
+                    res.alumno.cedula_alumno,
+                    "",
+                    4,
+                    res.alumno.nombre,
+                    res.alumno.telefono,
+                    res.alumno.correo,
+                    res.alumno.carrera.codigo_carrera
+                  )
+                );
+
+                this.setToken(res.token);
+                this.setLoggedState(true);
+
+                this.$router.push("/inicio");
+              })
+              .catch((err) => {
+                console.error(err);
+                this.invalid = true;
+              });
             break;
         }
-        await UserController.login(this.user)
-          .then((res) => {
-            this.user.id = res.user.id_usuario;
-            this.user.nombre = res.user.nombre;
-            this.user.apellidos = res.user.apellidos;
-            this.user.cedula = res.user.cedula;
-            this.user.estado = res.user.estado;
-            this.user.correo = res.user.correo;
-            this.user.cedula = res.user.cedula;
-            this.user.id_rol = res.user.rol.id_rol;
-            this.user.id_proyecto = res.user.proyecto.id_proyecto;
-            this.user.telefono1 = res.user.telefonos[0];
-            this.user.contraseña_cambiada = res.user.contraseña_cambiada;
-
-            if (res.user.telefonos.length > 1) {
-              this.user.telefono2 = res.user.telefonos[1];
-            }
-
-            this.setUserLogged(this.user);
-            this.setToken(res.token);
-            this.setLoggedState(true);
-
-            switch (this.UsuarioLoggeado.id_rol) {
-              case 1:
-                this.$router.push("/inicio-admin");
-                break;
-              case 2:
-                this.$router.push("/inicio-super");
-                break;
-              case 3:
-                this.$router.push("/inicio-gestor");
-                break;
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            // swal("¡Error al autentificarse!", `${err.data.message}`, "error");
-            // this.v$.user.cedula.$dirty = true;
-            // this.v$.user.password.$dirty = true;
-            this.invalid = true;
-          });
+      } else {
+        console.log(this.v$);
       }
     },
     checkInput(e) {
       switch (e.target.name) {
         case "cedula":
           this.v$.user.cedula.$touch();
-          this.username_touched = true;
           this.invalid = false;
           break;
         case "password":
           this.v$.user.password.$touch();
-          this.password_touched = true;
+          this.invalid = false;
+          break;
+        case "tipo_usuario":
+          this.v$.user.tipo_usuario.$touch();
           this.invalid = false;
           break;
       }

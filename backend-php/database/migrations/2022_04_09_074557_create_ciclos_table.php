@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('ciclos', function (Blueprint $table) {
             $table->id('id_ciclo');
             $table->smallInteger('numero_ciclo');
-            $table->smallInteger('año');
+            $table->smallInteger('year');
             $table->date('fecha_inicio');
             $table->date('fecha_finalizacion');
         });
