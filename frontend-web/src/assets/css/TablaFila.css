@@ -1,0 +1,196 @@
+#moreLogo {
+  cursor: pointer;
+}
+
+#nombre img {
+  margin-left: 5px;
+  margin-right: 5px;
+  user-select: none;
+}
+
+#logo-usuario {
+  padding-right: 10px;
+}
+
+#barrita {
+  display: flex;
+  max-width: 100%;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  justify-content: start;
+}
+
+#barrita:hover {
+  background-color: #274c7a1a;
+}
+
+#barrita span {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: var(--var-col-size);
+  height: 5vh;
+  border-bottom: 1px solid #c4c4c4;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+}
+
+#barrita span p {
+  display: flex;
+  color: rgb(0, 0, 0);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 80%;
+  height: 100%;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  justify-content: start;
+}
+
+#barrita span p:hover {
+  text-overflow: clip;
+  white-space: normal;
+  word-break: break-all;
+  font-size: 0.8rem;
+}
+
+#barrita span:first-child {
+  width: var(--var-first-col-size);
+}
+
+#barrita span p:first-child {
+  width: 95%;
+}
+
+#barrita span:last-child {
+  width: var(--var-last-col-size);
+  justify-content: center;
+}
+
+#estado {
+  display: flex;
+  justify-content: center;
+}
+
+#estado-verde {
+  display: flex;
+  justify-content: center;
+  border: 2px solid #b7eb8f;
+  border-radius: 5px;
+  color: #52c41a;
+  background-color: #f6ffed;
+  width: 125px;
+  user-select: none;
+  cursor: pointer;
+}
+#estado-azul {
+  margin-right: 4vw;
+  margin-left: 1vw;
+  display: flex;
+  justify-content: center;
+  border: 2px solid #1c2c54;
+  border-radius: 5px;
+  color: #1c2c54;
+  background-color: #bbcff8;
+  width: 100px;
+  user-select: none;
+  cursor: pointer;
+}
+
+#estado-verde:hover {
+  border: 3px solid #bfff8e;
+  color: #56db14;
+}
+
+#estado-rojo {
+  display: flex;
+  justify-content: center;
+  border: 2px solid #eb8f8f;
+  border-radius: 5px;
+  color: #ca1a1a;
+  background-color: #ffeded;
+  width: 125px;
+  user-select: none;
+  cursor: pointer;
+}
+
+#estado-rojo:hover {
+  border: 3px solid #ff8585;
+  color: #e20d0d;
+}
+
+#telefono #combo-box-telefonos {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  width: 75%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  user-select: text;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  #barrita span {
+    min-width: calc(var(--var-col-size) * 1px);
+    width: 100%;
+  }
+
+  #barrita span:first-child {
+    min-width: calc(var(--var-first-col-size) * 1px);
+    width: 100%;
+  }
+
+  #barrita span:last-child {
+    min-width: calc(var(--var-last-col-size) * 1px);
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  #barrita span {
+    min-width: calc(var(--var-col-size) * 1px);
+    width: 100%;
+  }
+
+  #barrita span:first-child {
+    min-width: calc(var(--var-first-col-size) * 1px);
+    width: 100%;
+  }
+
+  #barrita span:last-child {
+    min-width: calc(var(--var-last-col-size) * 1px);
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+@media only screen and (min-width: 1200px) {
+  #barrita span {
+    min-width: calc(var(--var-col-size) * 1%);
+    width: 100%;
+    height: 6vh;
+  }
+
+  #barrita span:first-child {
+    width: 100%;
+    min-width: calc(var(--var-first-col-size) * 1%);
+  }
+
+  #barrita span:last-child {
+    min-width: calc(var(--var-last-col-size) * 1%);
+    max-width: calc(var(--var-last-col-size) * 1%);
+  }
+}

@@ -1,0 +1,153 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #969696;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: var(--sidebar-width);
+  width: 100% - var(--sidebar-width);
+  /*Altura WeTable*/
+  height: 91.5vh;
+}
+
+#indices {
+  margin-top: auto;
+}
+#tablita {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: max-content;
+}
+#header {
+  display: flex;
+  height: 6vh;
+  max-width: 100%;
+  justify-content: space-between;
+}
+#tablita #header th {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: start;
+  border-bottom: 2px solid #c4c4c4;
+  /*background-color: #274d7a;*/
+  font-family: "Inter";
+  background-color: #f6f6f6;
+  color: #969696;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  :root {
+    --var-min-res: 1200;
+    --var-num-col: 8;
+    --var-col-size: var(--var-min-res) / var(--var-num-col);
+    --var-last-col-size: calc(var(--var-col-size) / 2);
+    --var-first-col-size: calc(var(--var-col-size) + var(--var-last-col-size));
+  }
+  #container {
+    height: 100%;
+  }
+  #tablita {
+    overflow-x: auto;
+  }
+  #tablita #header th {
+    min-width: calc(var(--var-col-size) * 1px);
+    width: 100%;
+  }
+  #tablita #header th div {
+    width: 45px;
+  }
+  #tablita #header th:first-child {
+    min-width: calc(var(--var-first-col-size) * 1px);
+    width: 100%;
+  }
+  #tablita #header th:last-child {
+    min-width: calc(var(--var-last-col-size) * 1px);
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  :root {
+    --var-min-res: 1200;
+    --var-num-col: 8;
+    --var-col-size: var(--var-min-res) / var(--var-num-col);
+    --var-last-col-size: calc(var(--var-col-size) / 2);
+    --var-first-col-size: calc(var(--var-col-size) + var(--var-last-col-size));
+  }
+  #container {
+    height: 100%;
+  }
+  #tablita {
+    overflow-x: auto;
+  }
+  #tablita #header th {
+    min-width: calc(var(--var-col-size) * 1px);
+    width: 100%;
+  }
+  #tablita #header th div {
+    width: 45px;
+  }
+  #tablita #header th:first-child {
+    min-width: calc(var(--var-first-col-size) * 1px);
+    width: 100%;
+  }
+  #tablita #header th:last-child {
+    min-width: calc(var(--var-last-col-size) * 1px);
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  :root {
+    --var-col-size: 100 / var(--var-num-col);
+    --var-last-col-size: var(--var-col-size) / 2;
+    --var-first-col-size: calc(var(--var-col-size) + var(--var-last-col-size));
+  }
+  #tablita {
+    height: max-content;
+    overflow-x: hidden;
+  }
+  #tablita #header th {
+    min-width: calc(var(--var-col-size) * 1%);
+    width: 100%;
+  }
+  #tablita #header th:first-child {
+    min-width: calc(var(--var-first-col-size) * 1%);
+    width: 100%;
+  }
+  #tablita #header th:last-child {
+    min-width: calc(var(--var-last-col-size) * 1%);
+    max-width: calc(var(--var-last-col-size) * 1%);
+  }
+  #container {
+    height: 91.5vh;
+  }
+}

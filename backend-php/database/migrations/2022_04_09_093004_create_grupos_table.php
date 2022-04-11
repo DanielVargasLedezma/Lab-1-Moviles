@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->string('numero_grupo')->primary();
-            $table->bigInteger('codigo_carrera')->unsigned();
+            $table->string('codigo_carrera');
             $table->string('codigo_curso');
             $table->string('cedula_profesor');
             $table->bigInteger('id_ciclo')->unsigned();

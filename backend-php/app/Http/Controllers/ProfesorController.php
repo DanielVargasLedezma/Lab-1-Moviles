@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Profesor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\ProfesorResource;
 
 class ProfesorController extends Controller
 {
@@ -81,5 +83,30 @@ class ProfesorController extends Controller
     public function destroy(Profesor $profesor)
     {
         //
+    }
+
+    public function login(Request $request)
+    {
+        $fields = $request->validate([
+            'cedula_profesor' => 'required|string',
+            'clave' => 'required|string'
+        ]);
+
+        # Buscar y obtener el profesor de la base de datos
+        $profesor = Profesor::where('cedula_profesor', $fields['cedula_profesor'])->first();
+
+        # Validar si el pro$profesor no existe o si la clave es incorrecta
+        if (!isset($profesor) || !Hash::check($fields['clave'], $profesor->clave)) {
+            return response([
+                'message' => 'Credenciales incorrectas',
+            ], 401);
+        }
+
+        $token = $profesor->createToken('myapptoken')->plainTextToken;
+
+        return response([
+            'profesor' => new ProfesorResource($profesor),
+            'token' => $token
+        ], 201);
     }
 }

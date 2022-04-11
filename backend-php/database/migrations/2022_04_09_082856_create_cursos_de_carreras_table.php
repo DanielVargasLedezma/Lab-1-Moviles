@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cursos_de_carreras', function (Blueprint $table) {
-            $table->bigInteger('codigo_carrera')->unsigned();
+            $table->string('codigo_carrera');
             $table->string('codigo_curso');
             $table->bigInteger('id_ciclo')->unsigned();
 
-            $table->smallInteger('año');
+            $table->smallInteger('year');
 
             $table->foreign('codigo_carrera')
                 ->references('codigo_carrera')

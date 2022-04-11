@@ -5,7 +5,7 @@ END;
 
 ------------------------------------------------------------ Carrera --------------------------------------------------------------------------
 CREATE TABLE Carreras(
-    codigo_carrera number(19) not null,
+    codigo_carrera VARCHAR2(255) not null,
     nombre VARCHAR2(255),
     titulo VARCHAR2(255),
     CONSTRAINT PK_Carrera PRIMARY KEY(codigo_carrera)
@@ -35,7 +35,7 @@ CREATE TABLE CICLOs(
 ------------------------------------------------------------ Cursos de Carrera --------------------------------------------------------------------------
 
 CREATE TABLE CursosDeCarrera(
-    codigo_carrera number(19) not null,
+    codigo_carrera VARCHAR2(255) not null,
     codigo_curso VARCHAR2(255) not null,
     ID_ciclo number(19) not null,
     AÑO number(5),
@@ -180,7 +180,7 @@ BEGIN
     OPEN carrera_cursor FOR 
        SELECT 
             car.codigo_carrera, car.nombre, car.titulo, curr.codigo_curso, curr.nombre, curr.creditos, curr.horas_semanales,  
-            carcurr."AÑO", cicl.numero_ciclo, cicl."AÑO", cicl.fecha_inicio, cicl.fecha_finalizacion
+            carcurr.year, cicl.numero_ciclo, cicl.year, cicl.fecha_inicio, cicl.fecha_finalizacion
        FROM GestionAcademica.Carreras car
        JOIN GestionAcademica.cursos_de_carreras carcurr ON (car.codigo_carrera = carcurr.codigo_carrera)
        JOIN GestionAcademica.Cursos curr ON (carcurr.codigo_curso = curr.codigo_curso)

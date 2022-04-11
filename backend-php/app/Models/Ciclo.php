@@ -20,8 +20,22 @@ class Ciclo extends Model
      */
     protected $fillable = [
         'numero_ciclo',
-        'año',
+        'year',
         'fecha_inicio',
         'fecha_finalizacion',
     ];
+
+    /**
+     * The name of the "created at" column.
+     *
+     * @var string|null
+     */
+    const CREATED_AT = null;
+
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string|null
+     */
+    const UPDATED_AT = null;
 }

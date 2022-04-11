@@ -26,7 +26,7 @@ class Usuario extends Authenticatable
     protected $fillable = [
         'cedula_usuario',
         'tipo_usuario',
-        'contraseña',
+        'clave',
     ];
 
     /**
@@ -35,6 +35,20 @@ class Usuario extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'contraseña',
+        'clave',
     ];
+
+    /**
+     * The name of the "created at" column.
+     *
+     * @var string|null
+     */
+    const CREATED_AT = null;
+
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string|null
+     */
+    const UPDATED_AT = null;
 }

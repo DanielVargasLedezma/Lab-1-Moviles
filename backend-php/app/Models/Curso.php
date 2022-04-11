@@ -15,8 +15,6 @@ class Curso extends Model
 
     protected $keyType = 'string';
 
-    public $incrementing = false;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -27,4 +25,18 @@ class Curso extends Model
         'creditos',
         'horas_semanales',
     ];
+
+    /**
+     * The name of the "created at" column.
+     *
+     * @var string|null
+     */
+    const CREATED_AT = null;
+
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string|null
+     */
+    const UPDATED_AT = null;
 }

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->bigInteger('telefono');
             $table->string('correoE')->unique();
             $table->date('fecha_nacimiento');
-            $table->bigInteger('codigo_carrera')->unsigned();
-            $table->string('contraseña');
+            $table->string('codigo_carrera');
+            $table->string('clave');
 
             $table->foreign('codigo_carrera')
                 ->references('codigo_carrera')

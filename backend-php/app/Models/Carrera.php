@@ -13,7 +13,7 @@ class Carrera extends Model
 
     protected $primaryKey = 'codigo_carrera';
 
-    public $incrementing = false;
+    protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.
@@ -25,4 +25,18 @@ class Carrera extends Model
         'nombre',
         'titulo',
     ];
+
+    /**
+     * The name of the "created at" column.
+     *
+     * @var string|null
+     */
+    const CREATED_AT = null;
+
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string|null
+     */
+    const UPDATED_AT = null;
 }
