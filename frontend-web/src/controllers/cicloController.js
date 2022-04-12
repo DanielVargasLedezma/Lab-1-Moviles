@@ -4,9 +4,9 @@ import { global } from "../api-url/url.js";
 import axios from "axios";
 
 export default {
-  cargarTodas: async (token) => {
+  cargarCiclos: async (token) => {
     return await axios
-      .get(global.url + "carreras", {
+      .get(global.url + "ciclos", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
@@ -16,7 +16,7 @@ export default {
         throw err.response;
       });
   },
-  registrarCarrera: async (carrera, token) => {
+  registrarCiclo: async (carrera, token) => {
     const formData = new FormData();
 
     formData.append("codigo_carrera", carrera.codigo_carrera);
@@ -34,7 +34,7 @@ export default {
         throw error.response;
       });
   },
-  editarCarrera: async (carrera, token) => {
+  editarCiclo: async (carrera, token) => {
     const formData = new FormData();
 
     formData.append("nombre", carrera.nombre);

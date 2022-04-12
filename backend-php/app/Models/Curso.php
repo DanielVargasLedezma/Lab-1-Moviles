@@ -24,9 +24,12 @@ class Curso extends Model
      */
     protected $fillable = [
         'codigo_curso',
+        'codigo_carrera',
         'nombre',
         'creditos',
         'horas_semanales',
+        'num_semestre_a_llevar',
+        'anyo_a_llevar',
     ];
 
     /**
@@ -42,4 +45,9 @@ class Curso extends Model
      * @var string|null
      */
     const UPDATED_AT = null;
+
+    public function carrera()
+    {
+        return $this->belongsTo(Carrera::class, 'codigo_carrera', 'codigo_carrera');
+    }
 }

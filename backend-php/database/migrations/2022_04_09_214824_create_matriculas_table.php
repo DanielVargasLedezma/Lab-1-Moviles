@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('matriculas', function (Blueprint $table) {
-            $table->id('numero_matricula');
+            $table->bigInteger('numero_matricula')->unsigned()->autoIncrement();
             $table->string('cedula_alumno');
             $table->string('numero_grupo');
             $table->smallInteger('nota');
@@ -28,6 +28,8 @@ return new class extends Migration
                 ->references('numero_grupo')
                 ->on('grupos')
                 ->onDelete('cascade');
+
+            $table->primary(['numero_matricula', 'cedula_alumno', 'numero_grupo']);
         });
     }
 

@@ -23,6 +23,7 @@ class Ciclo extends Model
         'year',
         'fecha_inicio',
         'fecha_finalizacion',
+        'ciclo_activo',
     ];
 
     /**

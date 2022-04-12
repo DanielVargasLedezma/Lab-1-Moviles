@@ -49,7 +49,7 @@
                 <label for="titulo">Título</label>
               </div>
               <section id="input-span">
-                <input
+                <textarea
                   type="text"
                   placeholder="Título de la Carrera"
                   name="titulo"
@@ -79,8 +79,8 @@
           <div id="col2"></div>
           <div>
             <section id="wrapper">
-              <button type="submit" @click="insertarCarrera">
-                Crear Carrera
+              <button type="submit" @click="editarCarrera">
+                Editar Carrera
               </button>
             </section>
           </div>
@@ -130,14 +130,17 @@ export default {
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
+
+      GET_CARRERA_ACTUAL: "TableCarreraModule/GET_CARRERA_ACTUAL",
     }),
   },
   async mounted() {
     if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
       this.$router.push("/inicio");
     }
-
-    this.campoOculto = true;
+    this.carrera.codigo_carrera = this.GET_CARRERA_ACTUAL.codigo_carrera;
+    this.carrera.nombre = this.GET_CARRERA_ACTUAL.nombre;
+    this.carrera.titulo = this.GET_CARRERA_ACTUAL.titulo;
   },
   methods: {
     ...mapMutations({
@@ -168,17 +171,17 @@ export default {
           break;
       }
     },
-    async insertarCarrera() {
+    async editarCarrera() {
       await this.v$.$validate();
 
       if (!this.v$.$error) {
         await carreraController
-          .registrarCarrera(this.carrera, this.Token)
+          .editarCarrera(this.carrera, this.Token)
           .then((response) => {
-            if (response === 201) {
+            if (response === 204) {
               swal.fire(
-                "Carrera Registrado!",
-                "¡La carrera ha sido registrado con éxito!",
+                "¡Carrera Editada!",
+                "La carrera ha sido editada con éxito.",
                 "success"
               );
               this.$router.push("/inicio/carreras");
@@ -210,7 +213,10 @@ export default {
   color: red;
   flex-grow: 0;
 }
-
+textarea {
+  width: 18rem;
+  max-width: 18rem;
+}
 #editar-usuarios-container {
   height: 100%;
   overflow-y: scroll;
@@ -457,7 +463,8 @@ input:checked + .slider:before {
     margin-bottom: 4%;
   }
 
-  input {
+  input,
+  textarea {
     font-size: medium;
     color: #000000;
     font-family: "Inter", sans-serif;

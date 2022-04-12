@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import TablaCarreras from "../components/tablas/tablaCarreras/TablaCarreras.vue";
 import TablaCursos from "../components/tablas/tablaCursos/TablaCursos.vue";
+import TablaCiclos from "../components/tablas/tablaCiclos/TablaCiclos.vue";
 import CrearCarrera from "@/components/carreras/CrearCarrera.vue";
 import EditarCarrera from "@/components/carreras/EditarCarrera.vue";
 import Login from "../components/login.vue";
@@ -29,7 +30,7 @@ const routes = [
         component: CrearCarrera,
       },
       {
-        path: "editar-carreras",
+        path: "editar-carrera",
         name: "Editar Carreras",
         component: EditarCarrera,
       },
@@ -37,8 +38,12 @@ const routes = [
         path: "cursos",
         name: "Cursos",
         component: TablaCursos,
-
-      }
+      },
+      {
+        path: "ciclos",
+        name: "Ciclos",
+        component: TablaCiclos,
+      },
       // { path: "crear-cursos", component: TablaUsuarios },
       // { path: "editar-usuario", component: EditarUsuario },
       // { path: "cambiar-clave", component: IngresarContra1 },

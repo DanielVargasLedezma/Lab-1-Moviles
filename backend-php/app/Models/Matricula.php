@@ -11,7 +11,9 @@ class Matricula extends Model
 
     protected $table = 'matriculas';
 
-    protected $primaryKey = 'numero_matricula';
+    protected $primaryKey = ['numero_matricula', 'cedula_alumno', 'numero_grupo'];
+
+    protected $keyType = ['int', 'string', 'string'];
 
     /**
      * The attributes that are mass assignable.

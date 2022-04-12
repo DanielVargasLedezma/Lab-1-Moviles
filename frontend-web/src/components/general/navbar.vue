@@ -3,18 +3,11 @@
     <div id="half1">
       <div id="logonav">
         <router-link to="/inicio">
-          <img src="./../../assets/img/logo.png" alt="logo"
+          <img src="./../../assets/img/enroll_logo.png" alt="logo"
         /></router-link>
       </div>
       <div id="SSC">
         <!-- <span style="color: black">Sistema de </span><br />Seguimiento de Cobros -->
-      </div>
-      <div>
-        <br /><br />
-        <div id="buscador">
-          <input type="text" id="buscador-input" placeholder="Buscar" />
-        </div>
-        <br /><br />
       </div>
       <div id="menu">
         <!-- <router-link
@@ -42,7 +35,7 @@
             tabindex="1"
             v-if="UsuarioLoggeado.tipo_usuario === 1"
           >
-            <img src="./../../assets/svg/users.svg" alt="users" />
+            <img src="./../../assets/svg/career.svg" alt="users" />
             <div id="txt">Carreras</div>
           </div></router-link
         >
@@ -55,14 +48,50 @@
         >
           <div
             id="usuarios"
-            tabindex="1"
+            tabindex="2"
             v-if="UsuarioLoggeado.tipo_usuario === 1"
           >
-            <img src="./../../assets/svg/users.svg" alt="users" />
+            <img src="./../../assets/svg/course.svg" alt="users" />
             <div id="txt">Cursos</div>
           </div></router-link
         >
+
         <div><br /><br /></div>
+
+        <!-- <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/profesores"
+        >
+          <div
+            id="clientes"
+            tabindex="3"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
+          >
+            <img src="./../../assets/svg/teacher.svg" alt="users" />
+            <div id="txt">Profesores</div>
+          </div></router-link
+        >
+
+        <div><br /><br /></div> -->
+
+        <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/ciclos"
+        >
+          <div
+            id="usuarios"
+            tabindex="4"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
+          >
+            <img src="./../../assets/svg/cycle.svg" alt="users" />
+            <div id="txt">Ciclos</div>
+          </div></router-link
+        >
+
+        <div><br /><br /></div>
+
         <!-- <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
@@ -552,7 +581,7 @@ export default {
     justify-content: center;
     margin: 0%;
     height: auto;
-    width: 10rem;
+    width: 70%;
     cursor: pointer;
   }
 
@@ -987,7 +1016,8 @@ export default {
   }
 
   #logonav img {
-    width: 100%;
+    width: 65%;
+    margin: 0;
     height: auto;
   }
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->smallInteger('year');
             $table->date('fecha_inicio');
             $table->date('fecha_finalizacion');
+            $table->smallInteger('ciclo_activo');
         });
     }
 
