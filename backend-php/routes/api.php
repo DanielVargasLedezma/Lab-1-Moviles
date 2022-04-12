@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\CursoController;
 use App\Http\Controllers\LoggoutController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProfesorController;
@@ -34,4 +35,7 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
     Route::post('/crear-carrera', [CarreraController::class, 'store']);
 
     Route::get('/carreras', [CarreraController::class, 'index']);
+
+    Route::get('/cursos', [CursoController::class, 'index']);
+
 });

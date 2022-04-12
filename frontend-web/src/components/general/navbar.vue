@@ -47,6 +47,22 @@
           </div></router-link
         >
         <div><br /><br /></div>
+
+        <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/cursos"
+        >
+          <div
+            id="usuarios"
+            tabindex="1"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
+          >
+            <img src="./../../assets/svg/users.svg" alt="users" />
+            <div id="txt">Cursos</div>
+          </div></router-link
+        >
+        <div><br /><br /></div>
         <!-- <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
