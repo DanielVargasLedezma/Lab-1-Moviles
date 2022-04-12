@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import TablaCarreras from "../components/tablas/tablaCarreras/TablaCarreras.vue";
 import CrearCarrera from "@/components/carreras/CrearCarrera.vue";
+import EditarCarrera from "@/components/carreras/EditarCarrera.vue";
 import Login from "../components/login.vue";
 import Home from "../components/home.vue";
 
@@ -29,7 +30,7 @@ const routes = [
       {
         path: "editar-carreras",
         name: "Editar Carreras",
-        component: CrearCarrera,
+        component: EditarCarrera,
       },
       // { path: "crear-cursos", component: TablaUsuarios },
       // { path: "editar-usuario", component: EditarUsuario },

@@ -24,7 +24,11 @@
     >
 
     <span>
-      <Image :image="image" :clickEvent="clickEvent" />
+      <select @change="manageAction" id="combo-box-telefonos">
+        <option disabled selected>Elegir</option>
+        <option value="1">Editar</option>
+        <option value="2">Eliminar</option>
+      </select>
     </span>
   </div>
 </template>
@@ -41,24 +45,6 @@ export default {
     return {
       image: image,
     };
-  },
-  components: {
-    Image: {
-      template: `
-      <router-link 
-        title="Editar Carrera"
-        active-class="active-link"
-        style="text-decoration: none; color: inherit"
-        to="/inicio/editar-carreras">
-          <img
-            id="moreLogo"
-            alt="More logo"
-            :src="image"
-            @click="clickEvent"
-          />
-        </router-link>`,
-      props: { image: null, clickEvent: null },
-    },
   },
   computed: {
     ...mapGetters({
@@ -79,6 +65,18 @@ export default {
     }),
     clickEvent() {
       this.SET_CARRERA_ACTUAL(this.carrera);
+    },
+    manageAction: function (e) {
+      switch (e.target.value) {
+        case "1":
+          this.SET_CARRERA_ACTUAL(this.carrera);
+
+          break;
+        case "2":
+          console.log("a");
+
+          break;
+      }
     },
     ShowModal() {
       this.SET_MOSTRAR_TABLA(false);

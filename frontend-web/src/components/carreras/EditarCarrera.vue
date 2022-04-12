@@ -6,53 +6,10 @@
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Creación de Carreras</h1>
+        <h1 id="titulo">Edición de Carreras</h1>
       </div>
       <div id="addContainer">
         <div id="col1">
-          <div>
-            <section id="wrapper">
-              <div id="div-labels">
-                <label for="codigo_carrera">Código</label>
-              </div>
-
-              <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Código de Carera"
-                  name="codigo_carrera"
-                  v-model="carrera.codigo_carrera"
-                  @input="touchInput"
-                  @blur="touchInput"
-                  :class="[
-                    {
-                      error: v$.carrera.codigo_carrera.$error,
-                      correct: !v$.carrera.codigo_carrera.$error,
-                    },
-                  ]"
-                />
-                <span
-                  :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                  class="question"
-                >
-                  <img
-                    class="helpimg"
-                    :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                    name="codigo_carrera"
-                    @click="showHelp"
-                    src="@/assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
-              </section>
-              <span
-                v-if="v$.carrera.codigo_carrera.$error"
-                class="validation-error"
-              >
-                El código de la carrera es requerido
-              </span>
-            </section>
-          </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
@@ -209,9 +166,6 @@ export default {
             "info"
           );
           break;
-        default:
-          console.log("Switch error");
-          break;
       }
     },
     async insertarCarrera() {
@@ -237,9 +191,6 @@ export default {
     },
     touchInput: function (e) {
       switch (e.target.name) {
-        case "codigo_carrera":
-          this.v$.carrera.codigo_carrera.$touch();
-          break;
         case "nombre":
           this.v$.carrera.nombre.$touch();
           break;

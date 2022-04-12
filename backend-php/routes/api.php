@@ -33,5 +33,7 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
 
     Route::post('/crear-carrera', [CarreraController::class, 'store']);
 
+    Route::post('carrera/editar/{carrera}', [CarreraController::class, 'update']);
+
     Route::get('/carreras', [CarreraController::class, 'index']);
 });

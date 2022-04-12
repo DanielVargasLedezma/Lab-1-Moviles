@@ -15,6 +15,8 @@ class Curso extends Model
 
     protected $keyType = 'string';
 
+    public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +24,7 @@ class Curso extends Model
      */
     protected $fillable = [
         'codigo_curso',
+        'nombre',
         'creditos',
         'horas_semanales',
     ];

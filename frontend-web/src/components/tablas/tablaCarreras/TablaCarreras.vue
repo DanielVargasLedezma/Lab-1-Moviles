@@ -85,7 +85,7 @@ export default {
       "Código de la Carrera",
       "Nombre de la Carrera",
       "Título de la Carrera",
-      "",
+      "Acción",
     ]);
   },
   computed: {

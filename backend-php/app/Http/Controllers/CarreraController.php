@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carrera;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Resources\CarreraResource;
 
 class CarreraController extends Controller
@@ -38,19 +39,22 @@ class CarreraController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = $request->validate([
-            'codigo_carrera' => 'required|numeric',
+        $request->validate([
+            'codigo_carrera' => 'required|string|unique:carreras',
             'nombre' => 'required|string',
-            'titulo' => 'required|string',
+            'titulo' => 'required|string'
         ]);
 
-        $carrera = Carrera::create([
-            'codigo_carrera' => $fields['codigo_carrera'],
-            'nombre' => $fields['nombre'],
-            'titulo' => $fields['titulo'],
+
+        // DB::select('call insertarCarrera(?, ?, ?)', array($request->input('codigo_carrera'), $request->input('nombre'), $request->input('titulo')));
+
+        Carrera::create([
+            'codigo_carrera' => $request->input('codigo_carrera'),
+            'nombre' => $request->input('nombre'),
+            'titulo' => $request->input('titulo')
         ]);
 
-        return response(['carrera' => new CarreraResource($carrera)], 201);
+        return response(null, 201);
     }
 
     /**
@@ -84,7 +88,21 @@ class CarreraController extends Controller
      */
     public function update(Request $request, Carrera $carrera)
     {
-        //
+        $request->validate([
+            'nombre' => [
+                'required', 'string'
+            ],
+            'titulo' => [
+                'required', 'string'
+            ],
+        ]);
+
+        $carrera->update([
+            'nombre' => $request->input('nombre'),
+            'titulo' => $request->input('titulo'),
+        ]);
+
+        return response(null, 204);
     }
 
     /**
