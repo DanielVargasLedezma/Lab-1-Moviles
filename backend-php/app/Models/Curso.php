@@ -22,6 +22,7 @@ class Curso extends Model
      */
     protected $fillable = [
         'codigo_curso',
+        'nombre',
         'creditos',
         'horas_semanales',
     ];

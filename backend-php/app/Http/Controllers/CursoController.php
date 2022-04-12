@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use App\Http\Resources\CursoResource;
 
 class CursoController extends Controller
 {
@@ -15,6 +16,9 @@ class CursoController extends Controller
     public function index()
     {
         //
+        return CursoResource::collection(
+            Curso::all()
+        );
     }
 
     /**
