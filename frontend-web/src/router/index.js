@@ -52,8 +52,8 @@ const routes = [
         component: CrearCiclos,
       },
       {
-        path: "editar-carrera",
-        name: "Editar Carreras",
+        path: "editar-ciclo",
+        name: "Editar Ciclo",
         component: EditarCiclos,
       },
       // { path: "crear-cursos", component: TablaUsuarios },
