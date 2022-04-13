@@ -19,6 +19,9 @@ class CursoResource extends JsonResource
             'nombre' => $this->nombre,
             'creditos' => $this->creditos,
             'horas_semanales' => $this->horas_semanales,
+            'num_semestre_a_llevar' => $this->num_semestre_a_llevar,
+            'anyo_a_llevar' => $this->anyo_a_llevar,
+            'carrera' => $this->carrera,
         ];
     }
 }

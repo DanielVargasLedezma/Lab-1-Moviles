@@ -3,7 +3,8 @@
     <div id="caja">
       <div id="contenedor1">
         <div id="logo-container">
-          <img id="logo" src="./../assets/img/logo.png" alt="logo" />
+          <br /><br /><br /><br /><br />
+          <br />
         </div>
         <div id="maintitle1">
           <h1>
@@ -20,10 +21,11 @@
                   name="cedula"
                   placeholder="Cedula"
                   v-model="user.cedula"
-                  @change="checkInput"
+                  @input="checkInput"
+                  @blur="checkInput"
                   :class="[
                     {
-                      error: (v$.user.cedula.$error && sent) || invalid,
+                      error: v$.user.cedula.$error || invalid,
                       correct: !v$.user.cedula.$error && !invalid,
                     },
                   ]"
@@ -40,7 +42,8 @@
                   name="password"
                   placeholder="Contraseña"
                   v-model="user.password"
-                  @change="checkInput"
+                  @input="checkInput"
+                  @blur="checkInput"
                   :class="[
                     {
                       error: (v$.user.password.$error && sent) || invalid,
@@ -82,7 +85,8 @@
                 id="radio-1"
                 name="tipo_usuario"
                 value="1"
-                @change="checkInput"
+                @input="checkInput"
+                @blur="checkInput"
                 v-model="user.tipo_usuario"
               />
               <label for="radio-1" class="radio-label">Administrador</label
@@ -94,7 +98,8 @@
                 id="radio-2"
                 name="tipo_usuario"
                 value="2"
-                @change="checkInput"
+                @input="checkInput"
+                @blur="checkInput"
                 v-model="user.tipo_usuario"
               />
               <label for="radio-2" class="radio-label">Matriculador</label
@@ -106,7 +111,8 @@
                 id="radio-3"
                 name="tipo_usuario"
                 value="3"
-                @change="checkInput"
+                @input="checkInput"
+                @blur="checkInput"
                 v-model="user.tipo_usuario"
               />
               <label for="radio-3" class="radio-label">Profesor</label>
@@ -117,7 +123,8 @@
                 id="radio-4"
                 name="tipo_usuario"
                 value="4"
-                @change="checkInput"
+                @input="checkInput"
+                @blur="checkInput"
                 v-model="user.tipo_usuario"
               />
               <label for="radio-4" class="radio-label">Estudiante</label>

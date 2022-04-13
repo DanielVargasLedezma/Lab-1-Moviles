@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Nombre", "Código"],
+      opcionesOrdenado: ["Nombre", "Código", "Carrera"],
     };
   },
   unmounted() {
@@ -84,8 +84,11 @@ export default {
     this.SET_COLUMNS_TITLE([
       "Código del Curso",
       "Nombre del Curso",
+      "Carrera del Curso",
       "Créditos del Curso",
       "Horas semanales",
+      "Semestre donde se lleva",
+      "Año donde se lleva",
       "",
     ]);
   },
@@ -94,22 +97,30 @@ export default {
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       Token: "LoginModule/Token",
 
-      GetOpcionComboBoxReverse: "TableCarreraModule/GetOpcionComboBoxReverse",
-      GET_VISIBILIDAD_COLUMNAS: "TableCarreraModule/GET_VISIBILIDAD_COLUMNAS",
-      GetOpcionComboBox: "TableCarreraModule/GetOpcionComboBox",
-      GET_COLUMNS_TITLE: "TableCarreraModule/GET_COLUMNS_TITLE",
-      GET_USUARIO_ACTUAL: "TableCarreraModule/GetUsuarioActual",
-      GET_PAGINA_ACTUAL: "TableCarreraModule/GET_PAGINA_ACTUAL",
-      GET_MOSTRAR_TABLA: "TableCarreraModule/GET_MOSTRAR_TABLA",
-      GET_ARRAY: "TableCarreraModule/GET_ARRAY",
-      GetTexto: "TableCarreraModule/GetTexto",
+      GetOpcionComboBoxReverse: "TableCursoModule/GetOpcionComboBoxReverse",
+      GET_VISIBILIDAD_COLUMNAS: "TableCursoModule/GET_VISIBILIDAD_COLUMNAS",
+      GetOpcionComboBox: "TableCursoModule/GetOpcionComboBox",
+      GET_COLUMNS_TITLE: "TableCursoModule/GET_COLUMNS_TITLE",
+      GET_USUARIO_ACTUAL: "TableCursoModule/GetUsuarioActual",
+      GET_PAGINA_ACTUAL: "TableCursoModule/GET_PAGINA_ACTUAL",
+      GET_MOSTRAR_TABLA: "TableCursoModule/GET_MOSTRAR_TABLA",
+      GET_ARRAY: "TableCursoModule/GET_ARRAY",
+      GetTexto: "TableCursoModule/GetTexto",
     }),
     listaFiltrada: function () {
       return this.GET_ARRAY.filter((curso) => {
-        return (
-          curso.codigo_curso.includes(this.GetTexto) ||
-          curso.nombre.includes(this.GetTexto)
-        );
+        if (curso.carrera) {
+          return (
+            curso.codigo_curso.includes(this.GetTexto) ||
+            curso.nombre.includes(this.GetTexto) ||
+            curso.carrera.nombre.includes(this.GetTexto)
+          );
+        } else {
+          return (
+            curso.codigo_curso.includes(this.GetTexto) ||
+            curso.nombre.includes(this.GetTexto)
+          );
+        }
       });
     },
     listaFinal: function () {
@@ -129,13 +140,13 @@ export default {
   },
   methods: {
     ...mapMutations({
-      SET_USUARIO_ACTUAL: "TableCarreraModule/SET_USUARIO_ACTUAL",
-      SET_COLUMNS_TITLE: "TableCarreraModule/SET_COLUMNS_TITLE",
-      SET_CANTIDAD_UoC: "TableCarreraModule/SET_CANTIDAD_UoC",
-      SET_TABLE_NAME: "TableCarreraModule/SET_TABLE_NAME",
-      SET_SERVICES: "TableCarreraModule/SET_SERVICES",
-      SET_TEXTO: "TableCarreraModule/SET_TEXTO",
-      SET_ARRAY: "TableCarreraModule/SET_ARRAY",
+      SET_USUARIO_ACTUAL: "TableCursoModule/SET_USUARIO_ACTUAL",
+      SET_COLUMNS_TITLE: "TableCursoModule/SET_COLUMNS_TITLE",
+      SET_CANTIDAD_UoC: "TableCursoModule/SET_CANTIDAD_UoC",
+      SET_TABLE_NAME: "TableCursoModule/SET_TABLE_NAME",
+      SET_SERVICES: "TableCursoModule/SET_SERVICES",
+      SET_TEXTO: "TableCursoModule/SET_TEXTO",
+      SET_ARRAY: "TableCursoModule/SET_ARRAY",
     }),
     crearCursos() {
       this.$router.push("/inicio/crear-carreras");

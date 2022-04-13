@@ -3,9 +3,9 @@
     <!-- <Modal v-if="!GET_MOSTRAR_TABLA" /> -->
 
     <div id="container" v-show="GET_MOSTRAR_TABLA">
-      <TablaCarrerasOpciones
+      <TablaCiclosOpciones
         :opcionesOrdenado="opcionesOrdenado"
-        :accionBoton="crearCarrera"
+        :accionBoton="crearCiclo"
       />
       <div id="tablita">
         <div id="header">
@@ -18,17 +18,17 @@
             {{ GET_COLUMNS_TITLE[index] }}
           </th>
         </div>
-        <TablaCarrerasFila
-          v-for="(carrera, index) in listaFinal.slice(
+        <TablaCiclosFila
+          v-for="(ciclo, index) in listaFinal.slice(
             GET_PAGINA_ACTUAL * 10 - 10,
             GET_PAGINA_ACTUAL * 10
           )"
           :key="index"
-          :carrera="carrera"
+          :ciclo="ciclo"
         />
       </div>
       <div id="indices">
-        <TablaCarrerasIndices />
+        <TablaCiclosIndices />
       </div>
     </div>
   </div>
@@ -38,25 +38,25 @@
 import { mapMutations, mapGetters } from "vuex";
 import _ from "lodash";
 
-import TablaCarrerasOpciones from "./TablaCarrerasOpciones.vue";
-import TablaCarrerasIndices from "./TablaCarrerasIndices.vue";
-import TablaCarrerasFila from "./TablaCarrerasFila.vue";
+import TablaCiclosOpciones from "./TablaCiclosOpciones.vue";
+import TablaCiclosIndices from "./TablaCiclosIndices.vue";
+import TablaCiclosFila from "./TablaCiclosFila.vue";
 // import Modal from "./Modal.vue";
 
-import carreraController from "../../../controllers/carreraController.js";
+import cicloController from "../../../controllers/cicloController.js";
 
 import "@/assets/css/Tabla.css";
 
 export default {
   components: {
-    TablaCarrerasFila,
-    TablaCarrerasIndices,
-    TablaCarrerasOpciones,
+    TablaCiclosOpciones,
+    TablaCiclosFila,
+    TablaCiclosIndices,
     // Modal,
   },
   data() {
     return {
-      opcionesOrdenado: ["Nombre", "Código"],
+      opcionesOrdenado: ["Año"],
     };
   },
   unmounted() {
@@ -67,10 +67,10 @@ export default {
       this.$router.push("/inicio");
     }
 
-    this.SET_TABLE_NAME("Carreras Registradas");
+    this.SET_TABLE_NAME("Ciclos Registradas");
 
-    await carreraController
-      .cargarTodas(this.Token)
+    await cicloController
+      .cargarCiclos(this.Token)
       .then((response) => {
         this.SET_ARRAY(response);
         this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
@@ -82,10 +82,12 @@ export default {
   },
   created() {
     this.SET_COLUMNS_TITLE([
-      "Código de la Carrera",
-      "Nombre de la Carrera",
-      "Título de la Carrera",
-      "Acción",
+      "Número de Ciclo",
+      "Año del Ciclo",
+      "Fecha de Inicio",
+      "Fecha de Finalización",
+      "Estado",
+      "Acciones",
     ]);
   },
   computed: {
@@ -93,22 +95,19 @@ export default {
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       Token: "LoginModule/Token",
 
-      GetOpcionComboBoxReverse: "TableCarreraModule/GetOpcionComboBoxReverse",
-      GET_VISIBILIDAD_COLUMNAS: "TableCarreraModule/GET_VISIBILIDAD_COLUMNAS",
-      GetOpcionComboBox: "TableCarreraModule/GetOpcionComboBox",
-      GET_COLUMNS_TITLE: "TableCarreraModule/GET_COLUMNS_TITLE",
-      GET_USUARIO_ACTUAL: "TableCarreraModule/GetUsuarioActual",
-      GET_PAGINA_ACTUAL: "TableCarreraModule/GET_PAGINA_ACTUAL",
-      GET_MOSTRAR_TABLA: "TableCarreraModule/GET_MOSTRAR_TABLA",
-      GET_ARRAY: "TableCarreraModule/GET_ARRAY",
-      GetTexto: "TableCarreraModule/GetTexto",
+      GetOpcionComboBoxReverse: "TableCicloModule/GetOpcionComboBoxReverse",
+      GET_VISIBILIDAD_COLUMNAS: "TableCicloModule/GET_VISIBILIDAD_COLUMNAS",
+      GetOpcionComboBox: "TableCicloModule/GetOpcionComboBox",
+      GET_COLUMNS_TITLE: "TableCicloModule/GET_COLUMNS_TITLE",
+      GET_USUARIO_ACTUAL: "TableCicloModule/GetUsuarioActual",
+      GET_PAGINA_ACTUAL: "TableCicloModule/GET_PAGINA_ACTUAL",
+      GET_MOSTRAR_TABLA: "TableCicloModule/GET_MOSTRAR_TABLA",
+      GET_ARRAY: "TableCicloModule/GET_ARRAY",
+      GetTexto: "TableCicloModule/GetTexto",
     }),
     listaFiltrada: function () {
-      return this.GET_ARRAY.filter((carrera) => {
-        return (
-          carrera.codigo_carrera.includes(this.GetTexto) ||
-          carrera.nombre.includes(this.GetTexto)
-        );
+      return this.GET_ARRAY.filter((ciclo) => {
+        return ciclo.year.includes(this.GetTexto);
       });
     },
     listaFinal: function () {
@@ -128,16 +127,16 @@ export default {
   },
   methods: {
     ...mapMutations({
-      SET_USUARIO_ACTUAL: "TableCarreraModule/SET_USUARIO_ACTUAL",
-      SET_COLUMNS_TITLE: "TableCarreraModule/SET_COLUMNS_TITLE",
-      SET_CANTIDAD_UoC: "TableCarreraModule/SET_CANTIDAD_UoC",
-      SET_TABLE_NAME: "TableCarreraModule/SET_TABLE_NAME",
-      SET_SERVICES: "TableCarreraModule/SET_SERVICES",
-      SET_TEXTO: "TableCarreraModule/SET_TEXTO",
-      SET_ARRAY: "TableCarreraModule/SET_ARRAY",
+      SET_USUARIO_ACTUAL: "TableCicloModule/SET_USUARIO_ACTUAL",
+      SET_COLUMNS_TITLE: "TableCicloModule/SET_COLUMNS_TITLE",
+      SET_CANTIDAD_UoC: "TableCicloModule/SET_CANTIDAD_UoC",
+      SET_TABLE_NAME: "TableCicloModule/SET_TABLE_NAME",
+      SET_SERVICES: "TableCicloModule/SET_SERVICES",
+      SET_TEXTO: "TableCicloModule/SET_TEXTO",
+      SET_ARRAY: "TableCicloModule/SET_ARRAY",
     }),
-    crearCarrera() {
-      this.$router.push("/inicio/crear-carreras");
+    crearCiclo() {
+      this.$router.push("/inicio/crear-ciclos");
     },
   },
 };

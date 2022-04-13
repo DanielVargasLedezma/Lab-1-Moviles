@@ -17,20 +17,42 @@
       </p></span
     >
 
-    <span v-if="GET_VISIBILIDAD_COLUMNAS[2]"
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[2]">
+      <p v-if="curso.carrera">
+        {{ curso.carrera.nombre }}
+      </p>
+      <p v-else>*Sin Carrera</p>
+    </span>
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[3]"
       ><p>
         {{ curso.creditos }}
       </p></span
     >
 
-    <span v-if="GET_VISIBILIDAD_COLUMNAS[3]"
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[4]"
       ><p>
         {{ curso.horas_semanales }}
       </p></span
     >
 
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[5]">
+      <p v-if="curso.num_semestre_a_llevar === '1'">Primer Ciclo</p>
+      <p v-else-if="curso.num_semestre_a_llevar === '2'">Segundo Ciclo</p>
+    </span>
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[6]"
+      ><p>
+        {{ curso.anyo_a_llevar }}
+      </p></span
+    >
+
     <span>
-      <Image :image="image" :clickEvent="clickEvent" />
+      <select @change="manageAction" id="combo-box-telefonos">
+        <option disabled selected>Elegir</option>
+        <option value="1">Editar</option>
+        <option value="2">Eliminar</option>
+      </select>
     </span>
   </div>
 </template>
@@ -38,39 +60,14 @@
 <script>
 import { mapMutations, mapGetters } from "vuex";
 
-import image from "@/assets/img/edit.png";
-
 import "@/assets/css/TablaFila.css";
 
 export default {
-  data() {
-    return {
-      image: image,
-    };
-  },
-  components: {
-    Image: {
-      template: `
-      <router-link 
-        title="Editar Cursos"
-        active-class="active-link"
-        style="text-decoration: none; color: inherit"
-        to="/inicio/editar-carreras"> 
-          <img
-            id="moreLogo"
-            alt="More logo"
-            :src="image"
-            @click="clickEvent"
-          />
-        </router-link>`,
-      props: { image: null, clickEvent: null },
-    },
-  },
   computed: {
     ...mapGetters({
-      GET_VISIBILIDAD_COLUMNAS: "TableCarreraModule/GET_VISIBILIDAD_COLUMNAS",
-      GET_MODAL_NUM: "TableCarreraModule/GET_MODAL_NUM",
-      GET_SERVICES: "TableCarreraModule/GET_SERVICES",
+      GET_VISIBILIDAD_COLUMNAS: "TableCursoModule/GET_VISIBILIDAD_COLUMNAS",
+      GET_MODAL_NUM: "TableCursoModule/GET_MODAL_NUM",
+      GET_SERVICES: "TableCursoModule/GET_SERVICES",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
     }),
@@ -80,14 +77,18 @@ export default {
   },
   methods: {
     ...mapMutations({
-      SET_CARRERA_ACTUAL: "TableCarreraModule/SET_CARRERA_ACTUAL",
-      SET_MOSTRAR_TABLA: "TableCarreraModule/SET_MOSTRAR_TABLA",
+      SET_CURSO_ACTUAL: "TableCursoModule/SET_CURSO_ACTUAL",
+      SET_MOSTRAR_TABLA: "TableCursoModule/SET_MOSTRAR_TABLA",
     }),
-    clickEvent() {
-      this.SET_CARRERA_ACTUAL(this.curso);
-    },
-    ShowModal() {
-      this.SET_MOSTRAR_TABLA(false);
+    manageAction: function (e) {
+      switch (e.target.value) {
+        case "1":
+          this.SET_CURSO_ACTUAL(this.curso);
+          // this.$router.push("/inicio/editar-carrera");
+          break;
+        case "2":
+          break;
+      }
     },
   },
 };

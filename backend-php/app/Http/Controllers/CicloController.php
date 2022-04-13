@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Ciclo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\CicloResource;
 
 class CicloController extends Controller
 {
@@ -14,7 +16,9 @@ class CicloController extends Controller
      */
     public function index()
     {
-        //
+        return CicloResource::collection(
+            Ciclo::all()
+        );
     }
 
     /**
@@ -35,7 +39,28 @@ class CicloController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'numero_ciclo' => 'required|numeric',
+            'year' => 'required|numeric',
+            'fecha_inicio' => 'required|date',
+            'fecha_finalizacion' => 'required|date',
+            'ciclo_activo' => 'required|numeric',
+        ]);
+
+        if ($request->input('ciclo_activo') === "1") {
+            DB::statement('Update GestionAcademica.Ciclos set CICLO_ACTIVO=0');
+            DB::statement('commit');
+        }
+
+        Ciclo::create([
+            'numero_ciclo' => $request->input('numero_ciclo'),
+            'year' => $request->input('year'),
+            'fecha_inicio' => $request->input('fecha_inicio'),
+            'fecha_finalizacion' => $request->input('fecha_finalizacion'),
+            'ciclo_activo' => $request->input('ciclo_activo'),
+        ]);
+
+        return response(null, 201);
     }
 
     /**

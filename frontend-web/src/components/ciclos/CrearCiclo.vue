@@ -6,165 +6,225 @@
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Creación de Carreras</h1>
+        <h1 id="titulo">Creación de Ciclos</h1>
       </div>
       <div id="addContainer">
         <div id="col1">
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="codigo_carrera">Código</label>
+                <label for="nombre">Número de Ciclo</label>
               </div>
-
               <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Código de Carera"
-                  name="codigo_carrera"
-                  v-model="carrera.codigo_carrera"
-                  @input="touchInput"
+                <select
+                  name="numero_ciclo"
+                  id="rolCombo"
+                  @change="handleValueChange"
                   @blur="touchInput"
-                  :class="[
-                    {
-                      error: v$.carrera.codigo_carrera.$error,
-                      correct: !v$.carrera.codigo_carrera.$error,
-                    },
-                  ]"
-                />
-                <span
-                  :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                  class="question"
+                  :class="[{ error: v$.ciclo.numero_ciclo.$error }]"
                 >
-                  <img
-                    class="helpimg"
-                    :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                    name="codigo_carrera"
-                    @click="showHelp"
-                    src="@/assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option value="1">Primero</option>
+                  <option value="2">Segundo</option>
+                </select>
               </section>
               <span
-                v-if="v$.carrera.codigo_carrera.$error"
                 class="validation-error"
+                v-if="v$.ciclo.numero_ciclo.$error"
               >
-                El código de la carrera es requerido
+                Este campo es requerido
               </span>
             </section>
           </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="nombre">Nombre</label>
+                <label for="apellido">Año cuando se lleva curso</label>
               </div>
               <section id="input-span">
                 <input
                   type="text"
-                  placeholder="Nombre"
-                  name="nombre"
-                  v-model="carrera.nombre"
+                  name="year"
+                  placeholder="Año del curso"
+                  v-model="ciclo.year"
+                  :class="[{ error: v$.ciclo.year.$error }]"
+                  maxlength="4"
                   @input="touchInput"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
+                  :class="[{ error: v$.ciclo.year.$error }]"
                 >
                   <img
                     class="helpimg"
-                    name="nombre"
+                    name="year"
                     @click="showHelp"
                     src="../../assets/svg/questionsign.svg"
                     alt="help"
                   />
                 </span>
               </section>
-              <span v-if="v$.carrera.nombre.$error" class="validation-error">
-                El nombre de la carrera es requerido
+              <span class="validation-error" v-if="v$.ciclo.year.$error">
+                Requerido, ser numérico de 4 dígitos.
               </span>
             </section>
           </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="titulo">Título</label>
+                <label for="nombreUsuario">¿Ciclo activo?</label>
               </div>
               <section id="input-span">
-                <textarea
-                  type="text"
-                  placeholder="Título de la Carrera"
-                  name="titulo"
-                  v-model="carrera.titulo"
-                  @input="touchInput"
+                <select
+                  name="ciclo_activo"
+                  id="rolCombo"
+                  @change="handleValueChange"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
-                />
-                <span
-                  class="question"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.ciclo.ciclo_activo.$error }]"
                 >
-                  <img
-                    class="helpimg"
-                    name="titulo"
-                    @click="showHelp"
-                    src="../../assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
               </section>
-              <span v-if="v$.carrera.titulo.$error" class="validation-error">
-                El título de la carrera es requerido
+              <span
+                class="validation-error"
+                v-if="v$.ciclo.ciclo_activo.$error"
+              >
+                Este campo es requerido
               </span>
             </section>
           </div>
-          <div id="col2"></div>
+        </div>
+        <div id="col2">
+          <div>
+            <section id="wrapper" class="select">
+              <div id="div-labels">
+                <label for="fechaVencimiento">Fecha de Inicio</label>
+              </div>
+              <div class="fecha_vencimiento">
+                <div id="div-labels"></div>
+                <section id="input-span">
+                  <input
+                    id="fechaVencimiento"
+                    name="fecha_inicio"
+                    class="input-3"
+                    type="date"
+                    :min="ciclo.year + '-01-01'"
+                    :disabled="ciclo.year === '' || v$.ciclo.year.$error"
+                    @blur="touchInput"
+                    @change="resetFinal"
+                    v-model="ciclo.fecha_inicio"
+                    :class="[{ error: v$.ciclo.fecha_inicio.$error }]"
+                  />
+                  <span
+                    class="question"
+                    :class="[{ error: v$.ciclo.fecha_inicio.$error }]"
+                  >
+                    <img
+                      class="helpimg"
+                      name="fecha_inicio"
+                      @click="showHelp"
+                      src="../../assets/svg/questionsign.svg"
+                      alt="help"
+                    />
+                  </span>
+                </section>
+                <span
+                  class="validation-error"
+                  v-if="v$.ciclo.fecha_inicio.$error"
+                >
+                  Este campo es requerido
+                </span>
+              </div>
+            </section>
+          </div>
+          <div>
+            <section id="wrapper" class="select">
+              <div id="div-labels">
+                <label for="proyecto">Fecha de Finalización</label>
+              </div>
+              <div class="fecha_vencimiento">
+                <div id="div-labels"></div>
+                <section id="input-span">
+                  <input
+                    type="date"
+                    id="fechaVencimiento"
+                    name="fecha_finalizacion"
+                    class="input-3"
+                    :min="min_despues"
+                    :disabled="ciclo.fecha_inicio === ''"
+                    @click="setMinDespues"
+                    @blur="touchInput"
+                    v-model="ciclo.fecha_finalizacion"
+                    :class="[{ error: v$.ciclo.fecha_finalizacion.$error }]"
+                  />
+                  <span
+                    class="question"
+                    :class="[{ error: v$.ciclo.fecha_finalizacion.$error }]"
+                  >
+                    <img
+                      class="helpimg"
+                      name="fecha_finalizacion"
+                      @click="showHelp"
+                      src="../../assets/svg/questionsign.svg"
+                      alt="help"
+                    />
+                  </span>
+                </section>
+                <span
+                  class="validation-error"
+                  v-if="v$.ciclo.fecha_finalizacion.$error"
+                >
+                  Este campo es requerido
+                </span>
+              </div>
+            </section>
+          </div>
           <div>
             <section id="wrapper">
-              <button type="submit" @click="insertarCarrera">
-                Crear Carrera
-              </button>
+              <label style="visibility: hidden">Hola</label>
+              <button type="submit" @click="insertarCiclo">Crear Ciclo</button>
             </section>
           </div>
         </div>
       </div>
     </section>
+    <section v-else></section>
   </section>
 </template>
 
 <script>
-import { required, helpers } from "@vuelidate/validators";
+import { required, numeric, minLength } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 import swal from "sweetalert2";
 
-import carreraController from "../../controllers/carreraController.js";
-import Carrera from "@/models/carrera.js";
-
-const alpha_with_spaces = helpers.regex(/^[\D\s]+$/);
-
-const alpha_with_spaces_special_and_underscore = helpers.regex(/^[\w-\s]+$/);
+import cicloController from "../../controllers/cicloController.js";
+import Ciclo from "@/models/ciclo.js";
 
 export default {
   data() {
     return {
       v$: useValidate(),
-      carrera: new Carrera(),
+      ciclo: new Ciclo(),
+      min_despues: "",
     };
   },
   validations() {
     return {
-      carrera: {
-        codigo_carrera: { required, alpha_with_spaces_special_and_underscore },
-        nombre: {
-          required,
-          alpha_with_spaces,
-        },
-        titulo: {
-          required,
-          alpha_with_spaces,
-        },
+      ciclo: {
+        id_ciclo: { required, numeric },
+        numero_ciclo: { required, numeric },
+        year: { required, numeric, minLength: minLength(4) },
+        fecha_inicio: { required },
+        fecha_finalizacion: { required },
+        ciclo_activo: { required, numeric },
       },
     };
   },
@@ -174,60 +234,47 @@ export default {
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
     }),
+    getFechaDespuesSeis: function () {
+      var digitos = this.ciclo.fecha_inicio.split("-");
+
+      if (digitos.length === 0) {
+        return "";
+      }
+
+      var mes_despues = digitos[1] + 6;
+      var año_despues = digitos[0];
+
+      if (mes_despues > 12) {
+        año_despues += 1;
+        mes_despues = mes_despues - 12;
+      }
+
+      return año_despues + "-" + mes_despues + "-" + digitos[2];
+    },
   },
   async mounted() {
     if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
       this.$router.push("/inicio");
     }
-
-    this.campoOculto = true;
   },
   methods: {
     ...mapMutations({
       LogOut: "LoginModule/logout",
     }),
-    showHelp(e) {
-      switch (e.target.name) {
-        case "codigo_carrera":
-          swal.fire(
-            "Código de la Carrera",
-            "En este apartado debe ingresar el código único de la carrera a ingresar.",
-            "info"
-          );
-          break;
-        case "nombre":
-          swal.fire(
-            "Nombre de la Carrera",
-            "En este apartado debe ingresar el nombre de la carrera a ingresar.",
-            "info"
-          );
-          break;
-        case "titulo":
-          swal.fire(
-            "Título de la Carrera",
-            "En este apartado debe ingresar el título de la carrera a ingresar.",
-            "info"
-          );
-          break;
-        default:
-          console.log("Switch error");
-          break;
-      }
-    },
-    async insertarCarrera() {
+    async insertarCiclo() {
       await this.v$.$validate();
 
       if (!this.v$.$error) {
-        await carreraController
-          .registrarCarrera(this.carrera, this.Token)
+        await cicloController
+          .registrarCiclo(this.ciclo, this.Token)
           .then((response) => {
             if (response === 201) {
               swal.fire(
-                "¡Carrera Registrada!",
-                "La carrera ha sido registrada con éxito.",
+                "Ciclo Registrado!",
+                "La ciclo ha sido registrada con éxito.",
                 "success"
               );
-              this.$router.push("/inicio/carreras");
+              this.$router.push("/inicio/ciclos");
             }
           })
           .catch((error) => {
@@ -236,19 +283,101 @@ export default {
           });
       }
     },
-    touchInput: function (e) {
+    showHelp(e) {
       switch (e.target.name) {
-        case "codigo_carrera":
-          this.v$.carrera.codigo_carrera.$touch();
-          break;
-        case "nombre":
-          this.v$.carrera.nombre.$touch();
+        case "year":
+          swal.fire(
+            "Año de la Carrera",
+            "En este apartado debe ingresar el año del ciclo a ingresar. Debe ser un número de cuatro dígitos",
+            "info"
+          );
           break;
         case "titulo":
-          this.v$.carrera.titulo.$touch();
+          swal.fire(
+            "Título de la Carrera",
+            "En este apartado debe ingresar el título de la ciclo a ingresar.",
+            "info"
+          );
+          break;
+        case "fecha_inicio":
+          swal.fire(
+            "Fecha de inicio del Ciclo",
+            "En este apartado debe ingresar la fecha de inicio del ciclo a ingresar. Puede ser una fecha pasada.",
+            "info"
+          );
+          break;
+        case "fecha_finalizacion":
+          swal.fire(
+            "Fecha de finalización del Ciclo",
+            "En este apartado debe ingresar la fecha de finalización del ciclo a ingresar.",
+            "info"
+          );
           break;
       }
     },
+    touchInput: function (e) {
+      switch (e.target.name) {
+        case "numero_ciclo":
+          this.v$.ciclo.numero_ciclo.$touch();
+          break;
+        case "year":
+          this.v$.ciclo.year.$touch();
+
+          this.ciclo.fecha_inicio = "";
+          this.ciclo.fecha_finalizacion = "";
+          break;
+        case "fecha_inicio":
+          this.v$.ciclo.fecha_inicio.$touch();
+          break;
+        case "fecha_finalizacion":
+          this.v$.ciclo.fecha_finalizacion.$touch();
+          break;
+        case "ciclo_activo":
+          this.v$.ciclo.ciclo_activo.$touch();
+          break;
+      }
+    },
+    handleValueChange: function (e) {
+      switch (e.target.name) {
+        case "numero_ciclo":
+          this.ciclo.numero_ciclo = parseInt(e.target.value);
+          break;
+        case "ciclo_activo":
+          this.ciclo.ciclo_activo = parseInt(e.target.value);
+          break;
+      }
+    },
+    setMinDespues: function () {
+      var arrayMeses = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+      var digitos = this.ciclo.fecha_inicio.split("-");
+
+      if (digitos.length === 0) {
+        return "";
+      }
+
+      var mes_despues = parseInt(digitos[1]) + 6;
+      var año_despues = parseInt(digitos[0]);
+      var dia_despues = parseInt(digitos[2]);
+
+      if (mes_despues > 12) {
+        año_despues += 1;
+        mes_despues = mes_despues - 12;
+      }
+
+      if (arrayMeses[mes_despues - 1] < dia_despues) {
+        dia_despues = arrayMeses[mes_despues - 1];
+      }
+
+      if (mes_despues < 10) {
+        mes_despues = "0" + mes_despues;
+      }
+
+      this.min_despues = año_despues + "-" + mes_despues + "-" + dia_despues;
+    },
+  },
+  resetFinal: function () {
+    this.ciclo.fecha_finalizacion = "";
   },
 };
 </script>

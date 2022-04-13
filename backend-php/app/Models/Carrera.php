@@ -15,6 +15,8 @@ class Carrera extends Model
 
     protected $keyType = 'string';
 
+    public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,7 +25,7 @@ class Carrera extends Model
     protected $fillable = [
         'codigo_carrera',
         'nombre',
-        'titulo',
+        'titulo'
     ];
 
     /**

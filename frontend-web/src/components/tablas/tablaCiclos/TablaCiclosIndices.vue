@@ -51,13 +51,13 @@ import "@/assets/css/TablaIndices.css";
 export default {
   computed: {
     ...mapGetters({
-      GetUsuarios: "TableCursoModule/GetUsuarios",
-      GetTexto: "TableCursoModule/GetTexto",
-      GET_COLUMNS_TITLE: "TableCursoModule/GET_COLUMNS_TITLE",
+      GetUsuarios: "TableCicloModule/GetUsuarios",
+      GetTexto: "TableCicloModule/GetTexto",
+      GET_COLUMNS_TITLE: "TableCicloModule/GET_COLUMNS_TITLE",
 
-      GET_CANTIDAD_UoC: "TableCursoModule/GET_CANTIDAD_UoC",
-      GET_PAGINA_ACTUAL: "TableCursoModule/GET_PAGINA_ACTUAL",
-      GET_VISIBILIDAD_COLUMNAS: "TableCursoModule/GET_VISIBILIDAD_COLUMNAS",
+      GET_CANTIDAD_UoC: "TableCicloModule/GET_CANTIDAD_UoC",
+      GET_PAGINA_ACTUAL: "TableCicloModule/GET_PAGINA_ACTUAL",
+      GET_VISIBILIDAD_COLUMNAS: "TableCicloModule/GET_VISIBILIDAD_COLUMNAS",
     }),
     Cantidad_Ocultos: function () {
       var ocultos = 0;
@@ -75,8 +75,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      SET_VISIBILIDAD_COLUMNAS: "TableCursoModule/SET_VISIBILIDAD_COLUMNAS",
-      SET_PAGINA_ACTUAL: "TableCursoModule/SET_PAGINA_ACTUAL",
+      SET_VISIBILIDAD_COLUMNAS: "TableCicloModule/SET_VISIBILIDAD_COLUMNAS",
+      SET_PAGINA_ACTUAL: "TableCicloModule/SET_PAGINA_ACTUAL",
     }),
     cambiarPaginaGradual(parametro) {
       if (parametro) {

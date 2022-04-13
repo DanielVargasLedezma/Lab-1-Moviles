@@ -1,5 +1,5 @@
 class Carrera {
-  constructor(codigo_carrera = "", nombre = "", titulo = 0) {
+  constructor(codigo_carrera = "", nombre = "", titulo = "") {
     this.codigo_carrera = codigo_carrera;
     this.nombre = nombre;
     this.titulo = titulo;

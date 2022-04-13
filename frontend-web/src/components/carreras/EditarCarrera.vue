@@ -6,53 +6,10 @@
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Creación de Carreras</h1>
+        <h1 id="titulo">Edición de Carreras</h1>
       </div>
       <div id="addContainer">
         <div id="col1">
-          <div>
-            <section id="wrapper">
-              <div id="div-labels">
-                <label for="codigo_carrera">Código</label>
-              </div>
-
-              <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Código de Carera"
-                  name="codigo_carrera"
-                  v-model="carrera.codigo_carrera"
-                  @input="touchInput"
-                  @blur="touchInput"
-                  :class="[
-                    {
-                      error: v$.carrera.codigo_carrera.$error,
-                      correct: !v$.carrera.codigo_carrera.$error,
-                    },
-                  ]"
-                />
-                <span
-                  :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                  class="question"
-                >
-                  <img
-                    class="helpimg"
-                    :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                    name="codigo_carrera"
-                    @click="showHelp"
-                    src="@/assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
-              </section>
-              <span
-                v-if="v$.carrera.codigo_carrera.$error"
-                class="validation-error"
-              >
-                El código de la carrera es requerido
-              </span>
-            </section>
-          </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
@@ -122,8 +79,8 @@
           <div id="col2"></div>
           <div>
             <section id="wrapper">
-              <button type="submit" @click="insertarCarrera">
-                Crear Carrera
+              <button type="submit" @click="editarCarrera">
+                Editar Carrera
               </button>
             </section>
           </div>
@@ -173,14 +130,17 @@ export default {
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
+
+      GET_CARRERA_ACTUAL: "TableCarreraModule/GET_CARRERA_ACTUAL",
     }),
   },
   async mounted() {
     if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
       this.$router.push("/inicio");
     }
-
-    this.campoOculto = true;
+    this.carrera.codigo_carrera = this.GET_CARRERA_ACTUAL.codigo_carrera;
+    this.carrera.nombre = this.GET_CARRERA_ACTUAL.nombre;
+    this.carrera.titulo = this.GET_CARRERA_ACTUAL.titulo;
   },
   methods: {
     ...mapMutations({
@@ -209,38 +169,31 @@ export default {
             "info"
           );
           break;
-        default:
-          console.log("Switch error");
-          break;
       }
     },
-    async insertarCarrera() {
+    async editarCarrera() {
       await this.v$.$validate();
 
       if (!this.v$.$error) {
         await carreraController
-          .registrarCarrera(this.carrera, this.Token)
+          .editarCarrera(this.carrera, this.Token)
           .then((response) => {
-            if (response === 201) {
+            if (response === 204) {
               swal.fire(
-                "¡Carrera Registrada!",
-                "La carrera ha sido registrada con éxito.",
+                "¡Carrera Editada!",
+                "La carrera ha sido editada con éxito.",
                 "success"
               );
               this.$router.push("/inicio/carreras");
             }
           })
           .catch((error) => {
-            console.error(error.data);
-            swal.fire("¡Error!", `${error.data.message}`, "error");
+            console.error(error);
           });
       }
     },
     touchInput: function (e) {
       switch (e.target.name) {
-        case "codigo_carrera":
-          this.v$.carrera.codigo_carrera.$touch();
-          break;
         case "nombre":
           this.v$.carrera.nombre.$touch();
           break;
@@ -724,8 +677,7 @@ input:checked + .slider:before {
     font-size: 1rem;
   }
 
-  input,
-  textarea {
+  input {
     font-size: medium;
     color: #000000;
     font-family: "Inter", sans-serif;
