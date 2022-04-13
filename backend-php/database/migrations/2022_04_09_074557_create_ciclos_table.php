@@ -20,6 +20,8 @@ return new class extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_finalizacion');
             $table->smallInteger('ciclo_activo');
+
+            $table->unique(['numero_ciclo', 'year'], 'CICLOS_UK_YEAR_NUMC');
         });
     }
 

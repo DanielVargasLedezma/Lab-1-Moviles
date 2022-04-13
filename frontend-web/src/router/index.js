@@ -5,6 +5,8 @@ import TablaCursos from "../components/tablas/tablaCursos/TablaCursos.vue";
 import TablaCiclos from "../components/tablas/tablaCiclos/TablaCiclos.vue";
 import CrearCarrera from "@/components/carreras/CrearCarrera.vue";
 import EditarCarrera from "@/components/carreras/EditarCarrera.vue";
+import CrearCiclos from "@/components/ciclos/CrearCiclo.vue";
+import EditarCiclos from "@/components/ciclos/CrearCiclo.vue";
 import Login from "../components/login.vue";
 import Home from "../components/home.vue";
 
@@ -43,6 +45,16 @@ const routes = [
         path: "ciclos",
         name: "Ciclos",
         component: TablaCiclos,
+      },
+      {
+        path: "crear-ciclos",
+        name: "Crear Ciclos",
+        component: CrearCiclos,
+      },
+      {
+        path: "editar-carrera",
+        name: "Editar Carreras",
+        component: EditarCiclos,
       },
       // { path: "crear-cursos", component: TablaUsuarios },
       // { path: "editar-usuario", component: EditarUsuario },

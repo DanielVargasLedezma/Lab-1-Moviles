@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ciclo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CicloResource;
 
 class CicloController extends Controller
@@ -46,6 +47,10 @@ class CicloController extends Controller
             'ciclo_activo' => 'required|numeric',
         ]);
 
+        if ($request->input('ciclo_activo') === "1") {
+            DB::statement('Update GestionAcademica.Ciclos set CICLO_ACTIVO=0');
+            DB::statement('commit');
+        }
 
         Ciclo::create([
             'numero_ciclo' => $request->input('numero_ciclo'),

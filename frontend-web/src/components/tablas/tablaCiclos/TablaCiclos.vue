@@ -136,7 +136,7 @@ export default {
       SET_ARRAY: "TableCicloModule/SET_ARRAY",
     }),
     crearCiclo() {
-      this.$router.push("/inicio/crear-ciclo");
+      this.$router.push("/inicio/crear-ciclos");
     },
   },
 };
