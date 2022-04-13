@@ -22,6 +22,7 @@
                   @change="handleValueChange"
                   @blur="touchInput"
                   :class="[{ error: v$.ciclo.numero_ciclo.$error }]"
+                  :value="ciclo.numero_ciclo"
                 >
                   <option value="default" selected="Selected" disabled>
                     Seleccionar
@@ -84,6 +85,7 @@
                   @change="handleValueChange"
                   @blur="touchInput"
                   :class="[{ error: v$.ciclo.ciclo_activo.$error }]"
+                  :value="ciclo.ciclo_activo"
                 >
                   <option value="default" selected="Selected" disabled>
                     Seleccionar
@@ -189,7 +191,7 @@
           <div>
             <section id="wrapper">
               <label style="visibility: hidden">Hola</label>
-              <button type="submit" @click="insertarCiclo">Crear Ciclo</button>
+              <button type="submit" @click="editarCiclo">Editar Ciclo</button>
             </section>
           </div>
         </div>
@@ -233,28 +235,41 @@ export default {
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
+
+      GET_CICLO_ACTUAL: "TableCicloModule/GET_CICLO_ACTUAL",
     }),
   },
   async mounted() {
     if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
       this.$router.push("/inicio");
     }
+
+    this.ciclo.id_ciclo = this.GET_CICLO_ACTUAL.id_ciclo;
+    this.ciclo.numero_ciclo = this.GET_CICLO_ACTUAL.numero_ciclo;
+    this.ciclo.year = this.GET_CICLO_ACTUAL.year;
+    this.ciclo.fecha_inicio = this.GET_CICLO_ACTUAL.fecha_inicio.substring(
+      0,
+      10
+    );
+    this.ciclo.fecha_finalizacion =
+      this.GET_CICLO_ACTUAL.fecha_finalizacion.substring(0, 10);
+    this.ciclo.ciclo_activo = this.GET_CICLO_ACTUAL.ciclo_activo;
   },
   methods: {
     ...mapMutations({
       LogOut: "LoginModule/logout",
     }),
-    async insertarCiclo() {
+    async editarCiclo() {
       await this.v$.$validate();
 
       if (!this.v$.$error) {
         await cicloController
-          .registrarCiclo(this.ciclo, this.Token)
+          .editarCiclo(this.ciclo, this.Token)
           .then((response) => {
-            if (response === 201) {
+            if (response === 204) {
               swal.fire(
-                "¡Ciclo Registrado!",
-                "La ciclo ha sido registrado con éxito.",
+                "¡Ciclo Editado!",
+                "La ciclo ha sido editado con éxito.",
                 "success"
               );
               this.$router.push("/inicio/ciclos");
@@ -361,7 +376,6 @@ export default {
       }
 
       this.min_despues = año_despues + "-" + mes_despues + "-" + dia_despues;
-      console.log(this.min_despues);
     },
   },
   resetFinal: function () {

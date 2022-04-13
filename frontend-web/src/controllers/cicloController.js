@@ -36,14 +36,17 @@ export default {
         throw error.response;
       });
   },
-  editarCiclo: async (carrera, token) => {
+  editarCiclo: async (ciclo, token) => {
     const formData = new FormData();
 
-    formData.append("nombre", carrera.nombre);
-    formData.append("titulo", carrera.titulo);
+    formData.append("numero_ciclo", ciclo.numero_ciclo);
+    formData.append("year", ciclo.year);
+    formData.append("fecha_inicio", ciclo.fecha_inicio);
+    formData.append("fecha_finalizacion", ciclo.fecha_finalizacion);
+    formData.append("ciclo_activo", ciclo.ciclo_activo);
 
     return await axios
-      .post(global.url + `carrera/editar/${carrera.codigo_carrera}`, formData, {
+      .post(global.url + `ciclo/editar/${ciclo.id_ciclo}`, formData, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {

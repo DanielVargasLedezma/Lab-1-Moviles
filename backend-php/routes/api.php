@@ -44,4 +44,6 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
     Route::get('/ciclos', [CicloController::class, 'index']);
 
     Route::post('/crear-ciclo', [CicloController::class, 'store']);
+
+    Route::post('/ciclo/editar/{ciclo}', [CicloController::class, 'update']);
 });

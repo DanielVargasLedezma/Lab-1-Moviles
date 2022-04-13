@@ -6,7 +6,7 @@ import TablaCiclos from "../components/tablas/tablaCiclos/TablaCiclos.vue";
 import CrearCarrera from "@/components/carreras/CrearCarrera.vue";
 import EditarCarrera from "@/components/carreras/EditarCarrera.vue";
 import CrearCiclos from "@/components/ciclos/CrearCiclo.vue";
-import EditarCiclos from "@/components/ciclos/CrearCiclo.vue";
+import EditarCiclos from "@/components/ciclos/EditarCiclo.vue";
 import Login from "../components/login.vue";
 import Home from "../components/home.vue";
 
