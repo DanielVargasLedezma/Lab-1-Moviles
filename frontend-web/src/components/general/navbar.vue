@@ -10,21 +10,6 @@
         <!-- <span style="color: black">Sistema de </span><br />Seguimiento de Cobros -->
       </div>
       <div id="menu">
-        <!-- <router-link
-          active-class="active-link"
-          style="text-decoration: none; color: inherit"
-          to="/inicio/cursos"
-        >
-          <div
-            id="usuarios"
-            tabindex="1"
-            v-if="UsuarioLoggeado.tipo_usuario === 1"
-          >
-            <img src="./../../assets/svg/users.svg" alt="users" />
-            <div id="txt">Cursos</div>
-          </div></router-link
-        >
-        <div><br /><br /></div> -->
         <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
@@ -92,20 +77,23 @@
 
         <div><br /><br /></div>
 
-        <!-- <router-link
+        <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
-          to="/inicio-super/clientes"
+          to="/inicio/oferta-academica"
         >
           <div
-            id="clientes"
-            tabindex="3"
-            v-if="UsuarioLoggeado.tipo_usuario === 2"
+            id="usuarios"
+            tabindex="5"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
           >
-            <img src="./../../assets/svg/clients.svg" alt="users" />
-            <div id="txt">Clientes</div>
+            <img src="./../../assets/svg/academic.svg" alt="users" />
+            <div id="txt">Oferta Académica</div>
           </div></router-link
-        > -->
+        >
+
+        <div><br /><br /></div>
+
         <!-- <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"

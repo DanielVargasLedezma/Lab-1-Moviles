@@ -15,17 +15,12 @@ return new class extends Migration
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->string('numero_grupo')->primary();
-            $table->string('codigo_carrera');
             $table->string('codigo_curso');
             $table->string('cedula_profesor');
             $table->bigInteger('id_ciclo')->unsigned();
-
             $table->string('horario');
-
-            $table->foreign('codigo_carrera')
-                ->references('codigo_carrera')
-                ->on('carreras')
-                ->onDelete('cascade');
+            $table->string('dia_uno');
+            $table->string('dia_dos')->nullable();
 
             $table->foreign('codigo_curso')
                 ->references('codigo_curso')

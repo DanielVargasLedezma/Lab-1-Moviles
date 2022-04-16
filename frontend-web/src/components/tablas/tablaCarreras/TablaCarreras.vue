@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Nombre", "Código"],
+      opcionesOrdenado: ["nombre", "codigo_carrera"],
     };
   },
   unmounted() {

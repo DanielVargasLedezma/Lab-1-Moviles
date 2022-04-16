@@ -21,4 +21,16 @@ export default {
         throw err.response;
       });
   },
+  cargarProfesores: async (token) => {
+    return await axios
+      .get(global.url + `profesores`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((err) => {
+        throw err.response;
+      });
+  },
 };

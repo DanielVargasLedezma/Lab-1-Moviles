@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Año"],
+      opcionesOrdenado: ["year"],
     };
   },
   unmounted() {

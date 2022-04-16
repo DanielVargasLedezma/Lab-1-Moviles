@@ -12,20 +12,30 @@
         />
         <h3>Ordenar por</h3>
         <select id="combo-box" @change="cambiarOrdenTabla">
-          <option
+          <option value="codigo_curso">Por defecto</option>
+          <option :value="opcionesOrdenado[0]">Nombre - Ascendente</option>
+          <option :value="opcionesOrdenado[1]">Nombre - Descendente</option>
+          <option :value="opcionesOrdenado[2]">Código - Ascendente</option>
+          <option :value="opcionesOrdenado[3]">Código - Descendente</option>
+          <option :value="opcionesOrdenado[4]">Carrera - Ascendente</option>
+          <option :value="opcionesOrdenado[5]">Carrera - Descendente</option>
+          <!-- <option
             v-for="index in opcionesOrdenado.length * 2"
             :key="index"
             :value="opcionesOrdenado[parseInt((index - 1) / 2)]"
           >
             {{ opcionesOrdenado[parseInt((index - 1) / 2)] }} -
             {{ (index - 1) % 2 == 0 ? "Ascendente" : "Descendente" }}
-          </option>
+          </option> -->
         </select>
       </div>
     </div>
     <div v-if="accionBoton != null" id="boton">
       <button
-        v-if="UsuarioLoggeado.tipo_usuario == 1"
+        v-if="
+          UsuarioLoggeado.tipo_usuario == 1 &&
+          path !== '/inicio/oferta-academica'
+        "
         @click="accionBoton"
         id="agregar-usuario"
       >
@@ -44,9 +54,13 @@ export default {
   data() {
     return {
       texto: "",
+      path: "",
     };
   },
   props: { opcionesOrdenado: null, accionBoton: null },
+  mounted() {
+    this.path = window.location.pathname;
+  },
   computed: {
     ...mapGetters({
       GET_TABLE_NAME: "TableCursoModule/GET_TABLE_NAME",

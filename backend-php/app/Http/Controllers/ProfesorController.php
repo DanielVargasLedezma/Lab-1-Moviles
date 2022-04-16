@@ -16,7 +16,9 @@ class ProfesorController extends Controller
      */
     public function index()
     {
-        //
+        return ProfesorResource::collection(
+            Profesor::all()
+        );
     }
 
     /**

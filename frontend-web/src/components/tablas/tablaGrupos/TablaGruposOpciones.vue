@@ -7,22 +7,26 @@
         <input
           type="text"
           id="busqueda"
-          placeholder="Buscar por año"
+          placeholder="Buscar por número de grupo, profesor o año del ciclo"
           @change="handleTextChange"
         />
         <h3>Ordenar por</h3>
         <select id="combo-box" @change="cambiarOrdenTabla">
-          <option value="id_ciclo" selected="Selected">Por Defecto</option>
-          <option value="year">Año - Ascendente</option>
-          <option value="year">Año - Descendente</option>
-          <!-- <option
-            v-for="index in opcionesOrdenado.length * 2"
-            :key="index"
-            :value="opcionesOrdenado[parseInt((index - 1) / 2)]"
-          >
-            {{ opcionesOrdenado[parseInt((index - 1) / 2)] }} -
-            {{ (index - 1) % 2 == 0 ? "Ascendente" : "Descendente" }}
-          </option> -->
+          <option value="numero_grupo">Por defecto</option>
+          <option :value="opcionesOrdenado[0]">
+            Número Grupo - Ascendente
+          </option>
+          <option :value="opcionesOrdenado[1]">
+            Número Grupo - Descendente
+          </option>
+          <option :value="opcionesOrdenado[2]">Profesor - Ascendente</option>
+          <option :value="opcionesOrdenado[3]">Profesor - Descendente</option>
+          <option :value="opcionesOrdenado[4]">
+            Año de Ciclo - Ascendente
+          </option>
+          <option :value="opcionesOrdenado[5]">
+            Año de Ciclo - Descendente
+          </option>
         </select>
       </div>
     </div>
@@ -32,7 +36,7 @@
         @click="accionBoton"
         id="agregar-usuario"
       >
-        <img src="./../../../assets/svg/plus-circle.svg" />Añadir Ciclo
+        <img src="./../../../assets/svg/plus-circle.svg" />Añadir Grupo
       </button>
     </div>
   </div>
@@ -52,16 +56,16 @@ export default {
   props: { opcionesOrdenado: null, accionBoton: null },
   computed: {
     ...mapGetters({
-      GET_TABLE_NAME: "TableCicloModule/GET_TABLE_NAME",
+      GET_TABLE_NAME: "TableGrupoModule/GET_TABLE_NAME",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
     }),
   },
   methods: {
     ...mapMutations({
-      SET_OPC_COMBO_BOX_REVERSE: "TableCicloModule/SET_OPC_COMBO_BOX_REVERSE",
-      SET_OPC_COMBO_BOX: "TableCicloModule/SET_OPC_COMBO_BOX",
-      SET_TEXTO: "TableCicloModule/SET_TEXTO",
+      SET_OPC_COMBO_BOX_REVERSE: "TableGrupoModule/SET_OPC_COMBO_BOX_REVERSE",
+      SET_OPC_COMBO_BOX: "TableGrupoModule/SET_OPC_COMBO_BOX",
+      SET_TEXTO: "TableGrupoModule/SET_TEXTO",
     }),
     handleTextChange(e) {
       if (e.target) {

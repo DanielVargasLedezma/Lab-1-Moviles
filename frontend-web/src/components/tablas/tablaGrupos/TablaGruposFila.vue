@@ -8,27 +8,38 @@
           src="../../../assets/svg/user-solid.svg"
         />
       </div>
-      <p>{{ carrera.codigo_carrera }}</p>
+      <p>{{ grupo.numero_grupo }}</p>
     </span>
 
     <span v-if="GET_VISIBILIDAD_COLUMNAS[1]"
-      ><p>
-        {{ carrera.nombre }}
-      </p></span
+      ><p>{{ grupo.curso.codigo_curso }} - {{ grupo.curso.nombre }}</p></span
     >
 
     <span v-if="GET_VISIBILIDAD_COLUMNAS[2]"
       ><p>
-        {{ carrera.titulo }}
+        {{ grupo.profesor.nombre }}
       </p></span
     >
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[3]">
+      <p v-if="grupo.ciclo.numero_ciclo === '1'">
+        Ciclo I de {{ grupo.ciclo.year }}
+      </p>
+      <p v-else>Ciclo II de {{ grupo.ciclo.year }}</p>
+    </span>
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[4]">
+      <p v-if="grupo.dia_dos">
+        {{ grupo.dia_uno }} / {{ grupo.dia_dos }} - {{ grupo.horario }}
+      </p>
+      <p v-else>{{ grupo.dia_uno }} - {{ grupo.horario }}</p>
+    </span>
 
     <span>
       <select @change="manageAction" id="combo-box-telefonos">
         <option disabled selected>Elegir</option>
         <option value="1">Editar</option>
-        <option value="2">Cursos</option>
-        <option value="3">Eliminar</option>
+        <option value="2">Eliminar</option>
       </select>
     </span>
   </div>
@@ -49,31 +60,28 @@ export default {
   },
   computed: {
     ...mapGetters({
-      GET_VISIBILIDAD_COLUMNAS: "TableCarreraModule/GET_VISIBILIDAD_COLUMNAS",
-      GET_MODAL_NUM: "TableCarreraModule/GET_MODAL_NUM",
-      GET_SERVICES: "TableCarreraModule/GET_SERVICES",
+      GET_VISIBILIDAD_COLUMNAS: "TableGrupoModule/GET_VISIBILIDAD_COLUMNAS",
+      GET_MODAL_NUM: "TableGrupoModule/GET_MODAL_NUM",
+      GET_SERVICES: "TableGrupoModule/GET_SERVICES",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
     }),
   },
   props: {
-    carrera: null,
+    grupo: null,
   },
   methods: {
     ...mapMutations({
-      SET_CARRERA_ACTUAL: "TableCarreraModule/SET_CARRERA_ACTUAL",
-      SET_MOSTRAR_TABLA: "TableCarreraModule/SET_MOSTRAR_TABLA",
+      SET_GRUPO_ACTUAL: "TableGrupoModule/SET_GRUPO_ACTUAL",
+      SET_MOSTRAR_TABLA: "TableGrupoModule/SET_MOSTRAR_TABLA",
     }),
     manageAction: function (e) {
-      this.SET_CARRERA_ACTUAL(this.carrera);
       switch (e.target.value) {
         case "1":
-          this.$router.push("/inicio/editar-carrera");
+          this.SET_GRUPO_ACTUAL(this.grupo);
+          this.$router.push("/inicio/editar-grupo");
           break;
         case "2":
-          this.$router.push("/inicio/cursos-carrera");
-          break;
-        case "3":
           break;
       }
     },

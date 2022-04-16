@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,11 +25,12 @@ class Grupo extends Model
      */
     protected $fillable = [
         'numero_grupo',
-        'codigo_carrera',
         'codigo_curso',
         'cedula_profesor',
         'id_ciclo',
         'horario',
+        'dia_uno',
+        'dia_dos',
     ];
 
     /**
@@ -44,4 +46,19 @@ class Grupo extends Model
      * @var string|null
      */
     const UPDATED_AT = null;
+
+    public function curso()
+    {
+        return $this->hasOne(Curso::class, 'codigo_curso', 'codigo_curso');
+    }
+
+    public function profesor()
+    {
+        return $this->hasOne(Profesor::class, 'cedula_profesor', 'cedula_profesor');
+    }
+
+    public function ciclo()
+    {
+        return $this->hasOne(Ciclo::class, 'id_ciclo', 'id_ciclo');
+    }
 }
