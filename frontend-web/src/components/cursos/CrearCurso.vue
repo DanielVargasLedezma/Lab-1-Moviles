@@ -6,39 +6,39 @@
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Creación de Carreras</h1>
+        <h1 id="titulo">Creación de Cusos</h1>
       </div>
       <div id="addContainer">
         <div id="col1">
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="codigo_carrera">Código</label>
+                <label for="codigo_curso">Código del Curso</label>
               </div>
 
               <section id="input-span">
                 <input
                   type="text"
-                  placeholder="Código de Carera"
-                  name="codigo_carrera"
-                  v-model="carrera.codigo_carrera"
+                  placeholder="Código del Curso"
+                  name="codigo_curso"
+                  v-model="curso.codigo_curso"
                   @input="touchInput"
                   @blur="touchInput"
                   :class="[
                     {
-                      error: v$.carrera.codigo_carrera.$error,
-                      correct: !v$.carrera.codigo_carrera.$error,
+                      error: v$.curso.codigo_curso.$error,
+                      correct: !v$.curso.codigo_curso.$error,
                     },
                   ]"
                 />
                 <span
-                  :class="[{ error: v$.carrera.codigo_carrera.$error }]"
+                  :class="[{ error: v$.curso.codigo_curso.$error }]"
                   class="question"
                 >
                   <img
                     class="helpimg"
-                    :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                    name="codigo_carrera"
+                    :class="[{ error: v$.curso.codigo_carrera.$error }]"
+                    name="codigo_curso"
                     @click="showHelp"
                     src="@/assets/svg/questionsign.svg"
                     alt="help"
@@ -46,31 +46,31 @@
                 </span>
               </section>
               <span
-                v-if="v$.carrera.codigo_carrera.$error"
+                v-if="v$.curso.codigo_curso.$error"
                 class="validation-error"
               >
-                El código de la carrera es requerido
+                El código del curso es requerido
               </span>
             </section>
           </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="nombre">Nombre</label>
+                <label for="nombre">Nombre del curso </label>
               </div>
               <section id="input-span">
                 <input
                   type="text"
                   placeholder="Nombre"
                   name="nombre"
-                  v-model="carrera.nombre"
+                  v-model="curso.nombre"
                   @input="touchInput"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
+                  :class="[{ error: v$.curso.nombre.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
+                  :class="[{ error: v$.curso.nombre.$error }]"
                 >
                   <img
                     class="helpimg"
@@ -81,50 +81,171 @@
                   />
                 </span>
               </section>
-              <span v-if="v$.carrera.nombre.$error" class="validation-error">
-                El nombre de la carrera es requerido
+              <span v-if="v$.curso.nombre.$error" class="validation-error">
+                El nombre del curso es requerido
               </span>
+            </section>
+          </div>
+          <div>
+            <section id="wrapper" class="select">
+              <div id="div-labels">
+                <label for="carrera">Carrera del Curso</label>
+              </div>
+              <select
+                name="carrera"
+                id="carreraCombo"
+                @change="handleValueChange"
+                :class="[{ error: v$.curso.codigo_carrera.$error }]"
+              >
+                <option value="default" selected="Selected" disabled>
+                  Seleccionar
+                </option>
+                <option
+                  v-for="(carrera, index) in carreras"
+                  :key="index"
+                  :value="curso.codigo_carrera"
+                >
+                  {{ carrera.nombre }}
+                </option>
+              </select>
             </section>
           </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="titulo">Título</label>
+                <label for="creditos">Créditos del curso </label>
               </div>
               <section id="input-span">
-                <textarea
+                <input
                   type="text"
-                  placeholder="Título de la Carrera"
-                  name="titulo"
-                  v-model="carrera.titulo"
+                  placeholder="Créditos del curso"
+                  name="creditos"
+                  v-model="curso.creditos"
                   @input="touchInput"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.curso.creditos.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.curso.creditos.$error }]"
                 >
                   <img
                     class="helpimg"
-                    name="titulo"
+                    name="creditos"
                     @click="showHelp"
                     src="../../assets/svg/questionsign.svg"
                     alt="help"
                   />
                 </span>
               </section>
-              <span v-if="v$.carrera.titulo.$error" class="validation-error">
-                El título de la carrera es requerido
+              <span v-if="v$.curso.creditos.$error" class="validation-error">
+                Los créditos del curso son requeridos
               </span>
             </section>
           </div>
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="horas_semanales">Horas semanales del curso </label>
+              </div>
+              <section id="input-span">
+                <input
+                  type="text"
+                  placeholder="Horas semanales del curso"
+                  name="horas_semanales"
+                  v-model="curso.horas_semanales"
+                  @input="touchInput"
+                  @blur="touchInput"
+                  :class="[{ error: v$.curso.horas_semanales.$error }]"
+                />
+                <span
+                  class="question"
+                  :class="[{ error: v$.curso.horas_semanales.$error }]"
+                >
+                  <img
+                    class="helpimg"
+                    name="horas_semanales"
+                    @click="showHelp"
+                    src="../../assets/svg/questionsign.svg"
+                    alt="help"
+                  />
+                </span>
+              </section>
+              <span
+                v-if="v$.curso.horas_semanales.$error"
+                class="validation-error"
+              >
+                Los horas semanales del curso son requeridas
+              </span>
+            </section>
+          </div>
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="num_semestre_a_llevar"
+                  >Semestre donde se cursa</label
+                >
+              </div>
+              <section id="input-span">
+                <select
+                  name="num_semestre_a_llevar"
+                  id="rolCombo"
+                  @change="handleValueChange1"
+                  @blur="touchInput"
+                  :class="[{ error: v$.curso.num_semestre_a_llevar.$error }]"
+                >
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option value="1">Primer Ciclo</option>
+                  <option value="2">Segundo Ciclo</option>
+                </select>
+              </section>
+              <span
+                class="validation-error"
+                v-if="v$.curso.num_semestre_a_llevar.$error"
+              >
+                Este campo es requerido
+              </span>
+            </section>
+          </div>
+
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="anyo_a_llevar">Año en el que se cursa</label>
+              </div>
+              <section id="input-span">
+                <select
+                  name="anyo_a_llevar"
+                  id="rolCombo"
+                  @change="handleValueChange1"
+                  @blur="touchInput"
+                  :class="[{ error: v$.curso.anyo_a_llevar.$error }]"
+                >
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option value="1">Primer Año</option>
+                  <option value="2">Segundo Año</option>
+                  <option value="3">Tercer Año</option>
+                  <option value="4">Cuarto Año</option>
+                  <option value="5">Quinto Año</option>
+                </select>
+              </section>
+              <span
+                class="validation-error"
+                v-if="v$.curso.anyo_a_llevar.$error"
+              >
+                Este campo es requerido
+              </span>
+            </section>
+          </div>
+
           <div id="col2"></div>
           <div>
             <section id="wrapper">
-              <button type="submit" @click="insertarCarrera">
-                Crear Carrera
-              </button>
+              <button type="submit" @click="insertarCurso">Crear Curso</button>
             </section>
           </div>
         </div>
@@ -134,13 +255,14 @@
 </template>
 
 <script>
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, numeric } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 import swal from "sweetalert2";
 
 import carreraController from "../../controllers/carreraController.js";
-import Carrera from "@/models/carrera.js";
+import cursoController from "../../controllers/cursoController.js";
+import Curso from "@/models/curso.js";
 
 const alpha_with_spaces = helpers.regex(/^[\D\s]+$/);
 
@@ -150,20 +272,32 @@ export default {
   data() {
     return {
       v$: useValidate(),
-      carrera: new Carrera(),
+      curso: new Curso(),
     };
   },
   validations() {
     return {
-      carrera: {
-        codigo_carrera: { required, alpha_with_spaces_special_and_underscore },
+      curso: {
+        codigo_curso: { required, alpha_with_spaces_special_and_underscore },
+        codigo_carrera: { required, alpha_with_spaces },
         nombre: {
           required,
           alpha_with_spaces,
         },
-        titulo: {
+        creditos: {
           required,
-          alpha_with_spaces,
+          numeric,
+        },
+        horas_semanales: {
+          required,
+          numeric,
+        },
+        num_semestre_a_llevar: {
+          required,
+          numeric,
+        },
+        anyo_a_llevar: {
+          required,
         },
       },
     };
@@ -186,9 +320,10 @@ export default {
     ...mapMutations({
       LogOut: "LoginModule/logout",
     }),
+
     showHelp(e) {
       switch (e.target.name) {
-        case "codigo_carrera":
+        case "codigo_curso":
           swal.fire(
             "Código de la Carrera",
             "En este apartado debe ingresar el código único de la carrera a registrar.",
@@ -202,10 +337,38 @@ export default {
             "info"
           );
           break;
-        case "titulo":
+        case "carrera":
           swal.fire(
-            "Título de la Carrera",
-            "En este apartado debe ingresar el título de la carrera a registrar.",
+            "Carrera a la que pertenece",
+            "En este apartado debe ingresar la carrera a la que pertenece el curso a registrar.",
+            "info"
+          );
+          break;
+        case "creditos":
+          swal.fire(
+            "Créditos del curso",
+            "En este apartado debe ingresar número de créditos del curso a registrar.",
+            "info"
+          );
+          break;
+        case "horas_semanales":
+          swal.fire(
+            "Horas semanales del curso",
+            "En este apartado debe ingresar número total de horas semanales del curso a registrar.",
+            "info"
+          );
+          break;
+        case "num_semestre_a_llevar":
+          swal.fire(
+            "Semestre en el que se debe llevar el curso",
+            "En este apartado debe ingresar el semestre en el que se debe llevar el curso a registrar.",
+            "info"
+          );
+          break;
+        case "anyo_a_llevar":
+          swal.fire(
+            "Año de la carrera en el que se debe llevar el curso",
+            "En este apartado debe ingresar el año de la carrera en el que se debe llevar el curso a registrar.",
             "info"
           );
           break;
@@ -214,39 +377,66 @@ export default {
           break;
       }
     },
-    async insertarCarrera() {
+    touchInput: function (e) {
+      switch (e.target.name) {
+        case "codigo_curso":
+          this.v$.curso.codigo_curso.$touch();
+          break;
+        case "nombre":
+          this.v$.curso.nombre.$touch();
+          break;
+        case "carrera":
+          this.v$.curso.codigo_carrera.$touch();
+          break;
+        case "creditos":
+          this.v$.curso.creditos.$touch();
+          break;
+        case "horas_semanales":
+          this.v$.curso.horas_semanales.$touch();
+          break;
+        case "num_semestre_a_llevar":
+          this.v$.curso.num_semestre_a_llevar.$touch();
+          break;
+        case "anyo_a_llevar":
+          this.v$.curso.anyo_a_llevar.$touch();
+          break;
+      }
+    },
+    handleValueChange(e) {
+      if (e.target.name === "rol") {
+        this.user.id_rol = e.target.value;
+      } else if (e.target.name === "proyecto") {
+        this.user.id_proyecto = e.target.value;
+      }
+      // console.log(e.target.name);
+    },
+    handleValueChange1: function (e) {
+      switch (e.target.name) {
+        case "num_semestre_a_llevar":
+          this.ciclo.numero_ciclo = parseInt(e.target.value);
+          break;
+      }
+    },
+    async insertarCurso() {
       await this.v$.$validate();
 
       if (!this.v$.$error) {
-        await carreraController
-          .registrarCarrera(this.carrera, this.Token)
+        await cursoController
+          .registrarCurso(this.curso, this.Token)
           .then((response) => {
             if (response === 201) {
               swal.fire(
-                "¡Carrera Registrada!",
-                "La carrera ha sido registrada con éxito.",
+                "Curso Registrado!",
+                "El curso ha sido registrado con éxito.",
                 "success"
               );
-              this.$router.push("/inicio/carreras");
+              this.$router.push("/inicio/cursos");
             }
           })
           .catch((error) => {
             console.error(error.data);
             swal.fire("¡Error!", `${error.data.message}`, "error");
           });
-      }
-    },
-    touchInput: function (e) {
-      switch (e.target.name) {
-        case "codigo_carrera":
-          this.v$.carrera.codigo_carrera.$touch();
-          break;
-        case "nombre":
-          this.v$.carrera.nombre.$touch();
-          break;
-        case "titulo":
-          this.v$.carrera.titulo.$touch();
-          break;
       }
     },
   },

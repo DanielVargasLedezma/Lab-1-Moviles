@@ -6,53 +6,10 @@
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Creación de Carreras</h1>
+        <h1 id="titulo">Edición de Usuarios</h1>
       </div>
       <div id="addContainer">
         <div id="col1">
-          <div>
-            <section id="wrapper">
-              <div id="div-labels">
-                <label for="codigo_carrera">Código</label>
-              </div>
-
-              <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Código de Carera"
-                  name="codigo_carrera"
-                  v-model="carrera.codigo_carrera"
-                  @input="touchInput"
-                  @blur="touchInput"
-                  :class="[
-                    {
-                      error: v$.carrera.codigo_carrera.$error,
-                      correct: !v$.carrera.codigo_carrera.$error,
-                    },
-                  ]"
-                />
-                <span
-                  :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                  class="question"
-                >
-                  <img
-                    class="helpimg"
-                    :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                    name="codigo_carrera"
-                    @click="showHelp"
-                    src="@/assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
-              </section>
-              <span
-                v-if="v$.carrera.codigo_carrera.$error"
-                class="validation-error"
-              >
-                El código de la carrera es requerido
-              </span>
-            </section>
-          </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
@@ -63,14 +20,14 @@
                   type="text"
                   placeholder="Nombre"
                   name="nombre"
-                  v-model="carrera.nombre"
+                  v-model="usuario.nombre"
                   @input="touchInput"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
+                  :class="[{ error: v$.usuario.nombre.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
+                  :class="[{ error: v$.usuario.nombre.$error }]"
                 >
                   <img
                     class="helpimg"
@@ -81,49 +38,78 @@
                   />
                 </span>
               </section>
-              <span v-if="v$.carrera.nombre.$error" class="validation-error">
-                El nombre de la carrera es requerido
+              <span v-if="v$.usuario.nombre.$error" class="validation-error">
+                El nombre del usuario es requerido
               </span>
             </section>
           </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="titulo">Título</label>
+                <label for="tipo_usuario">Tipo de Usuario</label>
               </div>
               <section id="input-span">
                 <textarea
                   type="text"
-                  placeholder="Título de la Carrera"
-                  name="titulo"
-                  v-model="carrera.titulo"
+                  placeholder="Tipo de Usuario<"
+                  name="tipo_usuario"
+                  v-model="usuario.tipo_usuario"
                   @input="touchInput"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.usuario.tipo_usuario.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.usuario.tipo_usuario.$error }]"
                 >
                   <img
                     class="helpimg"
-                    name="titulo"
+                    name="tipo_usuario"
                     @click="showHelp"
                     src="../../assets/svg/questionsign.svg"
                     alt="help"
                   />
                 </span>
               </section>
-              <span v-if="v$.carrera.titulo.$error" class="validation-error">
-                El título de la carrera es requerido
+              <span
+                v-if="v$.usuario.tipo_usuario.$error"
+                class="validation-error"
+              >
+                El tipo de usuario es requerido
+              </span>
+            </section>
+          </div>
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="estado">Estado del usuario</label>
+              </div>
+              <section id="input-span">
+                <select
+                  name="estado"
+                  id="rolCombo"
+                  @change="handleValueChange"
+                  @blur="touchInput"
+                  :class="[{ error: v$.usuario.estado.$error }]"
+                  :value="usuario.estado"
+                >
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option value="1">Activo(a)</option>
+                  <option value="0">Desactivado(a)</option>
+                </select>
+              </section>
+              <span class="validation-error" v-if="v$.usuario.estado.$error">
+                Este campo es requerido
               </span>
             </section>
           </div>
           <div id="col2"></div>
           <div>
             <section id="wrapper">
-              <button type="submit" @click="insertarCarrera">
-                Crear Carrera
+              <button type="submit" @click="editarUsuarios">
+                Editar Usuario
               </button>
             </section>
           </div>
@@ -134,13 +120,14 @@
 </template>
 
 <script>
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, numeric } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 import swal from "sweetalert2";
 
 import carreraController from "../../controllers/carreraController.js";
-import Carrera from "@/models/carrera.js";
+import usuarioController from "../../controllers/userController.js";
+import Usuario from "@/models/usuario.js";
 
 const alpha_with_spaces = helpers.regex(/^[\D\s]+$/);
 
@@ -150,20 +137,24 @@ export default {
   data() {
     return {
       v$: useValidate(),
-      carrera: new Carrera(),
+      usuario: new Usuario(),
     };
   },
   validations() {
     return {
-      carrera: {
-        codigo_carrera: { required, alpha_with_spaces_special_and_underscore },
+      usuario: {
+        cedula: { required, alpha_with_spaces_special_and_underscore },
         nombre: {
           required,
           alpha_with_spaces,
         },
-        titulo: {
+        tipo_usuario: {
           required,
-          alpha_with_spaces,
+          numeric,
+        },
+        estado: {
+          required,
+          numeric,
         },
       },
     };
@@ -173,14 +164,18 @@ export default {
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
+
+      GET_USER_ACTUAL: "TableUsuarioModule/GET_USER_ACTUAL",
     }),
   },
   async mounted() {
     if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
       this.$router.push("/inicio");
     }
-
-    this.campoOculto = true;
+    this.usuario.cedula = this.GET_USER_ACTUAL.cedula_usuario;
+    this.usuario.nombre = this.GET_USER_ACTUAL.nombre;
+    this.usuario.tipo_usuario = this.GET_USER_ACTUAL.tipo_usuario;
+    this.usuario.estado = this.GET_USER_ACTUAL.estado;
   },
   methods: {
     ...mapMutations({
@@ -188,64 +183,78 @@ export default {
     }),
     showHelp(e) {
       switch (e.target.name) {
-        case "codigo_carrera":
+        case "cedula":
           swal.fire(
-            "Código de la Carrera",
-            "En este apartado debe ingresar el código único de la carrera a registrar.",
+            "cedula del Usuario",
+            "En este apartado debe ingresar la cédula del usuario a registrar.",
             "info"
           );
           break;
         case "nombre":
           swal.fire(
-            "Nombre de la Carrera",
-            "En este apartado debe ingresar el nombre de la carrera a registrar.",
+            "Nombre del Usuario",
+            "En este apartado debe ingresar el nombre del usuario a registrar.",
             "info"
           );
           break;
-        case "titulo":
+        case "tipo_usuario":
           swal.fire(
-            "Título de la Carrera",
-            "En este apartado debe ingresar el título de la carrera a registrar.",
+            "Tipo de usuario",
+            "En este apartado debe ingresar el tipo de usuario a registrar.",
             "info"
           );
           break;
-        default:
-          console.log("Switch error");
+        case "estado":
+          swal.fire(
+            "Estado del usuario",
+            "En este apartado debe ingresar el estado del usuario a registrar.",
+            "info"
+          );
           break;
       }
     },
-    async insertarCarrera() {
+    handleValueChange: function (e) {
+      switch (e.target.name) {
+        case "estado":
+          this.usuario.estado = parseInt(e.target.value);
+          break;
+      }
+    },
+    async editarUsuarios() {
       await this.v$.$validate();
+      console.log(this.v$);
 
       if (!this.v$.$error) {
-        await carreraController
-          .registrarCarrera(this.carrera, this.Token)
+        await usuarioController
+          .editarUsuarios(this.usuario, this.Token)
           .then((response) => {
-            if (response === 201) {
+            if (response === 204) {
               swal.fire(
-                "¡Carrera Registrada!",
-                "La carrera ha sido registrada con éxito.",
+                "¡Usuario Editado!",
+                "El usuario ha sido editada con éxito.",
                 "success"
               );
-              this.$router.push("/inicio/carreras");
+              this.$router.push("/inicio/usuarios");
             }
           })
           .catch((error) => {
-            console.error(error.data);
-            swal.fire("¡Error!", `${error.data.message}`, "error");
+            console.error(error);
           });
       }
     },
     touchInput: function (e) {
       switch (e.target.name) {
-        case "codigo_carrera":
-          this.v$.carrera.codigo_carrera.$touch();
+        case "cedula":
+          this.v$.usuario.cedula.$touch();
           break;
         case "nombre":
-          this.v$.carrera.nombre.$touch();
+          this.v$.usuario.nombre.$touch();
           break;
-        case "titulo":
-          this.v$.carrera.titulo.$touch();
+        case "tipo_usuario":
+          this.v$.usuario.tipo_usuario.$touch();
+          break;
+        case "estado":
+          this.v$.usuario.estado.$touch();
           break;
       }
     },
@@ -724,8 +733,7 @@ input:checked + .slider:before {
     font-size: 1rem;
   }
 
-  input,
-  textarea {
+  input {
     font-size: medium;
     color: #000000;
     font-family: "Inter", sans-serif;

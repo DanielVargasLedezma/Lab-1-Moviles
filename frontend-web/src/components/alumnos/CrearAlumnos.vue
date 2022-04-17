@@ -6,50 +6,47 @@
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Creación de Carreras</h1>
+        <h1 id="titulo">Registro de Alumnos</h1>
       </div>
       <div id="addContainer">
         <div id="col1">
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="codigo_carrera">Código</label>
+                <label for="cedula_alumno">Cédula</label>
               </div>
 
               <section id="input-span">
                 <input
                   type="text"
-                  placeholder="Código de Carera"
-                  name="codigo_carrera"
-                  v-model="carrera.codigo_carrera"
+                  placeholder="Cédula del alumno"
+                  name="cedula_alumno"
+                  v-model="alumno.cedula"
                   @input="touchInput"
                   @blur="touchInput"
                   :class="[
                     {
-                      error: v$.carrera.codigo_carrera.$error,
-                      correct: !v$.carrera.codigo_carrera.$error,
+                      error: v$.alumno.cedula.$error,
+                      correct: !v$.alumno.cedula.$error,
                     },
                   ]"
                 />
                 <span
-                  :class="[{ error: v$.carrera.codigo_carrera.$error }]"
+                  :class="[{ error: v$.alumno.cedula.$error }]"
                   class="question"
                 >
                   <img
                     class="helpimg"
-                    :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                    name="codigo_carrera"
+                    :class="[{ error: v$.alumno.cedula.$error }]"
+                    name="cedula_alumno"
                     @click="showHelp"
                     src="@/assets/svg/questionsign.svg"
                     alt="help"
                   />
                 </span>
               </section>
-              <span
-                v-if="v$.carrera.codigo_carrera.$error"
-                class="validation-error"
-              >
-                El código de la carrera es requerido
+              <span v-if="v$.alumno.cedula.$error" class="validation-error">
+                La cédula del alumno es requerida.
               </span>
             </section>
           </div>
@@ -63,14 +60,14 @@
                   type="text"
                   placeholder="Nombre"
                   name="nombre"
-                  v-model="carrera.nombre"
+                  v-model="alumno.nombre"
                   @input="touchInput"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
+                  :class="[{ error: v$.alumno.nombre.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
+                  :class="[{ error: v$.alumno.nombre.$error }]"
                 >
                   <img
                     class="helpimg"
@@ -81,49 +78,148 @@
                   />
                 </span>
               </section>
-              <span v-if="v$.carrera.nombre.$error" class="validation-error">
-                El nombre de la carrera es requerido
+              <span v-if="v$.alumno.nombre.$error" class="validation-error">
+                El nombre del alumno es requerido
               </span>
             </section>
           </div>
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="titulo">Título</label>
+                <label for="telefono">Teléfono</label>
               </div>
               <section id="input-span">
                 <textarea
                   type="text"
-                  placeholder="Título de la Carrera"
-                  name="titulo"
-                  v-model="carrera.titulo"
+                  placeholder="Teléfono del alumno"
+                  name="telefono"
+                  v-model="alumno.telefono"
                   @input="touchInput"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.alumno.telefono.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.alumno.telefono.$error }]"
                 >
                   <img
                     class="helpimg"
-                    name="titulo"
+                    name="telefono"
                     @click="showHelp"
                     src="../../assets/svg/questionsign.svg"
                     alt="help"
                   />
                 </span>
               </section>
-              <span v-if="v$.carrera.titulo.$error" class="validation-error">
-                El título de la carrera es requerido
+              <span v-if="v$.alumno.telefono.$error" class="validation-error">
+                El telefono del alumno es requerido
               </span>
             </section>
           </div>
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="correo">Correo electrónico</label>
+              </div>
+              <section id="input-span">
+                <textarea
+                  type="text"
+                  placeholder="Correo electrónico del alumno"
+                  name="correo"
+                  v-model="alumno.correoe"
+                  @input="touchInput"
+                  @blur="touchInput"
+                  :class="[{ error: v$.alumno.correoe.$error }]"
+                />
+                <span
+                  class="question"
+                  :class="[{ error: v$.alumno.correoe.$error }]"
+                >
+                  <img
+                    class="helpimg"
+                    name="correo"
+                    @click="showHelp"
+                    src="../../assets/svg/questionsign.svg"
+                    alt="help"
+                  />
+                </span>
+              </section>
+              <span v-if="v$.alumno.correoe.$error" class="validation-error">
+                El correo del alumno es requerido
+              </span>
+            </section>
+          </div>
+          <div>
+            <section id="wrapper" class="select">
+              <div id="div-labels">
+                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+              </div>
+              <div class="fecha_nacimiento">
+                <div id="div-labels"></div>
+                <section id="input-span">
+                  <input
+                    id="fecha_nacimiento"
+                    name="fecha_nacimiento"
+                    class="input-3"
+                    type="date"
+                    @blur="touchInput"
+                    @change="resetFinal"
+                    v-model="alumno.fecha_nacimiento"
+                    :class="[{ error: v$.alumno.fecha_nacimiento.$error }]"
+                  />
+                  <span
+                    class="question"
+                    :class="[{ error: v$.alumno.fecha_nacimiento.$error }]"
+                  >
+                    <img
+                      class="helpimg"
+                      name="fecha_nacimiento"
+                      @click="showHelp"
+                      src="../../assets/svg/questionsign.svg"
+                      alt="help"
+                    />
+                  </span>
+                </section>
+                <span
+                  class="validation-error"
+                  v-if="v$.alumno.fecha_nacimiento.$error"
+                >
+                  Este campo es requerido
+                </span>
+              </div>
+            </section>
+          </div>
+
+          <div>
+            <section id="wrapper" class="select">
+              <div id="div-labels">
+                <label for="carrera">Carrera</label>
+              </div>
+              <select
+                name="carrera"
+                id="carreraCombo"
+                @change="handleValueChange"
+                :class="[{ error: v$.alumno.codigo_carrera.$error }]"
+              >
+                <option value="default" selected="Selected" disabled>
+                  Seleccionar
+                </option>
+                <option
+                  v-for="(carrera, index) in carreras"
+                  :key="index"
+                  :value="carrera.codigo_carrera"
+                >
+                  {{ carrera.nombre }}
+                </option>
+              </select>
+            </section>
+          </div>
+
           <div id="col2"></div>
           <div>
             <section id="wrapper">
-              <button type="submit" @click="insertarCarrera">
-                Crear Carrera
+              <button type="submit" @click="insertarAlumno">
+                Registrar Alumno
               </button>
             </section>
           </div>
@@ -134,13 +230,14 @@
 </template>
 
 <script>
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, email, numeric } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 import swal from "sweetalert2";
+import CarreraController from "../../controllers/carreraController.js";
+import alumnoController from "../../controllers/alumnoController.js";
 
-import carreraController from "../../controllers/carreraController.js";
-import Carrera from "@/models/carrera.js";
+import Alumno from "@/models/alumno.js";
 
 const alpha_with_spaces = helpers.regex(/^[\D\s]+$/);
 
@@ -150,21 +247,19 @@ export default {
   data() {
     return {
       v$: useValidate(),
-      carrera: new Carrera(),
+      alumno: new Alumno(),
+      carreras: [],
     };
   },
   validations() {
     return {
-      carrera: {
+      alumno: {
+        cedula: { required, numeric },
         codigo_carrera: { required, alpha_with_spaces_special_and_underscore },
-        nombre: {
-          required,
-          alpha_with_spaces,
-        },
-        titulo: {
-          required,
-          alpha_with_spaces,
-        },
+        nombre: { required, alpha_with_spaces },
+        telefono: { required, numeric },
+        correoe: { required, email },
+        fecha_nacimiento: { required },
       },
     };
   },
@@ -181,6 +276,14 @@ export default {
     }
 
     this.campoOculto = true;
+
+    await CarreraController.cargarTodas(this.Token)
+      .then((res) => {
+        this.carreras = res;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
   methods: {
     ...mapMutations({
@@ -188,24 +291,45 @@ export default {
     }),
     showHelp(e) {
       switch (e.target.name) {
+        case "cedula_alumno":
+          swal.fire(
+            "Cédula del alumno",
+            "En este apartado debe ingresar la cédula del alumno a registrar.",
+            "info"
+          );
+          break;
         case "codigo_carrera":
           swal.fire(
             "Código de la Carrera",
-            "En este apartado debe ingresar el código único de la carrera a registrar.",
+            "En este apartado debe ingresar el código de la carrera del alumno a registrar.",
             "info"
           );
           break;
         case "nombre":
           swal.fire(
-            "Nombre de la Carrera",
-            "En este apartado debe ingresar el nombre de la carrera a registrar.",
+            "Nombre del Alumno",
+            "En este apartado debe ingresar el nombre del alumno a registrar.",
             "info"
           );
           break;
-        case "titulo":
+        case "telefono":
           swal.fire(
-            "Título de la Carrera",
-            "En este apartado debe ingresar el título de la carrera a registrar.",
+            "Telefono del alumno",
+            "En este apartado debe ingresar el teléfono del alumno a registrar.",
+            "info"
+          );
+          break;
+        case "correo":
+          swal.fire(
+            "Correo electrónico del alumno",
+            "En este apartado debe ingresar el correo electrónico del alumno a registrar.",
+            "info"
+          );
+          break;
+        case "fecha_nacimiento":
+          swal.fire(
+            "Fecha de nacimiento del Alumno",
+            "En este apartado debe ingresar la fecha de nacimiento del alumno",
             "info"
           );
           break;
@@ -214,20 +338,26 @@ export default {
           break;
       }
     },
-    async insertarCarrera() {
+    handleValueChange(e) {
+      if (e.target.name === "carrera") {
+        this.alumno.codigo_carrera = e.target.value;
+      }
+      // console.log(e.target.name);
+    },
+    async insertarAlumno() {
       await this.v$.$validate();
 
       if (!this.v$.$error) {
-        await carreraController
-          .registrarCarrera(this.carrera, this.Token)
+        await alumnoController
+          .registrarAlumno(this.alumno, this.Token)
           .then((response) => {
             if (response === 201) {
               swal.fire(
-                "¡Carrera Registrada!",
-                "La carrera ha sido registrada con éxito.",
+                "¡Alumno Registrado!",
+                "El alumno ha sido registrada con éxito.",
                 "success"
               );
-              this.$router.push("/inicio/carreras");
+              this.$router.push("/inicio/alumnos");
             }
           })
           .catch((error) => {
@@ -238,14 +368,23 @@ export default {
     },
     touchInput: function (e) {
       switch (e.target.name) {
-        case "codigo_carrera":
-          this.v$.carrera.codigo_carrera.$touch();
+        case "cedula_alumno":
+          this.v$.alumno.cedula.$touch();
           break;
         case "nombre":
-          this.v$.carrera.nombre.$touch();
+          this.v$.alumno.nombre.$touch();
           break;
-        case "titulo":
-          this.v$.carrera.titulo.$touch();
+        case "telefono":
+          this.v$.alumno.telefono.$touch();
+          break;
+        case "correo":
+          this.v$.alumno.correoe.$touch();
+          break;
+        case "fecha_nacimiento":
+          this.v$.alumno.fecha_nacimiento.$touch();
+          break;
+        case "codigo_carrera":
+          this.v$.alumno.codigo_carrera.$touch();
           break;
       }
     },

@@ -29,6 +29,8 @@ class Usuario extends Authenticatable
         'cedula_usuario',
         'tipo_usuario',
         'clave',
+        'nombre',
+        'estado',
     ];
 
     /**

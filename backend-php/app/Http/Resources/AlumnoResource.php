@@ -18,7 +18,7 @@ class AlumnoResource extends JsonResource
             'cedula_alumno' => $this->cedula_alumno,
             'nombre' => $this->nombre,
             'telefono' => $this->telefono,
-            'correo' => $this->correoe,
+            'correoe' => $this->correoe,
             'fecha_nacimiento' => $this->fecha_nacimiento,
             'carrera' => $this->carrera,
         ];

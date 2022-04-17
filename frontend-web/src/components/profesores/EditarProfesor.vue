@@ -6,104 +6,28 @@
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Creación de Carreras</h1>
+        <h1 id="titulo">Editar Profesor</h1>
       </div>
       <div id="addContainer">
         <div id="col1">
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="codigo_carrera">Código</label>
-              </div>
-
-              <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Código de Carera"
-                  name="codigo_carrera"
-                  v-model="carrera.codigo_carrera"
-                  @input="touchInput"
-                  @blur="touchInput"
-                  :class="[
-                    {
-                      error: v$.carrera.codigo_carrera.$error,
-                      correct: !v$.carrera.codigo_carrera.$error,
-                    },
-                  ]"
-                />
-                <span
-                  :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                  class="question"
-                >
-                  <img
-                    class="helpimg"
-                    :class="[{ error: v$.carrera.codigo_carrera.$error }]"
-                    name="codigo_carrera"
-                    @click="showHelp"
-                    src="@/assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
-              </section>
-              <span
-                v-if="v$.carrera.codigo_carrera.$error"
-                class="validation-error"
-              >
-                El código de la carrera es requerido
-              </span>
-            </section>
-          </div>
-          <div>
-            <section id="wrapper">
-              <div id="div-labels">
                 <label for="nombre">Nombre</label>
-              </div>
-              <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Nombre"
-                  name="nombre"
-                  v-model="carrera.nombre"
-                  @input="touchInput"
-                  @blur="touchInput"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
-                />
-                <span
-                  class="question"
-                  :class="[{ error: v$.carrera.nombre.$error }]"
-                >
-                  <img
-                    class="helpimg"
-                    name="nombre"
-                    @click="showHelp"
-                    src="../../assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
-              </section>
-              <span v-if="v$.carrera.nombre.$error" class="validation-error">
-                El nombre de la carrera es requerido
-              </span>
-            </section>
-          </div>
-          <div>
-            <section id="wrapper">
-              <div id="div-labels">
-                <label for="titulo">Título</label>
               </div>
               <section id="input-span">
                 <textarea
                   type="text"
-                  placeholder="Título de la Carrera"
-                  name="titulo"
-                  v-model="carrera.titulo"
+                  placeholder="Nombre del profesor"
+                  name="nombre"
+                  v-model="profesor.nombre"
                   @input="touchInput"
                   @blur="touchInput"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.profesor.nombre.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.carrera.titulo.$error }]"
+                  :class="[{ error: v$.profesor.nombre.$error }]"
                 >
                   <img
                     class="helpimg"
@@ -114,16 +38,83 @@
                   />
                 </span>
               </section>
-              <span v-if="v$.carrera.titulo.$error" class="validation-error">
-                El título de la carrera es requerido
+              <span v-if="v$.profesor.nombre.$error" class="validation-error">
+                El nombre del profesor es requerido
               </span>
             </section>
           </div>
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="telefono">Teléfono</label>
+              </div>
+              <section id="input-span">
+                <textarea
+                  type="text"
+                  placeholder="Telefono del profesor"
+                  name="telefono"
+                  v-model="profesor.telefono"
+                  @input="touchInput"
+                  @blur="touchInput"
+                  :class="[{ error: v$.profesor.telefono.$error }]"
+                />
+                <span
+                  class="question"
+                  :class="[{ error: v$.profesor.telefono.$error }]"
+                >
+                  <img
+                    class="helpimg"
+                    name="titulo"
+                    @click="showHelp"
+                    src="../../assets/svg/questionsign.svg"
+                    alt="help"
+                  />
+                </span>
+              </section>
+              <span v-if="v$.profesor.telefono.$error" class="validation-error">
+                El teléfono del profesor es requerido
+              </span>
+            </section>
+          </div>
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="correo">Correo Electrónico</label>
+              </div>
+              <section id="input-span">
+                <textarea
+                  type="text"
+                  placeholder="Correo electrónico del profesor"
+                  name="correo"
+                  v-model="profesor.correoE"
+                  @input="touchInput"
+                  @blur="touchInput"
+                  :class="[{ error: v$.profesor.correoE.$error }]"
+                />
+                <span
+                  class="question"
+                  :class="[{ error: v$.profesor.correoE.$error }]"
+                >
+                  <img
+                    class="helpimg"
+                    name="correo"
+                    @click="showHelp"
+                    src="../../assets/svg/questionsign.svg"
+                    alt="help"
+                  />
+                </span>
+              </section>
+              <span v-if="v$.profesor.correoE.$error" class="validation-error">
+                El correo del profesor es requerido
+              </span>
+            </section>
+          </div>
+
           <div id="col2"></div>
           <div>
             <section id="wrapper">
-              <button type="submit" @click="insertarCarrera">
-                Crear Carrera
+              <button type="submit" @click="editarProfesor">
+                Editar Profesor
               </button>
             </section>
           </div>
@@ -134,13 +125,13 @@
 </template>
 
 <script>
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, numeric, email } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 import swal from "sweetalert2";
 
-import carreraController from "../../controllers/carreraController.js";
-import Carrera from "@/models/carrera.js";
+import profesorController from "../../controllers/profesorController.js";
+import Profesor from "@/models/profesor.js";
 
 const alpha_with_spaces = helpers.regex(/^[\D\s]+$/);
 
@@ -150,20 +141,24 @@ export default {
   data() {
     return {
       v$: useValidate(),
-      carrera: new Carrera(),
+      profesor: new Profesor(),
     };
   },
   validations() {
     return {
-      carrera: {
-        codigo_carrera: { required, alpha_with_spaces_special_and_underscore },
+      profesor: {
+        cedula: { required, alpha_with_spaces_special_and_underscore },
         nombre: {
           required,
           alpha_with_spaces,
         },
-        titulo: {
+        telefono: {
           required,
-          alpha_with_spaces,
+          numeric,
+        },
+        correoE: {
+          required,
+          email,
         },
       },
     };
@@ -173,14 +168,19 @@ export default {
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
+
+      GET_PROFESOR_ACTUAL: "TableProfesorModule/GET_PROFESOR_ACTUAL",
     }),
   },
   async mounted() {
     if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
       this.$router.push("/inicio");
     }
-
-    this.campoOculto = true;
+    this.profesor.cedula = this.GET_PROFESOR_ACTUAL.cedula_profesor;
+    this.profesor.nombre = this.GET_PROFESOR_ACTUAL.nombre;
+    this.profesor.telefono = this.GET_PROFESOR_ACTUAL.telefono;
+    this.profesor.correoE = this.GET_PROFESOR_ACTUAL.correo;
+    console.log();
   },
   methods: {
     ...mapMutations({
@@ -188,24 +188,31 @@ export default {
     }),
     showHelp(e) {
       switch (e.target.name) {
-        case "codigo_carrera":
+        case "cedula":
           swal.fire(
-            "Código de la Carrera",
-            "En este apartado debe ingresar el código único de la carrera a registrar.",
+            "Cedula del Profesor",
+            "En este apartado debe ingresar el número de cédula del profesor.",
             "info"
           );
           break;
         case "nombre":
           swal.fire(
-            "Nombre de la Carrera",
-            "En este apartado debe ingresar el nombre de la carrera a registrar.",
+            "Nombre del profesor",
+            "En este apartado debe ingresar el nombre completo del profesor.",
             "info"
           );
           break;
-        case "titulo":
+        case "telefono":
           swal.fire(
-            "Título de la Carrera",
-            "En este apartado debe ingresar el título de la carrera a registrar.",
+            "Teléfono del profesor",
+            "En este apartado debe ingresar el teléfono del profesor.",
+            "info"
+          );
+          break;
+        case "correo":
+          swal.fire(
+            "Correo electrónico del profesor",
+            "En este apartado debe ingresar el correo electrónico del profesor.",
             "info"
           );
           break;
@@ -214,38 +221,38 @@ export default {
           break;
       }
     },
-    async insertarCarrera() {
+    async editarProfesor() {
       await this.v$.$validate();
+      console.log(this.v$);
 
       if (!this.v$.$error) {
-        await carreraController
-          .registrarCarrera(this.carrera, this.Token)
+        await profesorController
+          .editarProfesor(this.profesor, this.Token)
           .then((response) => {
-            if (response === 201) {
+            if (response === 204) {
               swal.fire(
-                "¡Carrera Registrada!",
-                "La carrera ha sido registrada con éxito.",
+                "¡Profesor Editado!",
+                "El profesor ha sido editado con éxito.",
                 "success"
               );
-              this.$router.push("/inicio/carreras");
+              this.$router.push("/inicio/profesores");
             }
           })
           .catch((error) => {
-            console.error(error.data);
-            swal.fire("¡Error!", `${error.data.message}`, "error");
+            console.error(error);
           });
       }
     },
+
     touchInput: function (e) {
       switch (e.target.name) {
-        case "codigo_carrera":
-          this.v$.carrera.codigo_carrera.$touch();
-          break;
         case "nombre":
-          this.v$.carrera.nombre.$touch();
+          this.v$.profesor.nombre.$touch();
           break;
-        case "titulo":
-          this.v$.carrera.titulo.$touch();
+        case "telefono":
+          this.v$.profesor.telefono.$touch();
+        case "correo":
+          this.v$.profesor.correoE.$touch();
           break;
       }
     },
@@ -724,8 +731,7 @@ input:checked + .slider:before {
     font-size: 1rem;
   }
 
-  input,
-  textarea {
+  input {
     font-size: medium;
     color: #000000;
     font-family: "Inter", sans-serif;
