@@ -17,6 +17,9 @@ class UsuarioController extends Controller
     public function index()
     {
         //
+        return UsuarioResource::collection(
+            Usuario::all()
+        );
     }
 
     /**
@@ -38,6 +41,23 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'cedula' => 'required|string|unique:usuarios,cedula_usuario',
+            'nombre' => 'required|string',
+            'tipo_usuario' => 'required|numeric',
+            'estado' => 'required|numeric'
+        ]);
+        Usuario::create([
+            'cedula_usuario' => $request->input('cedula'),
+            'nombre' => $request->input('nombre'),
+            'tipo_usuario' => $request->input('tipo_usuario'),
+            'estado' => $request->input('estado'),
+            'clave' => '123',
+        ]);
+
+        return response(null, 201);
+
+
     }
 
     /**
@@ -72,6 +92,18 @@ class UsuarioController extends Controller
     public function update(Request $request, Usuario $usuario)
     {
         //
+        $request->validate([
+            'nombre' => 'required|string',
+            'tipo_usuario' => 'required|numeric',
+            'estado' => 'required|numeric'
+        ]);
+        $usuario->update([
+            'nombre' => $request->input('nombre'),
+            'tipo_usuario' => $request->input('tipo_usuario'),
+            'estado' => $request->input('estado')
+        ]);
+
+        return response(null, 204);
     }
 
     /**

@@ -17,6 +17,8 @@ class UsuarioResource extends JsonResource
         return [
             'cedula_usuario' => $this->cedula_usuario,
             'tipo_usuario' => $this->tipo_usuario,
+            'nombre' => $this->nombre,
+            'estado' => $this->estado,
         ];
     }
 }
