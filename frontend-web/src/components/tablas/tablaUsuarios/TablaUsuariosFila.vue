@@ -19,23 +19,25 @@
 
     <span v-if="GET_VISIBILIDAD_COLUMNAS[2]"
       ><p>
-        {{ usuario.tipo_usuario }}
+        {{ usuario.correoE }}
       </p></span
     >
 
-    <span v-if="GET_VISIBILIDAD_COLUMNAS[3]" id="estado">
-      <div v-if="usuario.estado == 1" id="estado-verde" @click="isCheckedM">
-        Activado(a)
-      </div>
-      <div v-else id="estado-rojo" @click="isCheckedM">Desactivado(a)</div>
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[3]">
+      <p v-if="usuario.tipo_usuario === '1'">Administrador</p>
+      <p v-else>Matriculador</p>
+    </span>
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[4]" id="estado">
+      <div v-if="usuario.estado == 1" id="estado-verde">Activado(a)</div>
+      <div v-else id="estado-rojo">Desactivado(a)</div>
     </span>
 
     <span>
       <select @change="manageAction" id="combo-box-telefonos">
         <option disabled selected>Elegir</option>
         <option value="1">Editar</option>
-        <option value="2">Cursos</option>
-        <option value="3">Eliminar</option>
+        <option value="2">Eliminar</option>
       </select>
     </span>
   </div>

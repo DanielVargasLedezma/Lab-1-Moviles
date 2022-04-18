@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Nombre", "Cédula"],
+      opcionesOrdenado: ["nombre", "cedula_usuario"],
     };
   },
   unmounted() {
@@ -85,6 +85,7 @@ export default {
     this.SET_COLUMNS_TITLE([
       "Cédula del usuario",
       "Nombre",
+      "Correo",
       "Tipo de usuario",
       "Estado",
       "Acción",
@@ -109,7 +110,7 @@ export default {
       return this.GET_ARRAY.filter((usuario) => {
         return (
           usuario.cedula_usuario.includes(this.GetTexto) ||
-          usuario.tipo_usuario.includes(this.GetTexto)
+          usuario.nombre.includes(this.GetTexto)
         );
       });
     },

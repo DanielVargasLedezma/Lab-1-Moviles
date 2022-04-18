@@ -13,11 +13,43 @@
         <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
-          to="/inicio/carreras"
+          to="/inicio/usuarios"
         >
           <div
             id="usuarios"
             tabindex="1"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
+          >
+            <img src="./../../assets/svg/users.svg" alt="users" />
+            <div id="txt">Usuarios</div>
+          </div>
+        </router-link>
+
+        <div><br /><br /></div>
+
+        <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/matricula"
+        >
+          <div
+            id="clientes"
+            tabindex="1"
+            v-if="UsuarioLoggeado.tipo_usuario === 2"
+          >
+            <img src="./../../assets/svg/enroll.svg" alt="users" />
+            <div id="txt">Matricula</div>
+          </div>
+        </router-link>
+
+        <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/carreras"
+        >
+          <div
+            id="usuarios"
+            tabindex="2"
             v-if="UsuarioLoggeado.tipo_usuario === 1"
           >
             <img src="./../../assets/svg/career.svg" alt="users" />
@@ -33,7 +65,7 @@
         >
           <div
             id="usuarios"
-            tabindex="2"
+            tabindex="3"
             v-if="UsuarioLoggeado.tipo_usuario === 1"
           >
             <img src="./../../assets/svg/course.svg" alt="users" />
@@ -49,63 +81,12 @@
           to="/inicio/profesores"
         >
           <div
-            id="usuarios"
-            tabindex="2"
-            v-if="UsuarioLoggeado.tipo_usuario === 1"
-          >
-            <img src="./../../assets/svg/course.svg" alt="users" />
-            <div id="txt">Profesores</div>
-          </div></router-link
-        >
-
-        <div><br /><br /></div>
-
-        <router-link
-          active-class="active-link"
-          style="text-decoration: none; color: inherit"
-          to="/inicio/usuarios"
-        >
-          <div
-            id="usuarios"
-            tabindex="2"
-            v-if="UsuarioLoggeado.tipo_usuario === 1"
-          >
-            <img src="./../../assets/svg/course.svg" alt="users" />
-            <div id="txt">Usuarios</div>
-          </div></router-link
-        >
-
-        <div><br /><br /></div>
-
-        <!-- <router-link
-          active-class="active-link"
-          style="text-decoration: none; color: inherit"
-          to="/inicio/profesores"
-        >
-          <div
             id="clientes"
-            tabindex="3"
+            tabindex="4"
             v-if="UsuarioLoggeado.tipo_usuario === 1"
           >
             <img src="./../../assets/svg/teacher.svg" alt="users" />
             <div id="txt">Profesores</div>
-          </div></router-link
-        >
-
-        <div><br /><br /></div> -->
-
-        <router-link
-          active-class="active-link"
-          style="text-decoration: none; color: inherit"
-          to="/inicio/ciclos"
-        >
-          <div
-            id="usuarios"
-            tabindex="4"
-            v-if="UsuarioLoggeado.tipo_usuario === 1"
-          >
-            <img src="./../../assets/svg/cycle.svg" alt="users" />
-            <div id="txt">Ciclos</div>
           </div></router-link
         >
 
@@ -118,24 +99,41 @@
         >
           <div
             id="usuarios"
-            tabindex="4"
+            tabindex="5"
             v-if="UsuarioLoggeado.tipo_usuario === 1"
           >
-            <img src="./../../assets/svg/cycle.svg" alt="users" />
+            <img src="./../../assets/svg/students.svg" alt="users" />
             <div id="txt">Alumnos</div>
           </div></router-link
         >
 
         <div><br /><br /></div>
 
-        <!-- <router-link
+        <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/ciclos"
+        >
+          <div
+            id="usuarios"
+            tabindex="6"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
+          >
+            <img src="./../../assets/svg/cycle.svg" alt="users" />
+            <div id="txt">Ciclos</div>
+          </div></router-link
+        >
+
+        <div><br /><br /></div>
+
+        <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
           to="/inicio/oferta-academica"
         >
           <div
             id="usuarios"
-            tabindex="5"
+            tabindex="7"
             v-if="UsuarioLoggeado.tipo_usuario === 1"
           >
             <img src="./../../assets/svg/academic.svg" alt="users" />
@@ -144,36 +142,6 @@
         >
 
         <div><br /><br /></div>
-
-        <!-- <router-link
-          active-class="active-link"
-          style="text-decoration: none; color: inherit"
-          to="/inicio-gestor/clientes"
-        >
-          <div
-            id="clientes"
-            tabindex="3"
-            v-if="UsuarioLoggeado.tipo_usuario === 3"
-          >
-            <img src="./../../assets/svg/clients.svg" alt="users" />
-            <div id="txt">Clientes</div>
-          </div>
-        </router-link>
-        <div><br /><br /></div> -->
-        <!-- <router-link
-          active-class="active-link"
-          style="text-decoration: none; color: inherit"
-          to="/inicio-super/subir-archivo"
-        >
-          <div
-            id="usuarios"
-            tabindex="4"
-            v-if="UsuarioLoggeado.tipo_usuario === 2"
-          >
-            <img src="./../../assets/svg/excel.svg" alt="users" />
-            <div id="txt">Importar</div>
-          </div></router-link
-        > -->
       </div>
     </div>
     <div id="half2">

@@ -37,4 +37,14 @@ class Matricula extends Model
      * @var string|null
      */
     const UPDATED_AT = null;
+
+    public function grupo()
+    {
+        return $this->hasOne(Grupo::class, 'numero_grupo', 'numero_grupo');
+    }
+
+    public function alumno()
+    {
+        return $this->hasOne(Alumno::class, 'cedula_alumno', 'cedula_alumno');
+    }
 }

@@ -30,13 +30,22 @@
         </select>
       </div>
     </div>
-    <div v-if="accionBoton != null" id="boton">
+    <div v-if="accionBoton !== null" id="boton">
       <button
-        v-if="UsuarioLoggeado.tipo_usuario == 1"
+        v-if="
+          UsuarioLoggeado.tipo_usuario == 1 && path === '/inicio/grupos-curso'
+        "
         @click="accionBoton"
         id="agregar-usuario"
       >
         <img src="./../../../assets/svg/plus-circle.svg" />Añadir Grupo
+      </button>
+      <button
+        v-if="path === '/inicio/matricula-alumno/cursos'"
+        @click="redirigirMatricular"
+        id="agregar-usuario"
+      >
+        <img src="./../../../assets/svg/plus-circle.svg" />Matricular Grupo
       </button>
     </div>
   </div>
@@ -51,7 +60,11 @@ export default {
   data() {
     return {
       texto: "",
+      path: "",
     };
+  },
+  mounted() {
+    this.path = window.location.pathname;
   },
   props: { opcionesOrdenado: null, accionBoton: null },
   computed: {
@@ -82,6 +95,9 @@ export default {
         }
         this.SET_OPC_COMBO_BOX(string);
       }
+    },
+    redirigirMatricular: function () {
+      this.$router.push("/inicio/matricula-alumno/matricular");
     },
   },
 };

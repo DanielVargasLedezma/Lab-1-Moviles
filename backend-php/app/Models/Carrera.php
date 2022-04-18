@@ -46,4 +46,9 @@ class Carrera extends Model
     {
         return $this->hasMany(Curso::class, 'codigo_carrera', 'codigo_carrera');
     }
+
+    public function grupos()
+    {
+        return $this->hasManyThrough(Grupo::class, Curso::class, 'codigo_carrera', 'codigo_curso', 'codigo_carrera', 'codigo_curso');
+    }
 }

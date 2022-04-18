@@ -90,6 +90,9 @@ export default {
         this.SET_ARRAY(this.GET_CARRERA_ACTUAL.cursos);
         this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
         break;
+      case "/inicio/oferta-academica":
+        this.SET_TABLE_NAME("Cursos Registrados de la carrera ");
+        break;
     }
   },
   created() {

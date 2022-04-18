@@ -38,8 +38,13 @@
     <span>
       <select @change="manageAction" id="combo-box-telefonos">
         <option disabled selected>Elegir</option>
-        <option value="1">Editar</option>
-        <option value="2">Eliminar</option>
+        <option v-if="path === '/inicio/grupos-curso'" value="1">Editar</option>
+        <option v-if="path === '/inicio/grupos-curso'" value="2">
+          Eliminar
+        </option>
+        <option v-if="path === '/inicio/matricula-alumno/cursos'" value="3">
+          Desmatricular
+        </option>
       </select>
     </span>
   </div>
@@ -56,7 +61,11 @@ export default {
   data() {
     return {
       image: image,
+      path: "",
     };
+  },
+  mounted() {
+    this.path = window.location.pathname;
   },
   computed: {
     ...mapGetters({

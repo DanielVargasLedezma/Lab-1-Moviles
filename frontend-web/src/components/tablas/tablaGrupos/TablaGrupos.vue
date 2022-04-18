@@ -43,6 +43,7 @@ import TablaGruposFila from "./TablaGruposFila.vue";
 import grupoController from "../../../controllers/grupoController.js";
 
 import "@/assets/css/Tabla.css";
+import alumnoController from "../../../controllers/alumnoController";
 
 export default {
   components: {
@@ -57,27 +58,60 @@ export default {
   },
   unmounted() {
     this.SET_TEXTO("");
+    this.SET_ARRAY([]);
+    this.SET_CANTIDAD_UoC(0);
   },
   async mounted() {
-    if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
+    if (
+      this.UsuarioLoggeado &&
+      this.UsuarioLoggeado.tipo_usuario !== 1 &&
+      this.UsuarioLoggeado.tipo_usuario !== 2
+    ) {
       this.$router.push("/inicio");
     }
 
-    this.SET_TABLE_NAME(
-      "Grupos Programados de " + this.GET_CURSO_ACTUAL.nombre
-    );
+    switch (window.location.pathname) {
+      case "/inicio/grupos-curso":
+        this.SET_TABLE_NAME(
+          "Grupos Programados de " + this.GET_CURSO_ACTUAL.nombre
+        );
 
-    if (this.UsuarioLoggeado.tipo_usuario === 1) {
-      await grupoController
-        .cargarGruposDeCurso(this.Token, this.GET_CURSO_ACTUAL.codigo_curso)
-        .then((response) => {
-          this.SET_ARRAY(response);
-          this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
-        })
-        .catch((error) => {
-          console.error(error);
-          this.SET_ARRAY([]);
-        });
+        if (this.UsuarioLoggeado.tipo_usuario === 1) {
+          await grupoController
+            .cargarGruposDeCurso(this.Token, this.GET_CURSO_ACTUAL.codigo_curso)
+            .then((response) => {
+              this.SET_ARRAY(response);
+              this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
+            })
+            .catch((error) => {
+              console.error(error);
+              this.SET_ARRAY([]);
+            });
+        }
+        break;
+      case "/inicio/matricula-alumno/cursos":
+        this.SET_TABLE_NAME(
+          "Grupos matriculados por el estudiante en el ciclo activo"
+        );
+
+        await alumnoController
+          .gruposMatriculados(this.GET_ALUMNO_ACTUAL, this.Token)
+          .then((response) => {
+            this.SET_ARRAY(
+              response.filter((grupo) => {
+                return (
+                  grupo.ciclo.ciclo_activo.includes("1") ||
+                  grupo.ciclo.ciclo_activo.includes(1)
+                );
+              })
+            );
+            this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
+          })
+          .catch((error) => {
+            console.error(error);
+            this.SET_ARRAY([]);
+          });
+        break;
     }
   },
   created() {
@@ -96,6 +130,8 @@ export default {
       Token: "LoginModule/Token",
 
       GET_CURSO_ACTUAL: "TableCursoModule/GET_CURSO_ACTUAL",
+
+      GET_ALUMNO_ACTUAL: "TableAlumnoModule/GET_ALUMNO_ACTUAL",
 
       GetOpcionComboBoxReverse: "TableGrupoModule/GetOpcionComboBoxReverse",
       GET_VISIBILIDAD_COLUMNAS: "TableGrupoModule/GET_VISIBILIDAD_COLUMNAS",

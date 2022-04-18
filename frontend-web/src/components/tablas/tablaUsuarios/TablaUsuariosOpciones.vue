@@ -7,18 +7,19 @@
         <input
           type="text"
           id="busqueda"
-          placeholder="Buscar por código o nombre de la carrera"
+          placeholder="Buscar por cédula o nombre del usuario"
           @change="handleTextChange"
         />
         <h3>Ordenar por</h3>
         <select id="combo-box" @change="cambiarOrdenTabla">
-          <option
-            v-for="index in opcionesOrdenado.length * 2"
-            :key="index"
-            :value="opcionesOrdenado[parseInt((index - 1) / 2)]"
-          >
-            {{ opcionesOrdenado[parseInt((index - 1) / 2)] }} -
-            {{ (index - 1) % 2 == 0 ? "Ascendente" : "Descendente" }}
+          <option value="cedula_usuario">Por defecto</option>
+          <option :value="opcionesOrdenado[0]">Nombre - Ascendente</option>
+          <option :value="opcionesOrdenado[0]">Nombre - Descendente</option>
+          <option :value="opcionesOrdenado[1]">
+            Cédula de Usuario - Ascendente
+          </option>
+          <option :value="opcionesOrdenado[1]">
+            Cédula de Usuario - Descendente
           </option>
         </select>
       </div>
@@ -49,16 +50,16 @@ export default {
   props: { opcionesOrdenado: null, accionBoton: null },
   computed: {
     ...mapGetters({
-      GET_TABLE_NAME: "TableCarreraModule/GET_TABLE_NAME",
+      GET_TABLE_NAME: "TableUsuarioModule/GET_TABLE_NAME",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
     }),
   },
   methods: {
     ...mapMutations({
-      SET_OPC_COMBO_BOX_REVERSE: "TableCarreraModule/SET_OPC_COMBO_BOX_REVERSE",
-      SET_OPC_COMBO_BOX: "TableCarreraModule/SET_OPC_COMBO_BOX",
-      SET_TEXTO: "TableCarreraModule/SET_TEXTO",
+      SET_OPC_COMBO_BOX_REVERSE: "TableUsuarioModule/SET_OPC_COMBO_BOX_REVERSE",
+      SET_OPC_COMBO_BOX: "TableUsuarioModule/SET_OPC_COMBO_BOX",
+      SET_TEXTO: "TableUsuarioModule/SET_TEXTO",
     }),
     handleTextChange(e) {
       if (e.target) {

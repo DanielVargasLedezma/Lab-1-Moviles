@@ -35,7 +35,31 @@ class MatriculaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'cedula_alumno' => 'required',
+            'numero_grupo' => 'required',
+        ]);
+
+        $validacion = Matricula::all()
+            ->where('cedula_alumno', $request->input('cedula_alumno'))
+            ->where('numero_grupo', $request->input('numero_grupo'))
+            ->first();
+
+        if (isset($validacion)) {
+            return response(
+                [
+                    'message' => 'Ya se ha matriculado este estudiante en ese grupo'
+                ],
+                422
+            );
+        }
+
+        Matricula::create([
+            'cedula_alumno' => $request->input('cedula_alumno'),
+            'numero_grupo' => $request->input('numero_grupo'),
+        ]);
+
+        return response(null, 201);
     }
 
     /**

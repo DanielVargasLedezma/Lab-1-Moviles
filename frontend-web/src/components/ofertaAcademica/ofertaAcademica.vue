@@ -168,6 +168,8 @@ export default {
     ...mapMutations({
       SET_CANTIDAD_UoC: "TableCursoModule/SET_CANTIDAD_UoC",
       SET_ARRAY: "TableCursoModule/SET_ARRAY",
+
+      SET_CARRERA_ACTUAL: "TableCarreraModule/SET_CARRERA_ACTUAL",
     }),
     handleValueChange: function (e) {
       switch (e.target.name) {
@@ -202,6 +204,8 @@ export default {
         var carreraSelecionada = this.carreras.filter((carrera) => {
           return carrera.codigo_carrera.includes(this.step.codigo_carrera);
         });
+
+        this.SET_CARRERA_ACTUAL(carreraSelecionada);
 
         var cursosDeCarreraSelecionada = carreraSelecionada[0].cursos;
 

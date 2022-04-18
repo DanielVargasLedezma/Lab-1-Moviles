@@ -44,9 +44,13 @@
     <span>
       <select @change="manageAction" id="combo-box-telefonos">
         <option disabled selected>Elegir</option>
-        <option value="1">Editar</option>
-        <option value="2">Cursos</option>
-        <option value="3">Eliminar</option>
+        <option value="1" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
+          Editar
+        </option>
+        <option value="2">Matricula</option>
+        <option value="3" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
+          Eliminar
+        </option>
       </select>
     </span>
   </div>
@@ -83,12 +87,15 @@ export default {
       SET_MOSTRAR_TABLA: "TableAlumnoModule/SET_MOSTRAR_TABLA",
     }),
     manageAction: function (e) {
+      this.SET_ALUMNO_ACTUAL(this.alumno);
       switch (e.target.value) {
         case "1":
-          this.SET_ALUMNO_ACTUAL(this.alumno);
           this.$router.push("/inicio/editar-alumno");
           break;
         case "2":
+          this.$router.push("/inicio/matricula-alumno/cursos");
+          break;
+        case "3":
           break;
       }
     },

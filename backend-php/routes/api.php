@@ -10,6 +10,7 @@ use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\LoggoutController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProfesorController;
+use App\Http\Controllers\MatriculaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,7 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
 
     Route::get('/cursos', [CursoController::class, 'index']);
 
-    Route::post('/crear-curso', [CursoController::class, 'store']);
+    Route::post('/crear-cursos', [CursoController::class, 'store']);
 
     Route::get('/ciclos', [CicloController::class, 'index']);
 
@@ -55,14 +56,19 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
 
     Route::get('/grupos/profesor/{cedula_profesor}', [GrupoController::class, 'gruposProfesor']);
 
+    Route::get('/grupos/carrera/{carrera}', [CarreraController::class, 'gruposCarrera']);
+
     Route::post('/crear-grupo', [GrupoController::class, 'store']);
 
     Route::post('/grupos/editar/{grupo}', [GrupoController::class, 'update']);
+
     Route::get('/alumnos', [AlumnoController::class, 'index']);
 
     Route::post('/crear-alumno', [AlumnoController::class, 'store']);
 
     Route::post('/alumno/editar/{alumno}', [AlumnoController::class, 'update']);
+
+    Route::get('/grupos/alumno/{alumno}', [AlumnoController::class, 'gruposMatriculados']);
 
     Route::get('/profesores', [ProfesorController::class, 'index']);
 
@@ -75,4 +81,6 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
     Route::post('/crear-usuario', [UsuarioController::class, 'store']);
 
     Route::post('/usuario/editar/{usuario}', [UsuarioController::class, 'update']);
+
+    Route::post('/crear-matricula', [MatriculaController::class, 'store']);
 });

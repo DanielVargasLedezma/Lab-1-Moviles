@@ -89,7 +89,7 @@
                 <label for="titulo">Teléfono</label>
               </div>
               <section id="input-span">
-                <textarea
+                <input
                   type="text"
                   placeholder="Teléfono del profesor"
                   name="telefono"
@@ -116,6 +116,8 @@
               </span>
             </section>
           </div>
+        </div>
+        <div id="col2">
           <div>
             <section id="wrapper">
               <div id="div-labels">
@@ -149,7 +151,6 @@
               </span>
             </section>
           </div>
-          <div id="col2"></div>
           <div>
             <section id="wrapper">
               <button type="submit" @click="insertarProfesor">

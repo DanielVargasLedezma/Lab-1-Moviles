@@ -31,6 +31,7 @@ class Usuario extends Authenticatable
         'clave',
         'nombre',
         'estado',
+        'correo',
     ];
 
     /**

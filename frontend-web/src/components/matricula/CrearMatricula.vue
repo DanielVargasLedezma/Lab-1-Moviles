@@ -2,119 +2,58 @@
   <section>
     <section
       v-if="
-        LoggedState && UsuarioLoggeado && UsuarioLoggeado.tipo_usuario === 1
+        LoggedState &&
+        UsuarioLoggeado &&
+        (UsuarioLoggeado.tipo_usuario === 1 ||
+          UsuarioLoggeado.tipo_usuario === 2)
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Editar Profesor</h1>
+        <h1 id="titulo">Realizar Matrícula</h1>
       </div>
       <div id="addContainer">
         <div id="col1">
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="nombre">Nombre</label>
+                <label for="nombre"
+                  >(# grupo - Código de Curso / Nombre de Curso)</label
+                >
               </div>
               <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Nombre del profesor"
-                  name="nombre"
-                  v-model="profesor.nombre"
-                  @input="touchInput"
+                <select
+                  name="numero_grupo"
+                  id="rolCombo"
+                  @change="handleValueChange"
                   @blur="touchInput"
-                  :class="[{ error: v$.profesor.nombre.$error }]"
-                />
-                <span
-                  class="question"
-                  :class="[{ error: v$.profesor.nombre.$error }]"
+                  :class="[{ error: v$.matricula.numero_grupo.$error }]"
                 >
-                  <img
-                    class="helpimg"
-                    name="titulo"
-                    @click="showHelp"
-                    src="../../assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option
+                    v-for="(grupo, index) in grupos"
+                    :key="index"
+                    :value="grupo.numero_grupo"
+                  >
+                    {{ grupo.numero_grupo }} - {{ grupo.curso.codigo_curso }} /
+                    {{ grupo.curso.nombre }}
+                  </option>
+                </select>
               </section>
-              <span v-if="v$.profesor.nombre.$error" class="validation-error">
-                El nombre del profesor es requerido
+              <span
+                class="validation-error"
+                v-if="v$.matricula.numero_grupo.$error"
+              >
+                Este campo es requerido
               </span>
             </section>
           </div>
           <div>
             <section id="wrapper">
-              <div id="div-labels">
-                <label for="telefono">Teléfono</label>
-              </div>
-              <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Telefono del profesor"
-                  name="telefono"
-                  v-model="profesor.telefono"
-                  @input="touchInput"
-                  @blur="touchInput"
-                  :class="[{ error: v$.profesor.telefono.$error }]"
-                />
-                <span
-                  class="question"
-                  :class="[{ error: v$.profesor.telefono.$error }]"
-                >
-                  <img
-                    class="helpimg"
-                    name="titulo"
-                    @click="showHelp"
-                    src="../../assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
-              </section>
-              <span v-if="v$.profesor.telefono.$error" class="validation-error">
-                El teléfono del profesor es requerido
-              </span>
-            </section>
-          </div>
-          <div>
-            <section id="wrapper">
-              <div id="div-labels">
-                <label for="correo">Correo Electrónico</label>
-              </div>
-              <section id="input-span">
-                <input
-                  type="text"
-                  placeholder="Correo electrónico del profesor"
-                  name="correo"
-                  v-model="profesor.correoE"
-                  @input="touchInput"
-                  @blur="touchInput"
-                  :class="[{ error: v$.profesor.correoE.$error }]"
-                />
-                <span
-                  class="question"
-                  :class="[{ error: v$.profesor.correoE.$error }]"
-                >
-                  <img
-                    class="helpimg"
-                    name="correo"
-                    @click="showHelp"
-                    src="../../assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
-              </section>
-              <span v-if="v$.profesor.correoE.$error" class="validation-error">
-                El correo del profesor es requerido
-              </span>
-            </section>
-          </div>
-
-          <div id="col2"></div>
-          <div>
-            <section id="wrapper">
-              <button type="submit" @click="editarProfesor">
-                Editar Profesor
+              <label style="visibility: hidden">Hola</label>
+              <button type="submit" @click="matricular">
+                Realizar Matrícula
               </button>
             </section>
           </div>
@@ -125,41 +64,28 @@
 </template>
 
 <script>
-import { required, helpers, numeric, email } from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 import swal from "sweetalert2";
 
-import profesorController from "../../controllers/profesorController.js";
-import Profesor from "@/models/profesor.js";
-
-const alpha_with_spaces = helpers.regex(/^[\D\s]+$/);
-
-const alpha_with_spaces_special_and_underscore = helpers.regex(/^[\w-\s]+$/);
+import matriculaController from "../../controllers/matriculaController.js";
+import grupoController from "../../controllers/grupoController.js";
+import Matricula from "@/models/matricula.js";
 
 export default {
   data() {
     return {
       v$: useValidate(),
-      profesor: new Profesor(),
+      matricula: new Matricula(),
+      grupos: [],
     };
   },
   validations() {
     return {
-      profesor: {
-        cedula: { required, alpha_with_spaces_special_and_underscore },
-        nombre: {
-          required,
-          alpha_with_spaces,
-        },
-        telefono: {
-          required,
-          numeric,
-        },
-        correoE: {
-          required,
-          email,
-        },
+      matricula: {
+        cedula_alumno: { required },
+        numero_grupo: { required },
       },
     };
   },
@@ -169,90 +95,104 @@ export default {
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
 
-      GET_PROFESOR_ACTUAL: "TableProfesorModule/GET_PROFESOR_ACTUAL",
+      GET_ALUMNO_ACTUAL: "TableAlumnoModule/GET_ALUMNO_ACTUAL",
     }),
   },
   async mounted() {
-    if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
+    if (
+      this.UsuarioLoggeado &&
+      this.UsuarioLoggeado.tipo_usuario !== 1 &&
+      this.UsuarioLoggeado.tipo_usuario !== 2
+    ) {
       this.$router.push("/inicio");
     }
-    this.profesor.cedula = this.GET_PROFESOR_ACTUAL.cedula_profesor;
-    this.profesor.nombre = this.GET_PROFESOR_ACTUAL.nombre;
-    this.profesor.telefono = this.GET_PROFESOR_ACTUAL.telefono;
-    this.profesor.correoE = this.GET_PROFESOR_ACTUAL.correo;
-    console.log();
+
+    this.matricula.cedula_alumno = this.GET_ALUMNO_ACTUAL.cedula_alumno;
+
+    await grupoController
+      .cargarGruposDeCarrera(
+        this.Token,
+        this.GET_ALUMNO_ACTUAL.carrera.codigo_carrera
+      )
+      .then((response) => {
+        this.grupos = response.filter((grupo) => {
+          return (
+            grupo.ciclo.ciclo_activo.includes("1") ||
+            grupo.ciclo.ciclo_activo.includes(1)
+          );
+        });
+      });
   },
   methods: {
     ...mapMutations({
       LogOut: "LoginModule/logout",
     }),
-    showHelp(e) {
-      switch (e.target.name) {
-        case "cedula":
-          swal.fire(
-            "Cedula del Profesor",
-            "En este apartado debe ingresar el número de cédula del profesor.",
-            "info"
-          );
-          break;
-        case "nombre":
-          swal.fire(
-            "Nombre del profesor",
-            "En este apartado debe ingresar el nombre completo del profesor.",
-            "info"
-          );
-          break;
-        case "telefono":
-          swal.fire(
-            "Teléfono del profesor",
-            "En este apartado debe ingresar el teléfono del profesor.",
-            "info"
-          );
-          break;
-        case "correo":
-          swal.fire(
-            "Correo electrónico del profesor",
-            "En este apartado debe ingresar el correo electrónico del profesor.",
-            "info"
-          );
-          break;
-        default:
-          console.log("Switch error");
-          break;
-      }
-    },
-    async editarProfesor() {
+    async matricular() {
       await this.v$.$validate();
-      console.log(this.v$);
 
       if (!this.v$.$error) {
-        await profesorController
-          .editarProfesor(this.profesor, this.Token)
+        await matriculaController
+          .realizarMatricula(this.matricula, this.Token)
           .then((response) => {
-            if (response === 204) {
+            if (response === 201) {
               swal.fire(
-                "¡Profesor Editado!",
-                "El profesor ha sido editado con éxito.",
+                "¡Matrícula Realizada!",
+                "El estudiante se ha sido matriculado con éxito.",
                 "success"
               );
-              this.$router.push("/inicio/profesores");
+
+              this.$router.push("/inicio/matricula-alumno/cursos");
             }
           })
           .catch((error) => {
-            console.error(error);
+            console.error(error.data);
+            swal.fire("¡Error!", `${error.data.message}`, "error");
           });
       }
     },
-
+    showHelp(e) {
+      switch (e.target.name) {
+        case "year":
+          swal.fire(
+            "Año de la Carrera",
+            "En este apartado debe ingresar el año del ciclo a ingresar. Debe ser un número de cuatro dígitos",
+            "info"
+          );
+          break;
+        case "titulo":
+          swal.fire(
+            "Título de la Carrera",
+            "En este apartado debe ingresar el título de la ciclo a ingresar.",
+            "info"
+          );
+          break;
+        case "fecha_inicio":
+          swal.fire(
+            "Fecha de inicio del Ciclo",
+            "En este apartado debe ingresar la fecha de inicio del ciclo a ingresar. Puede ser una fecha pasada.",
+            "info"
+          );
+          break;
+        case "fecha_finalizacion":
+          swal.fire(
+            "Fecha de finalización del Ciclo",
+            "En este apartado debe ingresar la fecha de finalización del ciclo a ingresar.",
+            "info"
+          );
+          break;
+      }
+    },
     touchInput: function (e) {
       switch (e.target.name) {
-        case "nombre":
-          this.v$.profesor.nombre.$touch();
+        case "numero_grupo":
+          this.v$.matricula.numero_grupo.$touch();
           break;
-        case "telefono":
-          this.v$.profesor.telefono.$touch();
-        case "correo":
-          this.v$.profesor.correoE.$touch();
+      }
+    },
+    handleValueChange: function (e) {
+      switch (e.target.name) {
+        case "numero_grupo":
+          this.matricula.numero_grupo = e.target.value;
           break;
       }
     },
@@ -731,7 +671,8 @@ input:checked + .slider:before {
     font-size: 1rem;
   }
 
-  input {
+  input,
+  textarea {
     font-size: medium;
     color: #000000;
     font-family: "Inter", sans-serif;

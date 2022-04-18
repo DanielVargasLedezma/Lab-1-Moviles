@@ -14,11 +14,11 @@
         <select id="combo-box" @change="cambiarOrdenTabla">
           <option value="codigo_curso">Por defecto</option>
           <option :value="opcionesOrdenado[0]">Nombre - Ascendente</option>
-          <option :value="opcionesOrdenado[1]">Nombre - Descendente</option>
-          <option :value="opcionesOrdenado[2]">Código - Ascendente</option>
-          <option :value="opcionesOrdenado[3]">Código - Descendente</option>
-          <option :value="opcionesOrdenado[4]">Carrera - Ascendente</option>
-          <option :value="opcionesOrdenado[5]">Carrera - Descendente</option>
+          <option :value="opcionesOrdenado[0]">Nombre - Descendente</option>
+          <option :value="opcionesOrdenado[1]">Código - Ascendente</option>
+          <option :value="opcionesOrdenado[1]">Código - Descendente</option>
+          <option :value="opcionesOrdenado[2]">Carrera - Ascendente</option>
+          <option :value="opcionesOrdenado[2]">Carrera - Descendente</option>
           <!-- <option
             v-for="index in opcionesOrdenado.length * 2"
             :key="index"
