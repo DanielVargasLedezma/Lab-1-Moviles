@@ -40,6 +40,24 @@ class ProfesorController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'cedula_profesor' => 'required|string|unique:profesores',
+            'nombre' => 'required|string',
+            'telefono' => 'required|numeric',
+            'correo' => 'required|email',
+
+        ]);
+
+        Profesor::create([
+            'cedula_profesor' => $request->input('cedula_profesor'),
+            'nombre' => $request->input('nombre'),
+            'telefono' => $request->input('telefono'),
+            'correoE' => $request->input('correo'),
+            'clave' => '123',
+        ]);
+
+
+        return response(null, 201);
     }
 
     /**
@@ -74,6 +92,23 @@ class ProfesorController extends Controller
     public function update(Request $request, Profesor $profesor)
     {
         //
+        $request->validate([
+
+            'nombre' => 'required|string',
+            'telefono' => 'required|numeric',
+            'correo' => 'required|email',
+
+        ]);
+
+        $profesor->update([
+
+            'nombre' => $request->input('nombre'),
+            'telefono' => $request->input('telefono'),
+            'correoE' => $request->input('correo'),
+
+        ]);
+
+        return response(null, 204);
     }
 
     /**

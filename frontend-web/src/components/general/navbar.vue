@@ -43,6 +43,40 @@
 
         <div><br /><br /></div>
 
+        <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/profesores"
+        >
+          <div
+            id="usuarios"
+            tabindex="2"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
+          >
+            <img src="./../../assets/svg/course.svg" alt="users" />
+            <div id="txt">Profesores</div>
+          </div></router-link
+        >
+
+        <div><br /><br /></div>
+
+        <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/usuarios"
+        >
+          <div
+            id="usuarios"
+            tabindex="2"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
+          >
+            <img src="./../../assets/svg/course.svg" alt="users" />
+            <div id="txt">Usuarios</div>
+          </div></router-link
+        >
+
+        <div><br /><br /></div>
+
         <!-- <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
@@ -78,6 +112,23 @@
         <div><br /><br /></div>
 
         <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
+          to="/inicio/alumnos"
+        >
+          <div
+            id="usuarios"
+            tabindex="4"
+            v-if="UsuarioLoggeado.tipo_usuario === 1"
+          >
+            <img src="./../../assets/svg/cycle.svg" alt="users" />
+            <div id="txt">Alumnos</div>
+          </div></router-link
+        >
+
+        <div><br /><br /></div>
+
+        <!-- <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
           to="/inicio/oferta-academica"

@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
 
     Route::get('/cursos', [CursoController::class, 'index']);
 
-    Route::get('/profesores', [ProfesorController::class, 'index']);
+    Route::post('/crear-curso', [CursoController::class, 'store']);
 
     Route::get('/ciclos', [CicloController::class, 'index']);
 
@@ -58,4 +58,21 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
     Route::post('/crear-grupo', [GrupoController::class, 'store']);
 
     Route::post('/grupos/editar/{grupo}', [GrupoController::class, 'update']);
+    Route::get('/alumnos', [AlumnoController::class, 'index']);
+
+    Route::post('/crear-alumno', [AlumnoController::class, 'store']);
+
+    Route::post('/alumno/editar/{alumno}', [AlumnoController::class, 'update']);
+
+    Route::get('/profesores', [ProfesorController::class, 'index']);
+
+    Route::post('/crear-profesor', [ProfesorController::class, 'store']);
+
+    Route::post('/profesor/editar/{profesor}', [ProfesorController::class, 'update']);
+
+    Route::get('/usuarios', [UsuarioController::class, 'index']);
+
+    Route::post('/crear-usuario', [UsuarioController::class, 'store']);
+
+    Route::post('/usuario/editar/{usuario}', [UsuarioController::class, 'update']);
 });

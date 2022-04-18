@@ -68,33 +68,26 @@ export default {
         throw error.response;
       });
   },
-  editarUsuario: async (user, token) => {
+  editarUsuarios: async (usuario, token) => {
     const formData = new FormData();
-    formData.append("_method", "PATCH");
-    formData.append("nombre", user.nombre);
-    formData.append("apellidos", user.apellidos);
-    formData.append("nombre_usuario", user.nombre_usuario);
-    formData.append("cedula", user.cedula);
-    formData.append("estado", user.estado);
-    formData.append("correo", user.correo);
-    formData.append("id_rol", user.id_rol);
-    formData.append("id_proyecto", user.id_proyecto);
+
+    formData.append("cedula", usuario.cedula);
+    formData.append("nombre", usuario.nombre);
+    formData.append("tipo_usuario", usuario.tipo_usuario);
+    formData.append("estado", usuario.estado);
 
     return await axios
-      .post(global.url + "editar-usuario/" + user.id, formData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
+      .post(global.url + `usuario/editar/${usuario.cedula}`, formData, {
+        headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        if (response.data) {
-          return response.data;
-        }
+        return response.status;
       })
       .catch((error) => {
         throw error.response;
       });
   },
+
   editarEstadoUsuario: async (user, token) => {
     const formData = new FormData();
     formData.append("_method", "PATCH");
@@ -114,29 +107,26 @@ export default {
         throw error.response;
       });
   },
-  insertarUsuarios: async (user, token) => {
+  registrarUsuarios: async (usuario, token) => {
     const formData = new FormData();
-    formData.append("nombre", user.nombre);
-    formData.append("apellidos", user.apellidos);
-    formData.append("nombre_usuario", user.nombre_usuario);
-    formData.append("cedula", user.cedula);
-    formData.append("correo", user.correo);
-    formData.append("id_rol", user.id_rol);
-    formData.append("id_proyecto", user.id_proyecto);
+
+    formData.append("cedula", usuario.cedula);
+    formData.append("nombre", usuario.nombre);
+    formData.append("tipo_usuario", usuario.tipo_usuario);
+    formData.append("estado", usuario.estado);
 
     return await axios
-      .post(global.url + "usuarios", formData, {
+      .post(global.url + "crear-usuario", formData, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        if (response.data.data) {
-          return response.data.data;
-        }
+        return response.status;
       })
       .catch((error) => {
         throw error.response;
       });
   },
+
   enviarCodigo: async (email) => {
     const formData = new FormData();
     formData.append("correo", email);

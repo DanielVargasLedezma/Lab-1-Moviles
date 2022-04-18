@@ -163,7 +163,7 @@ export default {
       SET_ARRAY: "TableCursoModule/SET_ARRAY",
     }),
     crearCursos() {
-      this.$router.push("/inicio/crear-carreras");
+      this.$router.push("/inicio/crear-cursos");
     },
   },
 };

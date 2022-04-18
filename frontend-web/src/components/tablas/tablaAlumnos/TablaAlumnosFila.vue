@@ -1,0 +1,100 @@
+<template>
+  <div id="barrita">
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[0]" id="nombre">
+      <div id="logo-usuario">
+        <img
+          id="userLogo"
+          alt="User logo"
+          src="../../../assets/svg/user-solid.svg"
+        />
+      </div>
+      <p>{{ alumno.cedula_alumno }}</p>
+    </span>
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[1]"
+      ><p>
+        {{ alumno.nombre }}
+      </p></span
+    >
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[2]"
+      ><p>
+        {{ alumno.telefono }}
+      </p></span
+    >
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[3]"
+      ><p>
+        {{ alumno.correoe }}
+      </p></span
+    >
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[4]"
+      ><p>
+        {{ alumno.fecha_nacimiento }}
+      </p></span
+    >
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[5]"
+      ><p>
+        {{ alumno.carrera.nombre }}
+      </p></span
+    >
+
+    <span>
+      <select @change="manageAction" id="combo-box-telefonos">
+        <option disabled selected>Elegir</option>
+        <option value="1">Editar</option>
+        <option value="2">Cursos</option>
+        <option value="3">Eliminar</option>
+      </select>
+    </span>
+  </div>
+</template>
+
+<script>
+import { mapMutations, mapGetters } from "vuex";
+
+import image from "@/assets/img/edit.png";
+
+import "@/assets/css/TablaFila.css";
+
+export default {
+  data() {
+    return {
+      image: image,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      GET_VISIBILIDAD_COLUMNAS: "TableAlumnoModule/GET_VISIBILIDAD_COLUMNAS",
+      GET_MODAL_NUM: "TableAlumnoModule/GET_MODAL_NUM",
+      GET_SERVICES: "TableAlumnoModule/GET_SERVICES",
+
+      UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
+    }),
+  },
+  props: {
+    alumno: null,
+  },
+  methods: {
+    ...mapMutations({
+      SET_ALUMNO_ACTUAL: "TableAlumnoModule/SET_ALUMNO_ACTUAL",
+      SET_MOSTRAR_TABLA: "TableAlumnoModule/SET_MOSTRAR_TABLA",
+    }),
+    manageAction: function (e) {
+      switch (e.target.value) {
+        case "1":
+          this.SET_ALUMNO_ACTUAL(this.alumno);
+          this.$router.push("/inicio/editar-alumno");
+          break;
+        case "2":
+          break;
+      }
+    },
+    ShowModal() {
+      this.SET_MOSTRAR_TABLA(false);
+    },
+  },
+};
+</script>
