@@ -68,6 +68,10 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
 
     Route::post('/alumno/editar/{alumno}', [AlumnoController::class, 'update']);
 
+    Route::get('/alumno/matriculas/{alumno}', [AlumnoController::class, 'matriculasAlumno']);
+
+    Route::delete('/alumno/eliminar/{alumno}', [AlumnoController::class, 'destroy']);
+
     Route::get('/grupos/alumno/{alumno}', [AlumnoController::class, 'gruposMatriculados']);
 
     Route::get('/profesores', [ProfesorController::class, 'index']);
@@ -83,4 +87,6 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
     Route::post('/usuario/editar/{usuario}', [UsuarioController::class, 'update']);
 
     Route::post('/crear-matricula', [MatriculaController::class, 'store']);
+
+    Route::delete('/desmatricular/{cedula_alumno}/{numero_grupo}', [MatriculaController::class, 'destroy']);
 });

@@ -63,6 +63,8 @@ export default {
   },
   unmounted() {
     this.SET_TEXTO("");
+    this.SET_ARRAY([]);
+    this.SET_CANTIDAD_UoC(0);
   },
   async mounted() {
     if (

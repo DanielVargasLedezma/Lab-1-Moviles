@@ -99,11 +99,18 @@ class MatriculaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Matricula  $matricula
+     * @param  \App\Models\Alumno::id  $cedula_alumno
+     * @param  \App\Models\Grupo::id  $numero_grupo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Matricula $matricula)
+    public function destroy($cedula_alumno, $numero_grupo)
     {
-        //
+        $matricula = Matricula::where('cedula_alumno', $cedula_alumno)
+            ->where('numero_grupo', $numero_grupo)
+            ->first();
+
+        $matricula->delete();
+
+        return response(null, 204);
     }
 }

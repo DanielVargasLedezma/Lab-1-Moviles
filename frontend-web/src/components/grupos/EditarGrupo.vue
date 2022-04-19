@@ -303,8 +303,6 @@ export default {
     this.grupo.dia_uno = this.GET_Grupo_ACTUAL.dia_uno;
     this.grupo.dia_dos = this.GET_Grupo_ACTUAL.dia_dos;
 
-    console.log(this.grupo);
-
     await profesorController
       .cargarProfesores(this.Token)
       .then((response) => {

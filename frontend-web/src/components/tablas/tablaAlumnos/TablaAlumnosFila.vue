@@ -58,10 +58,12 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
+import Swal from "sweetalert2";
 
 import image from "@/assets/img/edit.png";
 
 import "@/assets/css/TablaFila.css";
+import alumnoController from "../../../controllers/alumnoController";
 
 export default {
   data() {
@@ -74,8 +76,10 @@ export default {
       GET_VISIBILIDAD_COLUMNAS: "TableAlumnoModule/GET_VISIBILIDAD_COLUMNAS",
       GET_MODAL_NUM: "TableAlumnoModule/GET_MODAL_NUM",
       GET_SERVICES: "TableAlumnoModule/GET_SERVICES",
+      GET_ALUMNO_ACTUAL: "TableAlumnoModule/GET_ALUMNO_ACTUAL",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
+      Token: "LoginModule/Token",
     }),
   },
   props: {
@@ -86,7 +90,7 @@ export default {
       SET_ALUMNO_ACTUAL: "TableAlumnoModule/SET_ALUMNO_ACTUAL",
       SET_MOSTRAR_TABLA: "TableAlumnoModule/SET_MOSTRAR_TABLA",
     }),
-    manageAction: function (e) {
+    manageAction: async function (e) {
       this.SET_ALUMNO_ACTUAL(this.alumno);
       switch (e.target.value) {
         case "1":
@@ -96,6 +100,35 @@ export default {
           this.$router.push("/inicio/matricula-alumno/cursos");
           break;
         case "3":
+          await Swal.fire({
+            title: "¿Está seguro de eliminar este alumno del sistema?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              alumnoController
+                .eliminarAlumno(this.GET_ALUMNO_ACTUAL, this.Token)
+                .then((response) => {
+                  if (response === 204) {
+                    Swal.fire(
+                      "¡Alumno eliminado!",
+                      "El alumno ha sido desmatriculado con éxito",
+                      "success"
+                    );
+
+                    this.$router.push("/inicio");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.data);
+                  Swal.fire("¡Error!", `${error.data.message}`, "error");
+                });
+            } else {
+              Swal.fire("Acción cancelada", "", "info");
+            }
+          });
           break;
       }
     },

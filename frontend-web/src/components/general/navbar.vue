@@ -30,6 +30,21 @@
         <router-link
           active-class="active-link"
           style="text-decoration: none; color: inherit"
+          to="/inicio/historial-academico/alumno"
+        >
+          <div
+            id="clientes"
+            tabindex="1"
+            v-if="UsuarioLoggeado.tipo_usuario === 4"
+          >
+            <img src="./../../assets/svg/enroll.svg" alt="users" />
+            <div id="txt">Historial Matrícula</div>
+          </div>
+        </router-link>
+
+        <router-link
+          active-class="active-link"
+          style="text-decoration: none; color: inherit"
           to="/inicio/matricula"
         >
           <div

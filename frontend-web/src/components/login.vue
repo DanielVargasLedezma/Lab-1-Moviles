@@ -251,7 +251,7 @@ export default {
                 this.invalid = true;
               });
             break;
-          case "3":
+          case "2":
             await ProfesorController.login(this.user)
               .then((res) => {
                 this.setUserLogged(
@@ -275,7 +275,7 @@ export default {
                 this.invalid = true;
               });
             break;
-          case "4":
+          case "3":
             await AlumnoController.login(this.user)
               .then((res) => {
                 this.setUserLogged(
@@ -284,8 +284,10 @@ export default {
                     "",
                     4,
                     res.alumno.nombre,
+                    "",
                     res.alumno.telefono,
                     res.alumno.correo,
+                    res.fecha_nacimiento,
                     res.alumno.carrera.codigo_carrera
                   )
                 );
@@ -301,8 +303,6 @@ export default {
               });
             break;
         }
-      } else {
-        console.log(this.v$);
       }
     },
     checkInput(e) {
