@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Carrera;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Resources\GrupoResource;
 use App\Http\Resources\CarreraResource;
 
 class CarreraController extends Controller
@@ -68,6 +69,16 @@ class CarreraController extends Controller
         //
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Carrera  $carrera
+     * @return \Illuminate\Http\Response
+     */
+    public function gruposCarrera(Carrera $carrera)
+    {
+        return GrupoResource::collection($carrera->grupos);
+    }
     /**
      * Show the form for editing the specified resource.
      *

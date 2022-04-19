@@ -36,22 +36,29 @@
       </p></span
     >
 
-    <span v-if="GET_VISIBILIDAD_COLUMNAS[5]">
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[5]"
+      ><p>
+        {{ curso.anyo_a_llevar }}
+      </p>
+    </span>
+
+    <span v-if="GET_VISIBILIDAD_COLUMNAS[6]">
       <p v-if="curso.num_semestre_a_llevar === '1'">Primer Ciclo</p>
       <p v-else-if="curso.num_semestre_a_llevar === '2'">Segundo Ciclo</p>
     </span>
 
-    <span v-if="GET_VISIBILIDAD_COLUMNAS[6]"
-      ><p>
-        {{ curso.anyo_a_llevar }}
-      </p></span
-    >
-
     <span>
       <select @change="manageAction" id="combo-box-telefonos">
         <option disabled selected>Elegir</option>
-        <option value="1">Editar</option>
-        <option value="2">Eliminar</option>
+        <option v-if="path !== '/inicio/oferta-academica'" value="1">
+          Editar
+        </option>
+        <option v-if="path === '/inicio/oferta-academica'" value="2">
+          Grupos
+        </option>
+        <option v-if="path !== '/inicio/oferta-academica'" value="3">
+          Eliminar
+        </option>
       </select>
     </span>
   </div>
@@ -63,6 +70,14 @@ import { mapMutations, mapGetters } from "vuex";
 import "@/assets/css/TablaFila.css";
 
 export default {
+  data() {
+    return {
+      path: "",
+    };
+  },
+  mounted() {
+    this.path = window.location.pathname;
+  },
   computed: {
     ...mapGetters({
       GET_VISIBILIDAD_COLUMNAS: "TableCursoModule/GET_VISIBILIDAD_COLUMNAS",
@@ -81,12 +96,15 @@ export default {
       SET_MOSTRAR_TABLA: "TableCursoModule/SET_MOSTRAR_TABLA",
     }),
     manageAction: function (e) {
+      this.SET_CURSO_ACTUAL(this.curso);
       switch (e.target.value) {
         case "1":
-          this.SET_CURSO_ACTUAL(this.curso);
           // this.$router.push("/inicio/editar-carrera");
           break;
         case "2":
+          this.$router.push("/inicio/grupos-curso");
+          break;
+        case "3":
           break;
       }
     },

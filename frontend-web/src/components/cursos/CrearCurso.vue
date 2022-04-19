@@ -89,13 +89,19 @@
           <div>
             <section id="wrapper" class="select">
               <div id="div-labels">
-                <label for="carrera">Carrera del Curso</label>
+                <label for="codigo_carrera">Carrera del Curso</label>
               </div>
               <select
-                name="carrera"
-                id="carreraCombo"
+                name="codigo_carrera"
+                id="rolCombo"
                 @change="handleValueChange"
+                @blur="touchInput"
                 :class="[{ error: v$.curso.codigo_carrera.$error }]"
+                :value="
+                  GET_CARRERA_ACTUAL
+                    ? GET_CARRERA_ACTUAL.codigo_carrera
+                    : 'default'
+                "
               >
                 <option value="default" selected="Selected" disabled>
                   Seleccionar
@@ -103,12 +109,18 @@
                 <option
                   v-for="(carrera, index) in carreras"
                   :key="index"
-                  :value="curso.codigo_carrera"
+                  :value="carrera.codigo_carrera"
                 >
                   {{ carrera.nombre }}
                 </option>
               </select>
             </section>
+            <span
+              v-if="v$.curso.codigo_carrera.$error"
+              class="validation-error"
+            >
+              Campo requerido.
+            </span>
           </div>
           <div>
             <section id="wrapper">
@@ -143,6 +155,8 @@
               </span>
             </section>
           </div>
+        </div>
+        <div id="col2">
           <div>
             <section id="wrapper">
               <div id="div-labels">
@@ -182,15 +196,44 @@
           <div>
             <section id="wrapper">
               <div id="div-labels">
-                <label for="num_semestre_a_llevar"
-                  >Semestre donde se cursa</label
+                <label for="anyo_a_llevar">Año en el que se cursa</label>
+              </div>
+              <section id="input-span">
+                <select
+                  name="anyo_a_llevar"
+                  id="rolCombo"
+                  @change="handleValueChange"
+                  @blur="touchInput"
+                  :class="[{ error: v$.curso.anyo_a_llevar.$error }]"
                 >
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option value="Primero">Primer Año</option>
+                  <option value="Segundo">Segundo Año</option>
+                  <option value="Tercer">Tercer Año</option>
+                  <option value="Cuarto">Cuarto Año</option>
+                  <option value="Quinto">Quinto Año</option>
+                </select>
+              </section>
+              <span
+                class="validation-error"
+                v-if="v$.curso.anyo_a_llevar.$error"
+              >
+                Este campo es requerido.
+              </span>
+            </section>
+          </div>
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="num_semestre_a_llevar">Ciclo donde se cursa</label>
               </div>
               <section id="input-span">
                 <select
                   name="num_semestre_a_llevar"
                   id="rolCombo"
-                  @change="handleValueChange1"
+                  @change="handleValueChange"
                   @blur="touchInput"
                   :class="[{ error: v$.curso.num_semestre_a_llevar.$error }]"
                 >
@@ -205,44 +248,10 @@
                 class="validation-error"
                 v-if="v$.curso.num_semestre_a_llevar.$error"
               >
-                Este campo es requerido
+                Este campo es requerido.
               </span>
             </section>
           </div>
-
-          <div>
-            <section id="wrapper">
-              <div id="div-labels">
-                <label for="anyo_a_llevar">Año en el que se cursa</label>
-              </div>
-              <section id="input-span">
-                <select
-                  name="anyo_a_llevar"
-                  id="rolCombo"
-                  @change="handleValueChange1"
-                  @blur="touchInput"
-                  :class="[{ error: v$.curso.anyo_a_llevar.$error }]"
-                >
-                  <option value="default" selected="Selected" disabled>
-                    Seleccionar
-                  </option>
-                  <option value="1">Primer Año</option>
-                  <option value="2">Segundo Año</option>
-                  <option value="3">Tercer Año</option>
-                  <option value="4">Cuarto Año</option>
-                  <option value="5">Quinto Año</option>
-                </select>
-              </section>
-              <span
-                class="validation-error"
-                v-if="v$.curso.anyo_a_llevar.$error"
-              >
-                Este campo es requerido
-              </span>
-            </section>
-          </div>
-
-          <div id="col2"></div>
           <div>
             <section id="wrapper">
               <button type="submit" @click="insertarCurso">Crear Curso</button>
@@ -273,13 +282,14 @@ export default {
     return {
       v$: useValidate(),
       curso: new Curso(),
+      carreras: [],
     };
   },
   validations() {
     return {
       curso: {
         codigo_curso: { required, alpha_with_spaces_special_and_underscore },
-        codigo_carrera: { required, alpha_with_spaces },
+        codigo_carrera: { required, alpha_with_spaces_special_and_underscore },
         nombre: {
           required,
           alpha_with_spaces,
@@ -307,6 +317,8 @@ export default {
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
+
+      GET_CARRERA_ACTUAL: "TableCarreraModule/GET_CARRERA_ACTUAL",
     }),
   },
   async mounted() {
@@ -314,13 +326,28 @@ export default {
       this.$router.push("/inicio");
     }
 
-    this.campoOculto = true;
+    await carreraController
+      .cargarTodas(this.Token)
+      .then((response) => {
+        this.carreras = response;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    if (this.GET_CARRERA_ACTUAL) {
+      this.curso.codigo_carrera = this.GET_CARRERA_ACTUAL.codigo_curso;
+    }
+  },
+  unmounted() {
+    this.SET_CARRERA_ACTUAL(null);
   },
   methods: {
     ...mapMutations({
       LogOut: "LoginModule/logout",
-    }),
 
+      SET_CARRERA_ACTUAL: "TableCarreraModule/SET_CARRERA_ACTUAL",
+    }),
     showHelp(e) {
       switch (e.target.name) {
         case "codigo_curso":
@@ -385,7 +412,7 @@ export default {
         case "nombre":
           this.v$.curso.nombre.$touch();
           break;
-        case "carrera":
+        case "codigo_carrera":
           this.v$.curso.codigo_carrera.$touch();
           break;
         case "creditos":
@@ -402,18 +429,16 @@ export default {
           break;
       }
     },
-    handleValueChange(e) {
-      if (e.target.name === "rol") {
-        this.user.id_rol = e.target.value;
-      } else if (e.target.name === "proyecto") {
-        this.user.id_proyecto = e.target.value;
-      }
-      // console.log(e.target.name);
-    },
-    handleValueChange1: function (e) {
+    handleValueChange: function (e) {
       switch (e.target.name) {
         case "num_semestre_a_llevar":
-          this.ciclo.numero_ciclo = parseInt(e.target.value);
+          this.curso.num_semestre_a_llevar = parseInt(e.target.value);
+          break;
+        case "anyo_a_llevar":
+          this.curso.anyo_a_llevar = e.target.value;
+          break;
+        case "codigo_carrera":
+          this.curso.codigo_carrera = e.target.value;
           break;
       }
     },

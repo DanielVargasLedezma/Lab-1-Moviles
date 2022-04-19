@@ -62,4 +62,14 @@ class Alumno extends Authenticatable
     {
         return $this->belongsTo(Carrera::class, 'codigo_carrera', 'codigo_carrera');
     }
+
+    public function gruposMatriculados()
+    {
+        return $this->hasManyThrough(Grupo::class, Matricula::class, 'cedula_alumno', 'numero_grupo', 'cedula_alumno', 'numero_grupo');
+    }
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class, 'cedula_alumno', 'cedula_alumno');
+    }
 }

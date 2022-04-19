@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Profesor;
 use Illuminate\Http\Request;
+use App\Mail\TemporaryPassword;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\ProfesorResource;
 
@@ -16,7 +17,6 @@ class ProfesorController extends Controller
      */
     public function index()
     {
-        //
         return ProfesorResource::collection(
             Profesor::all()
         );
@@ -40,25 +40,26 @@ class ProfesorController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'cedula_profesor' => 'required|string|unique:profesores',
             'nombre' => 'required|string',
             'telefono' => 'required|numeric',
             'correo' => 'required|email',
-
         ]);
+
+        $password = GenerateTempPassword::generatePasswordTemp($request);
 
         Profesor::create([
             'cedula_profesor' => $request->input('cedula_profesor'),
             'nombre' => $request->input('nombre'),
             'telefono' => $request->input('telefono'),
             'correoE' => $request->input('correo'),
-            'clave' => '123',
+            'clave' => Hash::make($password),
         ]);
 
+        TemporaryPassword::sendMail($request->input('cedula_profesor'), $request->input('nombre'), $request->input('correo'), $password);
 
-        return response (null,201);
+        return response(null, 201);
     }
 
     /**
@@ -94,7 +95,7 @@ class ProfesorController extends Controller
     {
         //
         $request->validate([
-            
+
             'nombre' => 'required|string',
             'telefono' => 'required|numeric',
             'correo' => 'required|email',
@@ -102,11 +103,11 @@ class ProfesorController extends Controller
         ]);
 
         $profesor->update([
-            
+
             'nombre' => $request->input('nombre'),
             'telefono' => $request->input('telefono'),
             'correoE' => $request->input('correo'),
-            
+
         ]);
 
         return response(null, 204);

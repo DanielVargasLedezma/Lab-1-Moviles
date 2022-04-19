@@ -234,23 +234,6 @@ export default {
       LoggedState: "LoginModule/LoggedState",
       Token: "LoginModule/Token",
     }),
-    getFechaDespuesSeis: function () {
-      var digitos = this.ciclo.fecha_inicio.split("-");
-
-      if (digitos.length === 0) {
-        return "";
-      }
-
-      var mes_despues = digitos[1] + 6;
-      var año_despues = digitos[0];
-
-      if (mes_despues > 12) {
-        año_despues += 1;
-        mes_despues = mes_despues - 12;
-      }
-
-      return año_despues + "-" + mes_despues + "-" + digitos[2];
-    },
   },
   async mounted() {
     if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
@@ -270,8 +253,8 @@ export default {
           .then((response) => {
             if (response === 201) {
               swal.fire(
-                "Ciclo Registrado!",
-                "La ciclo ha sido registrada con éxito.",
+                "¡Ciclo Registrado!",
+                "La ciclo ha sido registrado con éxito.",
                 "success"
               );
               this.$router.push("/inicio/ciclos");
@@ -373,7 +356,12 @@ export default {
         mes_despues = "0" + mes_despues;
       }
 
+      if (dia_despues < 10) {
+        dia_despues = "0" + dia_despues;
+      }
+
       this.min_despues = año_despues + "-" + mes_despues + "-" + dia_despues;
+      console.log(this.min_despues);
     },
   },
   resetFinal: function () {

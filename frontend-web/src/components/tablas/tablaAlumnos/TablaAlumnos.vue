@@ -65,7 +65,11 @@ export default {
     this.SET_TEXTO("");
   },
   async mounted() {
-    if (this.UsuarioLoggeado && this.UsuarioLoggeado.tipo_usuario !== 1) {
+    if (
+      this.UsuarioLoggeado &&
+      this.UsuarioLoggeado.tipo_usuario !== 1 &&
+      this.UsuarioLoggeado.tipo_usuario !== 2
+    ) {
       this.$router.push("/inicio");
     }
 

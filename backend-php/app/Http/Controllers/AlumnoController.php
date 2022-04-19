@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Alumno;
 use Illuminate\Http\Request;
+use App\Mail\TemporaryPassword;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\AlumnoResource;
+use App\Http\Resources\GrupoResource;
 
 class AlumnoController extends Controller
 {
@@ -16,7 +18,6 @@ class AlumnoController extends Controller
      */
     public function index()
     {
-        //
         return AlumnoResource::collection(
             Alumno::all()
         );
@@ -40,27 +41,28 @@ class AlumnoController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
-            'cedula_alumno' =>'required|string|unique:alumnos',
+            'cedula_alumno' => 'required|string|unique:alumnos',
             'nombre' => 'required|string',
             'telefono' => 'required|numeric',
             'correoe' => 'required|email',
-            'fecha_nacimiento' => 'required','date',
+            'fecha_nacimiento' => 'required', 'date',
             'codigo_carrera' => 'required|string',
-
         ]);
 
+        $password = GenerateTempPassword::generatePasswordTemp($request);
+
         Alumno::create([
-            'cedula_alumno' =>$request->input('cedula_alumno'),
+            'cedula_alumno' => $request->input('cedula_alumno'),
             'nombre' => $request->input('nombre'),
             'telefono' => $request->input('telefono'),
             'correoE' => $request->input('correoe'),
             'fecha_nacimiento' => $request->input('fecha_nacimiento'),
             'codigo_carrera' => $request->input('codigo_carrera'),
-            'clave' => '123',
-
+            'clave' => Hash::make($password),
         ]);
+
+        TemporaryPassword::sendMail($request->input('cedula_alumno'), $request->input('nombre'), $request->input('correoe'), $password);
 
         return response(null, 201);
     }
@@ -88,6 +90,17 @@ class AlumnoController extends Controller
     }
 
     /**
+     * Retorna los grupos matriculados por un estudiante.
+     *
+     * @param  \App\Models\Alumno  $alumno
+     * @return \Illuminate\Http\Response
+     */
+    public function gruposMatriculados(Alumno $alumno)
+    {
+        return GrupoResource::collection($alumno->gruposMatriculados);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -96,31 +109,23 @@ class AlumnoController extends Controller
      */
     public function update(Request $request, Alumno $alumno)
     {
-        //
         $request->validate([
-            
             'nombre' => 'required|string',
             'telefono' => 'required|numeric',
             'correoe' => 'required|email',
-            'fecha_nacimiento' => 'required','date',
+            'fecha_nacimiento' => 'required', 'date',
             'codigo_carrera' => 'required|string',
-
         ]);
 
         $alumno->update([
-
-            
             'nombre' => $request->input('nombre'),
             'telefono' => $request->input('telefono'),
             'correoE' => $request->input('correoe'),
             'fecha_nacimiento' => $request->input('fecha_nacimiento'),
             'codigo_carrera' => $request->input('codigo_carrera'),
-
-        ]);      
+        ]);
 
         return response(null, 204);
-
-
     }
 
     /**

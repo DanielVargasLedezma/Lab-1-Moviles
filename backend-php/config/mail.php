@@ -36,12 +36,20 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'host' => 'smtp.gmail.com',
+            'port' => 587,
+            'encryption' => 'tls',
+            'username' => 'sistema.matricula.moviles@gmail.com',
+            'password' => 'sistemamatriculamoviles2022',
             'timeout' => null,
+            'auth_mode' => null,
+            /*'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],*/
         ],
 
         'ses' => [
@@ -91,8 +99,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'sistema.matricula.moviles@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'Sistema de Matrícula Estudianti'),
     ],
 
     /*

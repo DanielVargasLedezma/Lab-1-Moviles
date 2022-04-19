@@ -89,7 +89,7 @@
                 <label for="telefono">Teléfono</label>
               </div>
               <section id="input-span">
-                <textarea
+                <input
                   type="text"
                   placeholder="Teléfono del alumno"
                   name="telefono"
@@ -122,7 +122,7 @@
                 <label for="correo">Correo electrónico</label>
               </div>
               <section id="input-span">
-                <textarea
+                <input
                   type="text"
                   placeholder="Correo electrónico del alumno"
                   name="correo"
@@ -149,6 +149,40 @@
               </span>
             </section>
           </div>
+        </div>
+        <div id="col2">
+          <div>
+            <section id="wrapper" class="select">
+              <div id="div-labels">
+                <label for="carrera">Carrera</label>
+              </div>
+              <select
+                name="codigo_carrera"
+                id="rolCombo"
+                @change="handleValueChange"
+                @blur="touchInput"
+                :class="[{ error: v$.alumno.codigo_carrera.$error }]"
+              >
+                <option value="default" selected="Selected" disabled>
+                  Seleccionar
+                </option>
+                <option
+                  v-for="(carrera, index) in carreras"
+                  :key="index"
+                  :value="carrera.codigo_carrera"
+                >
+                  {{ carrera.nombre }}
+                </option>
+              </select>
+            </section>
+            <span
+              class="validation-error"
+              v-if="v$.alumno.codigo_carrera.$error"
+            >
+              Este campo es requerido
+            </span>
+          </div>
+
           <div>
             <section id="wrapper" class="select">
               <div id="div-labels">
@@ -189,33 +223,6 @@
               </div>
             </section>
           </div>
-
-          <div>
-            <section id="wrapper" class="select">
-              <div id="div-labels">
-                <label for="carrera">Carrera</label>
-              </div>
-              <select
-                name="carrera"
-                id="carreraCombo"
-                @change="handleValueChange"
-                :class="[{ error: v$.alumno.codigo_carrera.$error }]"
-              >
-                <option value="default" selected="Selected" disabled>
-                  Seleccionar
-                </option>
-                <option
-                  v-for="(carrera, index) in carreras"
-                  :key="index"
-                  :value="carrera.codigo_carrera"
-                >
-                  {{ carrera.nombre }}
-                </option>
-              </select>
-            </section>
-          </div>
-
-          <div id="col2"></div>
           <div>
             <section id="wrapper">
               <button type="submit" @click="insertarAlumno">
@@ -339,7 +346,7 @@ export default {
       }
     },
     handleValueChange(e) {
-      if (e.target.name === "carrera") {
+      if (e.target.name === "codigo_carrera") {
         this.alumno.codigo_carrera = e.target.value;
       }
       // console.log(e.target.name);

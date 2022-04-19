@@ -47,6 +47,21 @@ class CicloController extends Controller
             'ciclo_activo' => 'required|numeric',
         ]);
 
+        $validation = Ciclo::select()
+            ->where('year', $request->input('year'))
+            ->where('numero_ciclo', $request->input('numero_ciclo'))
+            ->first();
+
+        if (isset($validation)) {
+            return response(
+                [
+                    'message' => 'Ya existe un ciclo registrado con ese número de ciclo y año.',
+                    'data' => $validation
+                ],
+                422
+            );
+        }
+
         if ($request->input('ciclo_activo') === "1") {
             DB::statement('Update GestionAcademica.Ciclos set CICLO_ACTIVO=0');
             DB::statement('commit');
@@ -94,7 +109,44 @@ class CicloController extends Controller
      */
     public function update(Request $request, Ciclo $ciclo)
     {
-        //
+        $request->validate([
+            'numero_ciclo' => 'required|numeric',
+            'year' => 'required|numeric',
+            'fecha_inicio' => 'required|date',
+            'fecha_finalizacion' => 'required|date',
+            'ciclo_activo' => 'required|numeric',
+        ]);
+
+        $validation = Ciclo::select()
+            ->where('year', $request->input('year'))
+            ->where('numero_ciclo', $request->input('numero_ciclo'))
+            ->where('id_ciclo', '<>', $ciclo->id_ciclo)
+            ->first();
+
+        if (isset($validation)) {
+            return response(
+                [
+                    'message' => 'Ya existe un ciclo registrado con ese número de ciclo y año.',
+                    'data' => $validation
+                ],
+                422
+            );
+        }
+
+        if ($request->input('ciclo_activo') === "1") {
+            DB::statement('Update GestionAcademica.Ciclos set CICLO_ACTIVO=0');
+            DB::statement('commit');
+        }
+
+        $ciclo->update([
+            'numero_ciclo' => $request->input('numero_ciclo'),
+            'year' => $request->input('year'),
+            'fecha_inicio' => $request->input('fecha_inicio'),
+            'fecha_finalizacion' => $request->input('fecha_finalizacion'),
+            'ciclo_activo' => $request->input('ciclo_activo'),
+        ]);
+
+        return response(null, 204);
     }
 
     /**

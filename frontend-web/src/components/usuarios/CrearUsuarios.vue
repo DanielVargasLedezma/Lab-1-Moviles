@@ -89,33 +89,60 @@
                 <label for="tipo_usuario">Tipo de Usuario</label>
               </div>
               <section id="input-span">
-                <textarea
-                  type="text"
-                  placeholder="Tipo de Usuario<"
+                <select
                   name="tipo_usuario"
-                  v-model="usuario.tipo_usuario"
-                  @input="touchInput"
+                  id="rolCombo"
+                  @change="handleValueChange"
                   @blur="touchInput"
                   :class="[{ error: v$.usuario.tipo_usuario.$error }]"
+                >
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option value="1">Administrador(a)</option>
+                  <option value="2">Matriculador(a)</option>
+                </select>
+              </section>
+              <span
+                v-if="v$.usuario.tipo_usuario.$error"
+                class="validation-error"
+              >
+                Campo requerido.
+              </span>
+            </section>
+          </div>
+        </div>
+        <div id="col2">
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="correo">Correo electrónico</label>
+              </div>
+              <section id="input-span">
+                <input
+                  type="text"
+                  placeholder="Correo electrónico del usuario"
+                  name="correo"
+                  v-model="usuario.correoE"
+                  @input="touchInput"
+                  @blur="touchInput"
+                  :class="[{ error: v$.usuario.correoE.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.usuario.tipo_usuario.$error }]"
+                  :class="[{ error: v$.usuario.correoE.$error }]"
                 >
                   <img
                     class="helpimg"
-                    name="tipo_usuario"
+                    name="correo"
                     @click="showHelp"
                     src="../../assets/svg/questionsign.svg"
                     alt="help"
                   />
                 </span>
               </section>
-              <span
-                v-if="v$.usuario.tipo_usuario.$error"
-                class="validation-error"
-              >
-                El tipo de usuario es requerido
+              <span v-if="v$.usuario.correoE.$error" class="validation-error">
+                Requerido con formato (xxx@domain.xxx).
               </span>
             </section>
           </div>
@@ -140,11 +167,10 @@
                 </select>
               </section>
               <span class="validation-error" v-if="v$.usuario.estado.$error">
-                Este campo es requerido
+                Este campo es requerido.
               </span>
             </section>
           </div>
-          <div id="col2"></div>
           <div>
             <section id="wrapper">
               <button type="submit" @click="insertarUsuarios">
@@ -159,7 +185,7 @@
 </template>
 
 <script>
-import { required, helpers, numeric } from "@vuelidate/validators";
+import { required, helpers, numeric, email } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 import swal from "sweetalert2";
@@ -193,6 +219,10 @@ export default {
         estado: {
           required,
           numeric,
+        },
+        correoE: {
+          required,
+          email,
         },
       },
     };
@@ -245,8 +275,12 @@ export default {
             "info"
           );
           break;
-        default:
-          console.log("Switch error");
+        case "correo":
+          swal.fire(
+            "Correo del usuario",
+            "En este apartado debe ingresar el correo del usuario a registrar. Debe contar con formato de correo (xxx@domain.xxx).",
+            "info"
+          );
           break;
       }
     },
@@ -259,11 +293,12 @@ export default {
           .then((response) => {
             if (response === 201) {
               swal.fire(
-                "¡Carrera Registrada!",
-                "La carrera ha sido registrada con éxito.",
+                "¡Usuario Registrado!",
+                "El usuario ha sido registrado con éxito.",
                 "success"
               );
-              this.$router.push("/inicio/carreras");
+
+              this.$router.push("/inicio/usuarios");
             }
           })
           .catch((error) => {
@@ -285,6 +320,19 @@ export default {
           break;
         case "estado":
           this.v$.usuario.estado.$touch();
+          break;
+        case "correo":
+          this.v$.usuario.correoE.$touch();
+          break;
+      }
+    },
+    handleValueChange: function (e) {
+      switch (e.target.name) {
+        case "tipo_usuario":
+          this.usuario.tipo_usuario = parseInt(e.target.value);
+          break;
+        case "estado":
+          this.usuario.estado = parseInt(e.target.value);
           break;
       }
     },

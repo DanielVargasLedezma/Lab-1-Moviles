@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Año"],
+      opcionesOrdenado: ["year"],
     };
   },
   unmounted() {
@@ -67,7 +67,7 @@ export default {
       this.$router.push("/inicio");
     }
 
-    this.SET_TABLE_NAME("Ciclos Registradas");
+    this.SET_TABLE_NAME("Ciclos Registrados");
 
     await cicloController
       .cargarCiclos(this.Token)

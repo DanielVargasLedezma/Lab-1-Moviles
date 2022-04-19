@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use App\Mail\TemporaryPassword;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UsuarioResource;
 
@@ -40,24 +41,28 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'cedula' => 'required|string|unique:usuarios,cedula_usuario',
             'nombre' => 'required|string',
             'tipo_usuario' => 'required|numeric',
+            'correo' => 'required|email',
             'estado' => 'required|numeric'
         ]);
+
+        $password = GenerateTempPassword::generatePasswordTemp($request);
+
         Usuario::create([
             'cedula_usuario' => $request->input('cedula'),
             'nombre' => $request->input('nombre'),
             'tipo_usuario' => $request->input('tipo_usuario'),
             'estado' => $request->input('estado'),
-            'clave' => '123',
+            'correo' => $request->input('correo'),
+            'clave' => Hash::make($password),
         ]);
 
+        TemporaryPassword::sendMail($request->input('cedula'), $request->input('nombre'), $request->input('correo'), $password);
+
         return response(null, 201);
-
-
     }
 
     /**

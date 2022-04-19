@@ -65,12 +65,15 @@ export default {
       SET_MOSTRAR_TABLA: "TableCarreraModule/SET_MOSTRAR_TABLA",
     }),
     manageAction: function (e) {
+      this.SET_CARRERA_ACTUAL(this.carrera);
       switch (e.target.value) {
         case "1":
-          this.SET_CARRERA_ACTUAL(this.carrera);
           this.$router.push("/inicio/editar-carrera");
           break;
         case "2":
+          this.$router.push("/inicio/cursos-carrera");
+          break;
+        case "3":
           break;
       }
     },

@@ -27,7 +27,6 @@ export default {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        // console.log(response);
         if (response.status === 200) {
           return response.status;
         }
@@ -114,6 +113,7 @@ export default {
     formData.append("nombre", usuario.nombre);
     formData.append("tipo_usuario", usuario.tipo_usuario);
     formData.append("estado", usuario.estado);
+    formData.append("correo", usuario.correoE);
 
     return await axios
       .post(global.url + "crear-usuario", formData, {

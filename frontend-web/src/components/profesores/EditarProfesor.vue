@@ -16,7 +16,7 @@
                 <label for="nombre">Nombre</label>
               </div>
               <section id="input-span">
-                <textarea
+                <input
                   type="text"
                   placeholder="Nombre del profesor"
                   name="nombre"
@@ -49,7 +49,7 @@
                 <label for="telefono">Teléfono</label>
               </div>
               <section id="input-span">
-                <textarea
+                <input
                   type="text"
                   placeholder="Telefono del profesor"
                   name="telefono"
@@ -82,7 +82,7 @@
                 <label for="correo">Correo Electrónico</label>
               </div>
               <section id="input-span">
-                <textarea
+                <input
                   type="text"
                   placeholder="Correo electrónico del profesor"
                   name="correo"

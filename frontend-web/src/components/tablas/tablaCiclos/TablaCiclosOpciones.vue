@@ -12,14 +12,17 @@
         />
         <h3>Ordenar por</h3>
         <select id="combo-box" @change="cambiarOrdenTabla">
-          <option
+          <option value="id_ciclo" selected="Selected">Por Defecto</option>
+          <option value="year">Año - Ascendente</option>
+          <option value="year">Año - Descendente</option>
+          <!-- <option
             v-for="index in opcionesOrdenado.length * 2"
             :key="index"
             :value="opcionesOrdenado[parseInt((index - 1) / 2)]"
           >
             {{ opcionesOrdenado[parseInt((index - 1) / 2)] }} -
             {{ (index - 1) % 2 == 0 ? "Ascendente" : "Descendente" }}
-          </option>
+          </option> -->
         </select>
       </div>
     </div>

@@ -21,7 +21,6 @@ export default {
         throw err.response;
       });
   },
-
   cargarAlumnos: async (token) => {
     return await axios
       .get(global.url + "alumnos", {
@@ -34,7 +33,6 @@ export default {
         throw err.response;
       });
   },
-
   registrarAlumno: async (alumno, token) => {
     const formData = new FormData();
 
@@ -56,7 +54,6 @@ export default {
         throw error.response;
       });
   },
-
   editarAlumno: async (alumno, token) => {
     const formData = new FormData();
 
@@ -77,5 +74,16 @@ export default {
         throw error.response;
       });
   },
-
+  gruposMatriculados: async (alumno, token) => {
+    return await axios
+      .get(global.url + `grupos/alumno/${alumno.cedula_alumno}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((err) => {
+        throw err.response;
+      });
+  },
 };

@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('cedula_usuario')->primary();
             $table->smallInteger('tipo_usuario');
             $table->string('clave');
+            $table->string('nombre');
+            $table->string('correo');
+            $table->smallInteger('estado');
         });
     }
 

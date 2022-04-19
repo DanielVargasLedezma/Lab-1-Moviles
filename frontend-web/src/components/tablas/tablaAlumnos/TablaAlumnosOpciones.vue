@@ -27,7 +27,7 @@
       <button
         v-if="UsuarioLoggeado.tipo_usuario == 1"
         @click="accionBoton"
-        id="agregar-alumno"
+        id="agregar-usuario"
       >
         <img src="./../../../assets/svg/plus-circle.svg" />Añadir Alumno
       </button>

@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Nombre", "Código", "Carrera"],
+      opcionesOrdenado: ["nombre", "codigo_curso", "carrera.nombre"],
     };
   },
   unmounted() {
@@ -67,18 +67,33 @@ export default {
       this.$router.push("/inicio");
     }
 
-    this.SET_TABLE_NAME("Cursos Registrados");
+    switch (window.location.pathname) {
+      case "/inicio/cursos":
+        this.SET_TABLE_NAME("Cursos Registrados");
 
-    await cursoController
-      .cargarCursos(this.Token)
-      .then((response) => {
-        this.SET_ARRAY(response);
+        await cursoController
+          .cargarCursos(this.Token)
+          .then((response) => {
+            this.SET_ARRAY(response);
+            this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
+          })
+          .catch((error) => {
+            console.error(error);
+            this.SET_ARRAY([]);
+          });
+        break;
+      case "/inicio/cursos-carrera":
+        this.SET_TABLE_NAME(
+          "Cursos Registrados de la carrera " + this.GET_CARRERA_ACTUAL.nombre
+        );
+
+        this.SET_ARRAY(this.GET_CARRERA_ACTUAL.cursos);
         this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
-      })
-      .catch((error) => {
-        console.error(error);
-        this.SET_ARRAY([]);
-      });
+        break;
+      case "/inicio/oferta-academica":
+        this.SET_TABLE_NAME("Cursos Registrados de la carrera ");
+        break;
+    }
   },
   created() {
     this.SET_COLUMNS_TITLE([
@@ -87,9 +102,9 @@ export default {
       "Carrera del Curso",
       "Créditos del Curso",
       "Horas semanales",
-      "Semestre donde se lleva",
       "Año donde se lleva",
-      "",
+      "Ciclo donde se lleva",
+      "Acción",
     ]);
   },
   computed: {
@@ -106,6 +121,8 @@ export default {
       GET_MOSTRAR_TABLA: "TableCursoModule/GET_MOSTRAR_TABLA",
       GET_ARRAY: "TableCursoModule/GET_ARRAY",
       GetTexto: "TableCursoModule/GetTexto",
+
+      GET_CARRERA_ACTUAL: "TableCarreraModule/GET_CARRERA_ACTUAL",
     }),
     listaFiltrada: function () {
       return this.GET_ARRAY.filter((curso) => {

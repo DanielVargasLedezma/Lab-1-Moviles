@@ -89,8 +89,7 @@
                 @blur="checkInput"
                 v-model="user.tipo_usuario"
               />
-              <label for="radio-1" class="radio-label">Administrador</label
-              ><br />
+              <label for="radio-1" class="radio-label">Usuario</label><br />
             </div>
             <div class="radio">
               <input
@@ -102,8 +101,7 @@
                 @blur="checkInput"
                 v-model="user.tipo_usuario"
               />
-              <label for="radio-2" class="radio-label">Matriculador</label
-              ><br />
+              <label for="radio-2" class="radio-label">Profesor</label><br />
             </div>
             <div class="radio">
               <input
@@ -115,19 +113,7 @@
                 @blur="checkInput"
                 v-model="user.tipo_usuario"
               />
-              <label for="radio-3" class="radio-label">Profesor</label>
-            </div>
-            <div class="radio">
-              <input
-                type="radio"
-                id="radio-4"
-                name="tipo_usuario"
-                value="4"
-                @input="checkInput"
-                @blur="checkInput"
-                v-model="user.tipo_usuario"
-              />
-              <label for="radio-4" class="radio-label">Estudiante</label>
+              <label for="radio-3" class="radio-label"> Estudiante</label>
             </div>
           </div>
           <div id="errortext">
@@ -244,7 +230,7 @@ export default {
 
       if (!this.v$.$error) {
         switch (this.user.tipo_usuario) {
-          case "1" || "2":
+          case "1":
             await UserController.login(this.user)
               .then((res) => {
                 this.setUserLogged(

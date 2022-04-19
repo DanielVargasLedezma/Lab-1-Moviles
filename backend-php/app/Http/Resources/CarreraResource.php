@@ -18,6 +18,7 @@ class CarreraResource extends JsonResource
             'codigo_carrera' => $this->codigo_carrera,
             'nombre' => $this->nombre,
             'titulo' => $this->titulo,
+            'cursos' => CursoResource::collection($this->cursos),
         ];
     }
 }

@@ -21,7 +21,6 @@ export default {
         throw err.response;
       });
   },
-
   cargarProfesores: async (token) => {
     return await axios
       .get(global.url + "profesores", {
@@ -34,8 +33,6 @@ export default {
         throw err.response;
       });
   },
-
-
   registrarProfesor: async (profesor, token) => {
     const formData = new FormData();
 
@@ -57,7 +54,6 @@ export default {
         throw error.response;
       });
   },
-
   editarProfesor: async (profesor, token) => {
     const formData = new FormData();
 
@@ -76,7 +72,4 @@ export default {
         throw error.response;
       });
   },
-
-
-
-}; 
+};
