@@ -49,33 +49,59 @@
                 <label for="tipo_usuario">Tipo de Usuario</label>
               </div>
               <section id="input-span">
-                <textarea
-                  type="text"
-                  placeholder="Tipo de Usuario<"
+                <select
                   name="tipo_usuario"
-                  v-model="usuario.tipo_usuario"
-                  @input="touchInput"
+                  id="rolCombo"
+                  @change="handleValueChange"
                   @blur="touchInput"
                   :class="[{ error: v$.usuario.tipo_usuario.$error }]"
+                  :value="usuario.tipo_usuario"
+                >
+                  <option value="default" selected="Selected" disabled>
+                    Seleccionar
+                  </option>
+                  <option value="1">Administrador(a)</option>
+                  <option value="2">Matriculador(a)</option>
+                </select>
+              </section>
+              <span
+                v-if="v$.usuario.tipo_usuario.$error"
+                class="validation-error"
+              >
+                Campo requerido.
+              </span>
+            </section>
+          </div>
+          <div>
+            <section id="wrapper">
+              <div id="div-labels">
+                <label for="correo">Correo electrónico</label>
+              </div>
+              <section id="input-span">
+                <input
+                  type="text"
+                  placeholder="Correo electrónico del usuario"
+                  name="correo"
+                  v-model="usuario.correoE"
+                  @input="touchInput"
+                  @blur="touchInput"
+                  :class="[{ error: v$.usuario.correoE.$error }]"
                 />
                 <span
                   class="question"
-                  :class="[{ error: v$.usuario.tipo_usuario.$error }]"
+                  :class="[{ error: v$.usuario.correoE.$error }]"
                 >
                   <img
                     class="helpimg"
-                    name="tipo_usuario"
+                    name="correo"
                     @click="showHelp"
                     src="../../assets/svg/questionsign.svg"
                     alt="help"
                   />
                 </span>
               </section>
-              <span
-                v-if="v$.usuario.tipo_usuario.$error"
-                class="validation-error"
-              >
-                El tipo de usuario es requerido
+              <span v-if="v$.usuario.correoE.$error" class="validation-error">
+                Requerido con formato (xxx@domain.xxx).
               </span>
             </section>
           </div>
@@ -120,7 +146,7 @@
 </template>
 
 <script>
-import { required, helpers, numeric } from "@vuelidate/validators";
+import { required, helpers, numeric, email } from "@vuelidate/validators";
 import { mapMutations, mapGetters } from "vuex";
 import useValidate from "@vuelidate/core";
 import swal from "sweetalert2";
@@ -156,6 +182,10 @@ export default {
           required,
           numeric,
         },
+        correoE: {
+          required,
+          email,
+        },
       },
     };
   },
@@ -176,6 +206,7 @@ export default {
     this.usuario.nombre = this.GET_USER_ACTUAL.nombre;
     this.usuario.tipo_usuario = this.GET_USER_ACTUAL.tipo_usuario;
     this.usuario.estado = this.GET_USER_ACTUAL.estado;
+    this.usuario.correoE = this.GET_USER_ACTUAL.correoE;
   },
   methods: {
     ...mapMutations({
@@ -211,12 +242,22 @@ export default {
             "info"
           );
           break;
+        case "correo":
+          swal.fire(
+            "Correo del usuario",
+            "En este apartado debe ingresar el correo del usuario a registrar. Debe contar con formato de correo (xxx@domain.xxx).",
+            "info"
+          );
+          break;
       }
     },
     handleValueChange: function (e) {
       switch (e.target.name) {
         case "estado":
           this.usuario.estado = parseInt(e.target.value);
+          break;
+        case "tipo_usuario":
+          this.usuario.tipo_usuario = parseInt(e.target.value);
           break;
       }
     },
@@ -255,6 +296,9 @@ export default {
           break;
         case "estado":
           this.v$.usuario.estado.$touch();
+          break;
+        case "correo":
+          this.v$.usuario.correoE.$touch();
           break;
       }
     },

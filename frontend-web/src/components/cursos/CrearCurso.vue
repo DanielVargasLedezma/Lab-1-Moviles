@@ -6,7 +6,7 @@
       "
     >
       <div id="titulo-container">
-        <h1 id="titulo">Creación de Cusos</h1>
+        <h1 id="titulo">Creación de Cursos</h1>
       </div>
       <div id="addContainer">
         <div id="col1">

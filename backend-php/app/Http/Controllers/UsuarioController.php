@@ -100,12 +100,14 @@ class UsuarioController extends Controller
         $request->validate([
             'nombre' => 'required|string',
             'tipo_usuario' => 'required|numeric',
-            'estado' => 'required|numeric'
+            'estado' => 'required|numeric',
+            'correo' => 'required|email',
         ]);
         $usuario->update([
             'nombre' => $request->input('nombre'),
             'tipo_usuario' => $request->input('tipo_usuario'),
-            'estado' => $request->input('estado')
+            'estado' => $request->input('estado'),
+            'correo' => $request->input('correo'),
         ]);
 
         return response(null, 204);
