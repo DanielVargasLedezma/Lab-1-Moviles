@@ -42,16 +42,14 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
-
-import image from "@/assets/img/edit.png";
+import Swal from "sweetalert2";
 
 import "@/assets/css/TablaFila.css";
+import profesorController from "../../../controllers/profesorController";
 
 export default {
   data() {
-    return {
-      image: image,
-    };
+    return {};
   },
   computed: {
     ...mapGetters({
@@ -60,6 +58,7 @@ export default {
       GET_SERVICES: "TableProfesorModule/GET_SERVICES",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
+      Token: "LoginModule/Token",
     }),
   },
   props: {
@@ -70,13 +69,44 @@ export default {
       SET_PROFESOR_ACTUAL: "TableProfesorModule/SET_PROFESOR_ACTUAL",
       SET_MOSTRAR_TABLA: "TableProfesorModule/SET_MOSTRAR_TABLA",
     }),
-    manageAction: function (e) {
+    manageAction: async function (e) {
       switch (e.target.value) {
         case "1":
           this.SET_PROFESOR_ACTUAL(this.profesor);
           this.$router.push("/inicio/editar-profesor");
           break;
         case "2":
+          break;
+        case "3":
+          await Swal.fire({
+            title: "¿Está seguro de eliminar este profesor?",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              profesorController
+                .eliminarProfesor(this.profesor, this.Token)
+                .then((response) => {
+                  if (response === 204) {
+                    Swal.fire(
+                      "Profesor eliminado!",
+                      "El profesor ha sido eliminado con éxito.",
+                      "success"
+                    );
+
+                    this.$router.push("/inicio");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.data);
+                  Swal.fire("¡Error!", `${error.data.message}`, "error");
+                });
+            } else {
+              Swal.fire("Acción cancelada", "", "info");
+            }
+          });
           break;
       }
     },

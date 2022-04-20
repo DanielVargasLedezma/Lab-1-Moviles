@@ -50,4 +50,9 @@ class Curso extends Model
     {
         return $this->belongsTo(Carrera::class, 'codigo_carrera', 'codigo_carrera');
     }
+
+    public function grupos()
+    {
+        return $this->hasMany(Grupo::class, 'codigo_curso', 'codigo_curso');
+    }
 }

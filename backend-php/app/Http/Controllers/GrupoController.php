@@ -145,6 +145,17 @@ class GrupoController extends Controller
      */
     public function destroy(Grupo $grupo)
     {
-        //
+        $matriculas = $grupo->matriculas()
+            ->first();
+
+        if (isset($matriculas)) {
+            return response([
+                'message' => 'El grupo está asociado a alguna matrícula y no puede ser eliminado por esto.'
+            ], 422);
+        }
+
+        $grupo->delete();
+
+        return response(null, 204);
     }
 }

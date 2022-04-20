@@ -39,4 +39,9 @@ class Ciclo extends Model
      * @var string|null
      */
     const UPDATED_AT = null;
+
+    public function grupos()
+    {
+        return $this->hasMany(Grupo::class, 'id_ciclo', 'id_ciclo');
+    }
 }

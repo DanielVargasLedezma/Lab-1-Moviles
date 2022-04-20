@@ -45,16 +45,14 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
-
-import image from "@/assets/img/edit.png";
+import Swal from "sweetalert2";
 
 import "@/assets/css/TablaFila.css";
+import userController from "../../../controllers/userController";
 
 export default {
   data() {
-    return {
-      image: image,
-    };
+    return {};
   },
   computed: {
     ...mapGetters({
@@ -63,6 +61,7 @@ export default {
       GET_SERVICES: "TableUsuarioModule/GET_SERVICES",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
+      Token: "LoginModule/Token",
     }),
   },
   props: {
@@ -73,21 +72,44 @@ export default {
       SET_USER_ACTUAL: "TableUsuarioModule/SET_USER_ACTUAL",
       SET_MOSTRAR_TABLA: "TableUsuarioModule/SET_MOSTRAR_TABLA",
     }),
-    isCheckedM() {
-      this.SET_USUARIO_ACTUAL(this.usuario);
-    },
-    manageAction: function (e) {
+    manageAction: async function (e) {
+      this.SET_USER_ACTUAL(this.usuario);
       switch (e.target.value) {
         case "1":
-          this.SET_USER_ACTUAL(this.usuario);
           this.$router.push("/inicio/editar-usuario");
           break;
         case "2":
+          await Swal.fire({
+            title: "¿Está seguro de eliminar este grupo?",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              userController
+                .eliminarUsuario(this.usuario, this.Token)
+                .then((response) => {
+                  if (response === 204) {
+                    Swal.fire(
+                      "¡Usuario eliminado!",
+                      "El usuario ha sido eliminado con éxito.",
+                      "success"
+                    );
+
+                    this.$router.push("/inicio");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.data);
+                  Swal.fire("¡Error!", `${error.data.message}`, "error");
+                });
+            } else {
+              Swal.fire("Acción cancelada", "", "info");
+            }
+          });
           break;
       }
-    },
-    ShowModal() {
-      this.SET_MOSTRAR_TABLA(false);
     },
   },
 };

@@ -54,15 +54,14 @@
 import { mapMutations, mapGetters } from "vuex";
 import Swal from "sweetalert2";
 
-import image from "@/assets/img/edit.png";
+import "@/assets/css/TablaFila.css";
 
 import matriculaController from "../../../controllers/matriculaController";
-import "@/assets/css/TablaFila.css";
+import grupoController from "../../../controllers/grupoController";
 
 export default {
   data() {
     return {
-      image: image,
       path: "",
     };
   },
@@ -96,6 +95,35 @@ export default {
           this.$router.push("/inicio/editar-grupo");
           break;
         case "2":
+          await Swal.fire({
+            title: "¿Está seguro de eliminar este grupo?",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              grupoController
+                .eliminarGrupo(this.grupo, this.Token)
+                .then((response) => {
+                  if (response === 204) {
+                    Swal.fire(
+                      "¡Grupo eliminado!",
+                      "El grupo ha sido eliminado con éxito.",
+                      "success"
+                    );
+
+                    this.$router.push("/inicio/oferta-academica");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.data);
+                  Swal.fire("¡Error!", `${error.data.message}`, "error");
+                });
+            } else {
+              Swal.fire("Acción cancelada", "", "info");
+            }
+          });
           break;
         case "3":
           await Swal.fire({
@@ -103,6 +131,7 @@ export default {
             showDenyButton: true,
             confirmButtonText: "Confirmar",
             denyButtonText: `Cancelar`,
+            icon: "warning",
           }).then((result) => {
             if (result.isConfirmed) {
               matriculaController
@@ -115,7 +144,7 @@ export default {
                   if (response === 204) {
                     Swal.fire(
                       "¡Grupo desmatriculado!",
-                      "El grupo ha sido desmatriculado con éxito",
+                      "El grupo ha sido desmatriculado con éxito.",
                       "success"
                     );
 
@@ -132,9 +161,6 @@ export default {
           });
           break;
       }
-    },
-    ShowModal() {
-      this.SET_MOSTRAR_TABLA(false);
     },
   },
 };

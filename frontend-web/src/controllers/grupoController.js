@@ -89,4 +89,16 @@ export default {
         throw error.response;
       });
   },
+  eliminarGrupo: async (grupo, token) => {
+    return await axios
+      .delete(global.url + `grupo/eliminar/${grupo.numero_grupo}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.status;
+      })
+      .catch((error) => {
+        throw error.response;
+      });
+  },
 };

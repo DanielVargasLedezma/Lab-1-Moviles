@@ -15,7 +15,6 @@ class CursoController extends Controller
      */
     public function index()
     {
-        //
         return CursoResource::collection(
             Curso::all()
         );
@@ -39,26 +38,24 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
         $request->validate([
             'codigo_curso' => 'required|string|unique:cursos',
-            'codigo_carrera'=> 'required|string', 
-            'nombre'=> 'required|string',
+            'codigo_carrera' => 'required|string',
+            'nombre' => 'required|string',
             'creditos' => 'required|numeric',
             'horas_semanales' => 'required|numeric',
             'num_semestre_a_llevar' => 'required|numeric',
-            'anyo_a_llevar'=> 'required|string',
-            ]);
+            'anyo_a_llevar' => 'required|string',
+        ]);
 
         Curso::create([
             'codigo_curso' => $request->input('codigo_curso'),
-            'codigo_carrera'=> $request->input('codigo_carrera'), //confirmar con Dani
-            'nombre'=> $request->input('nombre'),
+            'codigo_carrera' => $request->input('codigo_carrera'), //confirmar con Dani
+            'nombre' => $request->input('nombre'),
             'creditos' => $request->input('creditos'),
             'horas_semanales' => $request->input('horas_semanales'),
             'num_semestre_a_llevar' => $request->input('num_semestre_a_llevar'),
-            'anyo_a_llevar'=> $request->input('anyo_a_llevar'),
+            'anyo_a_llevar' => $request->input('anyo_a_llevar'),
         ]);
 
         return response(null, 201);
@@ -95,25 +92,22 @@ class CursoController extends Controller
      */
     public function update(Request $request, Curso $curso)
     {
-        //
         $request->validate([
-            
-            'codigo_carrera'=> 'required|string', 
-            'nombre'=> 'required|string',
+            'codigo_carrera' => 'required|string',
+            'nombre' => 'required|string',
             'creditos' => 'required|numeric',
             'horas_semanales' => 'required|numeric',
             'num_semestre_a_llevar' => 'required|numeric',
-            'anyo_a_llevar'=> 'required|string',
-            ]);
+            'anyo_a_llevar' => 'required|string',
+        ]);
 
         $curso->update([
-            
-            'codigo_carrera'=> $request->input('codigo_carrera'), 
-            'nombre'=> $request->input('nombre'),
+            'codigo_carrera' => $request->input('codigo_carrera'),
+            'nombre' => $request->input('nombre'),
             'creditos' => $request->input('creditos'),
             'horas_semanales' => $request->input('horas_semanales'),
             'num_semestre_a_llevar' => $request->input('num_semestre_a_llevar'),
-            'anyo_a_llevar'=> $request->input('anyo_a_llevar'),
+            'anyo_a_llevar' => $request->input('anyo_a_llevar'),
         ]);
 
         return response(null, 204);
@@ -127,6 +121,17 @@ class CursoController extends Controller
      */
     public function destroy(Curso $curso)
     {
-        //
+        $grupos = $curso->grupos()
+            ->first();
+
+        if (isset($grupos)) {
+            return response([
+                'message' => 'El curso está asociado a algún grupo y no puede ser eliminado por esto.'
+            ], 422);
+        }
+
+        $curso->delete();
+
+        return response(null, 204);
     }
 }

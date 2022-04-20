@@ -56,8 +56,8 @@ class Profesor extends Authenticatable
      */
     const UPDATED_AT = null;
 
-    // public function cursos()
-    // {
-    //     return $this->hasMany(Telefono::class, 'id_corresp', 'id_usuario');
-    // }
+    public function grupos()
+    {
+        return $this->hasMany(Grupo::class, 'cedula_profesor', 'cedula_profesor');
+    }
 }

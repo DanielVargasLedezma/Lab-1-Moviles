@@ -56,4 +56,16 @@ export default {
         throw error.response;
       });
   },
+  eliminarCiclo: async (ciclo, token) => {
+    return await axios
+      .delete(global.url + `ciclo/eliminar/${ciclo.id_ciclo}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.status;
+      })
+      .catch((error) => {
+        throw error.response;
+      });
+  },
 };

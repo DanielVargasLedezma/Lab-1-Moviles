@@ -79,6 +79,7 @@ export default {
             showDenyButton: true,
             confirmButtonText: "Confirmar",
             denyButtonText: `Cancelar`,
+            icon: "warning",
           }).then((result) => {
             if (result.isConfirmed) {
               carreraController
