@@ -43,12 +43,14 @@
 
     <span>
       <select @change="manageAction" id="combo-box-telefonos">
-        <option disabled select="Selected">Elegir</option>
+        <option disabled selected="Selected">Elegir</option>
         <option value="1" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
           Editar
         </option>
         <option value="2">Matricula</option>
-        <option value="3">Historial</option>
+        <option value="3" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
+          Historial
+        </option>
         <option value="4" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
           Eliminar
         </option>
