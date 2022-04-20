@@ -69,7 +69,24 @@ export default {
         );
 
         await alumnoController
-          .matriculas(this.UsuarioLoggeado, this.Token)
+          .matriculas(this.UsuarioLoggeado.cedula, this.Token)
+          .then((response) => {
+            this.SET_ARRAY(response);
+            this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
+          })
+          .catch((error) => {
+            console.error(error);
+            this.SET_ARRAY([]);
+          });
+
+        break;
+      case "/inicio/historial/alumno":
+        this.SET_TABLE_NAME(
+          `Historial Académica de ${this.GET_ALUMNO_ACTUAL.nombre}`
+        );
+
+        await alumnoController
+          .matriculas(this.GET_ALUMNO_ACTUAL.cedula_alumno, this.Token)
           .then((response) => {
             this.SET_ARRAY(response);
             this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
@@ -96,6 +113,8 @@ export default {
     ...mapGetters({
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
       Token: "LoginModule/Token",
+
+      GET_ALUMNO_ACTUAL: "TableAlumnoModule/GET_ALUMNO_ACTUAL",
 
       GetOpcionComboBoxReverse: "TableHistorialModule/GetOpcionComboBoxReverse",
       GET_VISIBILIDAD_COLUMNAS: "TableHistorialModule/GET_VISIBILIDAD_COLUMNAS",

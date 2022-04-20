@@ -128,6 +128,11 @@ const routes = [
         component: EditarAlumno,
       },
       {
+        path: "historial/alumno",
+        name: "Historial de Alumno",
+        component: TablaHistorial,
+      },
+      {
         path: "profesores",
         name: "Profesores",
         component: TablaProfesores,

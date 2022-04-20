@@ -42,6 +42,8 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
 
     Route::post('/carrera/editar/{carrera}', [CarreraController::class, 'update']);
 
+    Route::delete('/carrera/eliminar/{carrera}', [CarreraController::class, 'destroy']);
+
     Route::get('/cursos', [CursoController::class, 'index']);
 
     Route::post('/crear-cursos', [CursoController::class, 'store']);

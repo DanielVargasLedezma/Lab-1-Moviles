@@ -51,4 +51,16 @@ export default {
         throw error.response;
       });
   },
+  eliminarCarrera: async (carrera, token) => {
+    return await axios
+      .delete(global.url + `carrera/eliminar/${carrera.codigo_carrera}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.status;
+      })
+      .catch((error) => {
+        throw error.response;
+      });
+  },
 };

@@ -83,7 +83,7 @@ export default {
         return response.status;
       })
       .catch((error) => {
-        throw error;
+        throw error.response;
       });
   },
   gruposMatriculados: async (alumno, token) => {
@@ -98,9 +98,9 @@ export default {
         throw err.response;
       });
   },
-  matriculas: async (alumno, token) => {
+  matriculas: async (cedula, token) => {
     return await axios
-      .get(global.url + `alumno/matriculas/${alumno.cedula}`, {
+      .get(global.url + `alumno/matriculas/${cedula}`, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {

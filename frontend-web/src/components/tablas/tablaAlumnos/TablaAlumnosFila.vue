@@ -43,12 +43,13 @@
 
     <span>
       <select @change="manageAction" id="combo-box-telefonos">
-        <option disabled selected>Elegir</option>
+        <option disabled select="Selected">Elegir</option>
         <option value="1" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
           Editar
         </option>
         <option value="2">Matricula</option>
-        <option value="3" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
+        <option value="3">Historial</option>
+        <option value="4" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
           Eliminar
         </option>
       </select>
@@ -100,10 +101,12 @@ export default {
           this.$router.push("/inicio/matricula-alumno/cursos");
           break;
         case "3":
+          this.$router.push("/inicio/historial/alumno");
+          break;
+        case "4":
           await Swal.fire({
             title: "¿Está seguro de eliminar este alumno del sistema?",
             showDenyButton: true,
-            showCancelButton: true,
             confirmButtonText: "Confirmar",
             denyButtonText: `Cancelar`,
           }).then((result) => {
