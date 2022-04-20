@@ -41,8 +41,12 @@ export default {
   editarCurso: async (curso, token) => {
     const formData = new FormData();
 
+    formData.append("codigo_carrera", curso.codigo_carrera);
     formData.append("nombre", curso.nombre);
-    formData.append("titulo", curso.titulo);
+    formData.append("creditos", curso.creditos);
+    formData.append("horas_semanales", curso.horas_semanales);
+    formData.append("num_semestre_a_llevar", curso.num_semestre_a_llevar);
+    formData.append("anyo_a_llevar", curso.anyo_a_llevar);
 
     return await axios
       .post(global.url + `curso/editar/${curso.codigo_curso}`, formData, {

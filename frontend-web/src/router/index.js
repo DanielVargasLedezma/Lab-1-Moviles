@@ -9,6 +9,7 @@ import EditarGrupo from "@/components/grupos/EditarGrupo.vue";
 import CrearGrupo from "@/components/grupos/CrearGrupo.vue";
 
 import TablaCursos from "../components/tablas/tablaCursos/TablaCursos.vue";
+import EditarCurso from "@/components/cursos/EditarCursos.vue";
 import CrearCurso from "@/components/cursos/CrearCurso.vue";
 
 import TablaCiclos from "../components/tablas/tablaCiclos/TablaCiclos.vue";
@@ -76,6 +77,11 @@ const routes = [
         path: "crear-cursos",
         name: "Crear Cursos",
         component: CrearCurso,
+      },
+      {
+        path: "editar-curso",
+        name: "Editar Curso",
+        component: EditarCurso,
       },
       {
         path: "ciclos",

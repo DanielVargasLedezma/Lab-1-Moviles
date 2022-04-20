@@ -99,7 +99,7 @@ export default {
       this.SET_CURSO_ACTUAL(this.curso);
       switch (e.target.value) {
         case "1":
-          // this.$router.push("/inicio/editar-carrera");
+          this.$router.push("/inicio/editar-curso");
           break;
         case "2":
           this.$router.push("/inicio/grupos-curso");

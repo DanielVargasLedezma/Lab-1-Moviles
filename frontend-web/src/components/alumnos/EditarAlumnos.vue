@@ -150,40 +150,36 @@
             </section>
           </div>
           <div>
-            <section id="wrapper">
+            <section id="wrapper" class="select">
               <div id="div-labels">
-                <label for="codigo_carrera">Carrera </label>
+                <label for="carrera">Carrera</label>
               </div>
-              <section id="input-span">
-                <textarea
-                  type="text"
-                  placeholder="Teléfono del alumno"
-                  name="codigo_carrera"
-                  v-model="alumno.codigo_carrera"
-                  @input="touchInput"
-                  @blur="touchInput"
-                  :class="[{ error: v$.alumno.codigo_carrera.$error }]"
-                />
-                <span
-                  class="question"
-                  :class="[{ error: v$.alumno.codigo_carrera.$error }]"
-                >
-                  <img
-                    class="helpimg"
-                    name="codigo_carrera"
-                    @click="showHelp"
-                    src="../../assets/svg/questionsign.svg"
-                    alt="help"
-                  />
-                </span>
-              </section>
-              <span
-                v-if="v$.alumno.codigo_carrera.$error"
-                class="validation-error"
+              <select
+                name="codigo_carrera"
+                id="rolCombo"
+                @change="handleValueChange"
+                @blur="touchInput"
+                :class="[{ error: v$.alumno.codigo_carrera.$error }]"
+                :value="alumno.codigo_carrera"
               >
-                La carrera del alumno es requerida
-              </span>
+                <option value="default" selected="Selected" disabled>
+                  Seleccionar
+                </option>
+                <option
+                  v-for="(carrera, index) in carreras"
+                  :key="index"
+                  :value="carrera.codigo_carrera"
+                >
+                  {{ carrera.nombre }}
+                </option>
+              </select>
             </section>
+            <span
+              class="validation-error"
+              v-if="v$.alumno.codigo_carrera.$error"
+            >
+              Este campo es requerido
+            </span>
           </div>
 
           <div id="col2"></div>
@@ -218,6 +214,7 @@ export default {
     return {
       v$: useValidate(),
       alumno: new Alumno(),
+      carreras: [],
     };
   },
   validations() {
@@ -252,7 +249,16 @@ export default {
     this.alumno.correoe = this.GET_ALUMNO_ACTUAL.correoe;
     this.alumno.fecha_nacimiento =
       this.GET_ALUMNO_ACTUAL.fecha_nacimiento.substring(0, 10);
-    this.alumno.codigo_carrera = this.GET_ALUMNO_ACTUAL.codigo_carrera;
+    this.alumno.codigo_carrera = this.GET_ALUMNO_ACTUAL.carrera.codigo_carrera;
+
+    await carreraController
+      .cargarTodas(this.Token)
+      .then((res) => {
+        this.carreras = res;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
 
   methods: {
@@ -304,6 +310,12 @@ export default {
           );
           break;
       }
+    },
+    handleValueChange(e) {
+      if (e.target.name === "codigo_carrera") {
+        this.alumno.codigo_carrera = e.target.value;
+      }
+      // console.log(e.target.name);
     },
     async editarAlumno() {
       await this.v$.$validate();

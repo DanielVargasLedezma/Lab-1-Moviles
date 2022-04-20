@@ -48,6 +48,8 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
 
     Route::post('/crear-cursos', [CursoController::class, 'store']);
 
+    Route::post('/curso/editar/{curso}', [CursoController::class, 'update']);
+
     Route::get('/ciclos', [CicloController::class, 'index']);
 
     Route::post('/crear-ciclo', [CicloController::class, 'store']);
