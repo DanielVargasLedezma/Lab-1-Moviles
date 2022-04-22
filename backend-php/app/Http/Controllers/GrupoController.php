@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
 use App\Http\Resources\GrupoResource;
+use App\Http\Resources\AlumnoResource;
 
 class GrupoController extends Controller
 {
@@ -41,6 +42,18 @@ class GrupoController extends Controller
         return GrupoResource::collection(
             Grupo::where('codigo_curso', $codigo_curso)
                 ->get()
+        );
+    }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function alumnosMatriculados(Grupo $grupo)
+    {
+        return AlumnoResource::collection(
+            $grupo->alumnosMatriculados
         );
     }
 

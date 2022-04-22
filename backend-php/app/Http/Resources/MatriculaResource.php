@@ -18,7 +18,7 @@ class MatriculaResource extends JsonResource
             'numero_matricula' => $this->numero_matricula,
             'alumno' => new AlumnoResource($this->alumno),
             'grupo' => new GrupoResource($this->grupo),
-            'note' => $this->nota,
+            'nota' => $this->nota,
         ];
     }
 }
