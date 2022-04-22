@@ -47,12 +47,17 @@
         <option value="1" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
           Editar
         </option>
-        <option value="2">Matricula</option>
+        <option value="2" v-if="this.UsuarioLoggeado.tipo_usuario !== 3">
+          Matricula
+        </option>
         <option value="3" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
           Historial
         </option>
         <option value="4" v-if="this.UsuarioLoggeado.tipo_usuario === 1">
           Eliminar
+        </option>
+        <option value="5" v-if="this.UsuarioLoggeado.tipo_usuario === 3">
+          Editar nota
         </option>
       </select>
     </span>
@@ -135,6 +140,9 @@ export default {
               Swal.fire("Acción cancelada", "", "info");
             }
           });
+          break;
+        case "5":
+          this.$router.push("/inicio/grupos-asignados/alumnos/asignar-nota");
           break;
       }
     },

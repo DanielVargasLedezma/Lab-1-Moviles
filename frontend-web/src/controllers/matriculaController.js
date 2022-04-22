@@ -30,7 +30,35 @@ export default {
         return response.status;
       })
       .catch((error) => {
-        throw error;
+        throw error.response;
+      });
+  },
+  obtenerMatricula: async (numero_grupo, cedula_alumno, token) => {
+    return await axios
+      .get(global.url + `matricula/${cedula_alumno}/${numero_grupo}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response;
+      });
+  },
+  editarNota: async (matricula, token) => {
+    const formData = new FormData();
+
+    formData.append("nota", matricula.nota);
+
+    return await axios
+      .post(global.url + `registrar-nota/${matricula.numero_matricula}`, formData, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.status;
+      })
+      .catch((error) => {
+        throw error.response;
       });
   },
 };

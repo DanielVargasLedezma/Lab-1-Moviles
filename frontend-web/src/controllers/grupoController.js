@@ -28,6 +28,18 @@ export default {
         throw err.response;
       });
   },
+  cargarAlumnosDelGrupo: async (grupo, token) => {
+    return await axios
+      .get(global.url + `alumnos/grupo/${grupo.numero_grupo}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((err) => {
+        throw err.response;
+      });
+  },
   cargarGruposDeCarrera: async (token, codigo_carrera) => {
     return await axios
       .get(global.url + `grupos/carrera/${codigo_carrera}`, {

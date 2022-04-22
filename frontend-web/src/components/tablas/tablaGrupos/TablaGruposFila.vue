@@ -45,6 +45,9 @@
         <option v-if="path === '/inicio/matricula-alumno/cursos'" value="3">
           Desmatricular
         </option>
+        <option v-if="path === '/inicio/grupos-asignados'" value="4">
+          Alumnos
+        </option>
       </select>
     </span>
   </div>
@@ -159,6 +162,9 @@ export default {
               Swal.fire("Acción cancelada", "", "info");
             }
           });
+          break;
+        case "4":
+          this.$router.push("/inicio/grupos-asignados/alumnos");
           break;
       }
     },

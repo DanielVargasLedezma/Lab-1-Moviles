@@ -66,4 +66,9 @@ class Grupo extends Model
     {
         return $this->hasMany(Matricula::class, 'numero_grupo', 'numero_grupo');
     }
+
+    public function alumnosMatriculados()
+    {
+        return $this->hasManyThrough(Alumno::class, Matricula::class, 'numero_grupo', 'cedula_alumno', 'numero_grupo', 'cedula_alumno');
+    }
 }

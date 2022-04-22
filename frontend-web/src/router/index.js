@@ -34,6 +34,8 @@ import OfertaAcademica from "../components/ofertaAcademica/ofertaAcademica.vue";
 
 import CrearMatricula from "@/components/matricula/CrearMatricula.vue";
 
+import EditarNota from "@/components/matricula/EditarNota.vue";
+
 import Login from "../components/login.vue";
 import Home from "../components/home.vue";
 
@@ -187,6 +189,21 @@ const routes = [
         path: "historial-academico/alumno",
         name: "Historial Academico",
         component: TablaHistorial,
+      },
+      {
+        path: "grupos-asignados",
+        name: "Grupos Asignados",
+        component: TablaGrupos,
+      },
+      {
+        path: "grupos-asignados/alumnos",
+        name: "Alumnos registrados",
+        component: TablaAlumnos,
+      },
+      {
+        path: "grupos-asignados/alumnos/asignar-nota",
+        name: "Asignar nota a alumno registrado",
+        component: EditarNota,
       },
     ],
   },

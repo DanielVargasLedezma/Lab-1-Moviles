@@ -66,6 +66,8 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
 
     Route::get('/grupos/carrera/{carrera}', [CarreraController::class, 'gruposCarrera']);
 
+    Route::get('/alumnos/grupo/{grupo}', [GrupoController::class, 'alumnosMatriculados']);
+
     Route::post('/crear-grupo', [GrupoController::class, 'store']);
 
     Route::post('/grupos/editar/{grupo}', [GrupoController::class, 'update']);
@@ -87,20 +89,24 @@ Route::middleware('auth:sanctum')->prefix('LME')->group(function () {
     Route::get('/profesores', [ProfesorController::class, 'index']);
 
     Route::post('/crear-profesor', [ProfesorController::class, 'store']);
-
+    
     Route::post('/profesor/editar/{profesor}', [ProfesorController::class, 'update']);
-
+    
     Route::delete('/profesor/eliminar/{profesor}', [ProfesorController::class, 'destroy']);
-
+    
     Route::get('/usuarios', [UsuarioController::class, 'index']);
-
+    
     Route::post('/crear-usuario', [UsuarioController::class, 'store']);
-
+    
     Route::post('/usuario/editar/{usuario}', [UsuarioController::class, 'update']);
-
+    
     Route::delete('/usuario/eliminar/{usuario}', [UsuarioController::class, 'destroy']);
-
+    
     Route::post('/crear-matricula', [MatriculaController::class, 'store']);
-
+    
     Route::delete('/desmatricular/{cedula_alumno}/{numero_grupo}', [MatriculaController::class, 'destroy']);
+    
+    Route::get('/matricula/{cedula_alumno}/{numero_grupo}', [MatriculaController::class, 'obtenerMatricula']);
+
+    Route::post('/registrar-nota/{matricula}', [MatriculaController::class, 'update']);
 });
