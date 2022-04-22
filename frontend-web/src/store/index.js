@@ -9,6 +9,7 @@ import TableGrupoModule from "./modules/tableGrupoModule";
 import TableAlumnoModule from "./modules/tableAlumnoModule";
 import TableProfesorModule from "./modules/tableProfesorModule";
 import TableUsuarioModule from "./modules/tableUsuarioModule.js";
+import TableHistorialModule from "./modules/tableHistorialModule.js";
 
 export default createStore({
   modules: {
@@ -21,5 +22,6 @@ export default createStore({
     TableAlumnoModule,
     TableProfesorModule,
     TableUsuarioModule,
+    TableHistorialModule,
   },
 });

@@ -124,6 +124,24 @@ class CarreraController extends Controller
      */
     public function destroy(Carrera $carrera)
     {
-        //
+        $cursos = $carrera->cursos()->first();
+
+        if (isset($cursos)) {
+            return response([
+                'message' => 'La carrera posee cursos relacionados y por esto no puede ser eliminada.'
+            ], 422);
+        }
+
+        $alumnos = $carrera->alumnos()->first();
+
+        if (isset($alumnos)) {
+            return response([
+                'message' => 'La carrera posee alumnos relacionados y por esto no puede ser eliminada.'
+            ], 422);
+        }
+
+        $carrera->delete();
+
+        return response(null, 204);
     }
 }

@@ -123,7 +123,7 @@
                   @change="handleValueChange"
                   @blur="touchInput"
                   :class="[{ error: v$.grupo.dia_dos.$error }]"
-                  :value="grupo.dia_dos"
+                  :value="grupo.dia_dos !== 'null' ? grupo.dia_dos : ''"
                 >
                   <option value="" selected="Selected">Seleccionar</option>
                   <option value="L">Lunes</option>
@@ -302,8 +302,6 @@ export default {
 
     this.grupo.dia_uno = this.GET_Grupo_ACTUAL.dia_uno;
     this.grupo.dia_dos = this.GET_Grupo_ACTUAL.dia_dos;
-
-    console.log(this.grupo);
 
     await profesorController
       .cargarProfesores(this.Token)

@@ -48,8 +48,11 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
+import Swal from "sweetalert2";
 
 import "@/assets/css/TablaFila.css";
+
+import cicloController from "../../../controllers/cicloController";
 
 export default {
   computed: {
@@ -59,6 +62,7 @@ export default {
       GET_SERVICES: "TableCicloModule/GET_SERVICES",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
+      Token: "LoginModule/Token",
     }),
   },
   props: {
@@ -69,14 +73,44 @@ export default {
       SET_CICLO_ACTUAL: "TableCicloModule/SET_CICLO_ACTUAL",
       SET_MOSTRAR_TABLA: "TableCicloModule/SET_MOSTRAR_TABLA",
     }),
-    manageAction: function (e) {
+    manageAction: async function (e) {
+      this.SET_CICLO_ACTUAL(this.ciclo);
       switch (e.target.value) {
         case "1":
-          this.SET_CICLO_ACTUAL(this.ciclo);
           this.$router.push("/inicio/editar-ciclo");
-
           break;
         case "2":
+          break;
+        case "3":
+          await Swal.fire({
+            title: "¿Está seguro de eliminar este ciclo?",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              cicloController
+                .eliminarCiclo(this.ciclo, this.Token)
+                .then((response) => {
+                  if (response === 204) {
+                    Swal.fire(
+                      "¡Ciclo eliminado!",
+                      "El ciclo ha sido eliminado con éxito.",
+                      "success"
+                    );
+
+                    this.$router.push("/inicio");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.data);
+                  Swal.fire("¡Error!", `${error.data.message}`, "error");
+                });
+            } else {
+              Swal.fire("Acción cancelada", "", "info");
+            }
+          });
           break;
       }
     },

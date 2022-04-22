@@ -293,9 +293,6 @@ export default {
       this.GET_CURSO_ACTUAL.num_semestre_a_llevar;
     this.curso.anyo_a_llevar = this.GET_CURSO_ACTUAL.anyo_a_llevar;
 
-    console.log(this.curso);
-    console.log(this.GET_CURSO_ACTUAL);
-
     await carreraController
       .cargarTodas(this.Token)
       .then((response) => {

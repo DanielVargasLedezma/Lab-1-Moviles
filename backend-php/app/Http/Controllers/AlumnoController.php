@@ -6,8 +6,9 @@ use App\Models\Alumno;
 use Illuminate\Http\Request;
 use App\Mail\TemporaryPassword;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Resources\AlumnoResource;
 use App\Http\Resources\GrupoResource;
+use App\Http\Resources\AlumnoResource;
+use App\Http\Resources\MatriculaResource;
 
 class AlumnoController extends Controller
 {
@@ -20,6 +21,18 @@ class AlumnoController extends Controller
     {
         return AlumnoResource::collection(
             Alumno::all()
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function matriculasAlumno(Alumno $alumno)
+    {
+        return MatriculaResource::collection(
+            $alumno->matriculas
         );
     }
 
@@ -136,7 +149,17 @@ class AlumnoController extends Controller
      */
     public function destroy(Alumno $alumno)
     {
-        //
+        $matriculas = $alumno->matriculas;
+
+        if (isset($matriculas)) {
+            return response([
+                'message' => 'El estudiante posee grupos matriculados y por esto no puede ser eliminado.'
+            ], 422);
+        }
+
+        $alumno->delete();
+
+        return response(null, 204);
     }
 
     public function login(Request $request)

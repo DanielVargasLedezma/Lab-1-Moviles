@@ -74,9 +74,33 @@ export default {
         throw error.response;
       });
   },
+  eliminarAlumno: async (alumno, token) => {
+    return await axios
+      .delete(global.url + `alumno/eliminar/${alumno.cedula_alumno}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.status;
+      })
+      .catch((error) => {
+        throw error.response;
+      });
+  },
   gruposMatriculados: async (alumno, token) => {
     return await axios
       .get(global.url + `grupos/alumno/${alumno.cedula_alumno}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((err) => {
+        throw err.response;
+      });
+  },
+  matriculas: async (cedula, token) => {
+    return await axios
+      .get(global.url + `alumno/matriculas/${cedula}`, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {

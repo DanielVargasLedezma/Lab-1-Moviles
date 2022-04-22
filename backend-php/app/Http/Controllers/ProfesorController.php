@@ -121,7 +121,18 @@ class ProfesorController extends Controller
      */
     public function destroy(Profesor $profesor)
     {
-        //
+        $grupos = $profesor->grupos()
+            ->first();
+
+        if (isset($grupos)) {
+            return response([
+                'message' => 'El profesor está asociado a algun grupo y no puede ser eliminado por esto.'
+            ], 422);
+        }
+
+        $profesor->delete();
+
+        return response(null, 204);
     }
 
     public function login(Request $request)

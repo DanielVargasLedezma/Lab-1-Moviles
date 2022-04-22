@@ -25,7 +25,7 @@
 
     <span>
       <select @change="manageAction" id="combo-box-telefonos">
-        <option disabled selected>Elegir</option>
+        <option disabled selected="Selected">Elegir</option>
         <option value="1">Editar</option>
         <option value="2">Cursos</option>
         <option value="3">Eliminar</option>
@@ -36,16 +36,15 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
-
-import image from "@/assets/img/edit.png";
+import Swal from "sweetalert2";
 
 import "@/assets/css/TablaFila.css";
 
+import carreraController from "../../../controllers/carreraController";
+
 export default {
   data() {
-    return {
-      image: image,
-    };
+    return {};
   },
   computed: {
     ...mapGetters({
@@ -54,6 +53,7 @@ export default {
       GET_SERVICES: "TableCarreraModule/GET_SERVICES",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
+      Token: "LoginModule/Token",
     }),
   },
   props: {
@@ -64,7 +64,7 @@ export default {
       SET_CARRERA_ACTUAL: "TableCarreraModule/SET_CARRERA_ACTUAL",
       SET_MOSTRAR_TABLA: "TableCarreraModule/SET_MOSTRAR_TABLA",
     }),
-    manageAction: function (e) {
+    manageAction: async function (e) {
       this.SET_CARRERA_ACTUAL(this.carrera);
       switch (e.target.value) {
         case "1":
@@ -74,11 +74,37 @@ export default {
           this.$router.push("/inicio/cursos-carrera");
           break;
         case "3":
+          await Swal.fire({
+            title: "¿Está seguro de eliminar este alumno del sistema?",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              carreraController
+                .eliminarCarrera(this.carrera, this.Token)
+                .then((response) => {
+                  if (response === 204) {
+                    Swal.fire(
+                      "Carrera eliminada!",
+                      "La carrera ha sido eliminada con éxito.",
+                      "success"
+                    );
+
+                    this.$router.push("/inicio");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.data);
+                  Swal.fire("¡Error!", `${error.data.message}`, "error");
+                });
+            } else {
+              Swal.fire("Acción cancelada", "", "info");
+            }
+          });
           break;
       }
-    },
-    ShowModal() {
-      this.SET_MOSTRAR_TABLA(false);
     },
   },
 };

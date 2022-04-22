@@ -28,6 +28,8 @@ import TableUsuario from "../components/tablas/tablaUsuarios/TablaUsuarios.vue";
 import EditarUsuarios from "@/components/usuarios/EditarUsuarios.vue";
 import CrearUsuarios from "@/components/usuarios/CrearUsuarios.vue";
 
+import TablaHistorial from "../components/tablas/tablaHistorialAcademico/TablaHistorial.vue";
+
 import OfertaAcademica from "../components/ofertaAcademica/ofertaAcademica.vue";
 
 import CrearMatricula from "@/components/matricula/CrearMatricula.vue";
@@ -132,6 +134,11 @@ const routes = [
         component: EditarAlumno,
       },
       {
+        path: "historial/alumno",
+        name: "Historial de Alumno",
+        component: TablaHistorial,
+      },
+      {
         path: "profesores",
         name: "Profesores",
         component: TablaProfesores,
@@ -175,6 +182,11 @@ const routes = [
         path: "matricula-alumno/matricular",
         name: "Matricular grupos a Alumno",
         component: CrearMatricula,
+      },
+      {
+        path: "historial-academico/alumno",
+        name: "Historial Academico",
+        component: TablaHistorial,
       },
     ],
   },

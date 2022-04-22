@@ -157,6 +157,17 @@ class CicloController extends Controller
      */
     public function destroy(Ciclo $ciclo)
     {
-        //
+        $grupos = $ciclo->grupos()
+            ->first();
+
+        if (isset($grupos)) {
+            return response([
+                'message' => 'El ciclo está asociado a algun grupo y no puede ser eliminado por esto.'
+            ], 422);
+        }
+
+        $ciclo->delete();
+
+        return response(null, 204);
     }
 }

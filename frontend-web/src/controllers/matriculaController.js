@@ -21,9 +21,11 @@ export default {
         throw error.response;
       });
   },
-  desmatricular: async (numero_grupo, cedula_alumno) => {
+  desmatricular: async (numero_grupo, cedula_alumno, token) => {
     return await axios
-      .delete(global.url + `desmatricular/${cedula_alumno}/${numero_grupo}`)
+      .delete(global.url + `desmatricular/${cedula_alumno}/${numero_grupo}`, {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((response) => {
         return response.status;
       })

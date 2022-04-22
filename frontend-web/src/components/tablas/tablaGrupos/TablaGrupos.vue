@@ -65,7 +65,8 @@ export default {
     if (
       this.UsuarioLoggeado &&
       this.UsuarioLoggeado.tipo_usuario !== 1 &&
-      this.UsuarioLoggeado.tipo_usuario !== 2
+      this.UsuarioLoggeado.tipo_usuario !== 2 &&
+      this.UsuarioLoggeado.tipo_usuario !== 3
     ) {
       this.$router.push("/inicio");
     }

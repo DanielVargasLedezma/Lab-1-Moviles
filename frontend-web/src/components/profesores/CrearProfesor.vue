@@ -288,6 +288,7 @@ export default {
           break;
         case "telefono":
           this.v$.profesor.telefono.$touch();
+          break;
         case "correo":
           this.v$.profesor.correoE.$touch();
           break;

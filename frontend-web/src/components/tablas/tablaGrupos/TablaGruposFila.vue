@@ -29,7 +29,7 @@
     </span>
 
     <span v-if="GET_VISIBILIDAD_COLUMNAS[4]">
-      <p v-if="grupo.dia_dos">
+      <p v-if="grupo.dia_dos !== 'null'">
         {{ grupo.dia_uno }} / {{ grupo.dia_dos }} - {{ grupo.horario }}
       </p>
       <p v-else>{{ grupo.dia_uno }} - {{ grupo.horario }}</p>
@@ -52,15 +52,16 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
-
-import image from "@/assets/img/edit.png";
+import Swal from "sweetalert2";
 
 import "@/assets/css/TablaFila.css";
+
+import matriculaController from "../../../controllers/matriculaController";
+import grupoController from "../../../controllers/grupoController";
 
 export default {
   data() {
     return {
-      image: image,
       path: "",
     };
   },
@@ -73,7 +74,10 @@ export default {
       GET_MODAL_NUM: "TableGrupoModule/GET_MODAL_NUM",
       GET_SERVICES: "TableGrupoModule/GET_SERVICES",
 
+      GET_ALUMNO_ACTUAL: "TableAlumnoModule/GET_ALUMNO_ACTUAL",
+
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
+      Token: "LoginModule/Token",
     }),
   },
   props: {
@@ -84,18 +88,79 @@ export default {
       SET_GRUPO_ACTUAL: "TableGrupoModule/SET_GRUPO_ACTUAL",
       SET_MOSTRAR_TABLA: "TableGrupoModule/SET_MOSTRAR_TABLA",
     }),
-    manageAction: function (e) {
+    manageAction: async function (e) {
+      this.SET_GRUPO_ACTUAL(this.grupo);
       switch (e.target.value) {
         case "1":
-          this.SET_GRUPO_ACTUAL(this.grupo);
           this.$router.push("/inicio/editar-grupo");
           break;
         case "2":
+          await Swal.fire({
+            title: "¿Está seguro de eliminar este grupo?",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              grupoController
+                .eliminarGrupo(this.grupo, this.Token)
+                .then((response) => {
+                  if (response === 204) {
+                    Swal.fire(
+                      "¡Grupo eliminado!",
+                      "El grupo ha sido eliminado con éxito.",
+                      "success"
+                    );
+
+                    this.$router.push("/inicio/oferta-academica");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.data);
+                  Swal.fire("¡Error!", `${error.data.message}`, "error");
+                });
+            } else {
+              Swal.fire("Acción cancelada", "", "info");
+            }
+          });
+          break;
+        case "3":
+          await Swal.fire({
+            title: "¿Está seguro de desmatricular este grupo?",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`,
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              matriculaController
+                .desmatricular(
+                  this.grupo.numero_grupo,
+                  this.GET_ALUMNO_ACTUAL.cedula_alumno,
+                  this.Token
+                )
+                .then((response) => {
+                  if (response === 204) {
+                    Swal.fire(
+                      "¡Grupo desmatriculado!",
+                      "El grupo ha sido desmatriculado con éxito.",
+                      "success"
+                    );
+
+                    this.$router.push("/inicio/alumnos");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.data);
+                  Swal.fire("¡Error!", `${error.data.message}`, "error");
+                });
+            } else {
+              Swal.fire("Acción cancelada", "", "info");
+            }
+          });
           break;
       }
-    },
-    ShowModal() {
-      this.SET_MOSTRAR_TABLA(false);
     },
   },
 };

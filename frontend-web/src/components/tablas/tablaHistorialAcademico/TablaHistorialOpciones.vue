@@ -69,16 +69,17 @@ export default {
   props: { opcionesOrdenado: null, accionBoton: null },
   computed: {
     ...mapGetters({
-      GET_TABLE_NAME: "TableGrupoModule/GET_TABLE_NAME",
+      GET_TABLE_NAME: "TableHistorialModule/GET_TABLE_NAME",
 
       UsuarioLoggeado: "LoginModule/UsuarioLoggeado",
     }),
   },
   methods: {
     ...mapMutations({
-      SET_OPC_COMBO_BOX_REVERSE: "TableGrupoModule/SET_OPC_COMBO_BOX_REVERSE",
-      SET_OPC_COMBO_BOX: "TableGrupoModule/SET_OPC_COMBO_BOX",
-      SET_TEXTO: "TableGrupoModule/SET_TEXTO",
+      SET_OPC_COMBO_BOX_REVERSE:
+        "TableHistorialModule/SET_OPC_COMBO_BOX_REVERSE",
+      SET_OPC_COMBO_BOX: "TableHistorialModule/SET_OPC_COMBO_BOX",
+      SET_TEXTO: "TableHistorialModule/SET_TEXTO",
     }),
     handleTextChange(e) {
       if (e.target) {

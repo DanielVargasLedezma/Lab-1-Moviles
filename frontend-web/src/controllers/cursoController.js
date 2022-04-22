@@ -16,7 +16,6 @@ export default {
         throw err.response;
       });
   },
-
   registrarCurso: async (curso, token) => {
     const formData = new FormData();
 
@@ -39,7 +38,6 @@ export default {
         throw error.response;
       });
   },
-
   editarCurso: async (curso, token) => {
     const formData = new FormData();
 
@@ -52,6 +50,18 @@ export default {
 
     return await axios
       .post(global.url + `curso/editar/${curso.codigo_curso}`, formData, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        return response.status;
+      })
+      .catch((error) => {
+        throw error.response;
+      });
+  },
+  eliminarCurso: async (curso, token) => {
+    return await axios
+      .delete(global.url + `curso/eliminar/${curso.codigo_curso}`, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {

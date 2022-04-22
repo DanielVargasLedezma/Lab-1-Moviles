@@ -61,4 +61,9 @@ class Grupo extends Model
     {
         return $this->hasOne(Ciclo::class, 'id_ciclo', 'id_ciclo');
     }
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class, 'numero_grupo', 'numero_grupo');
+    }
 }

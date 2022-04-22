@@ -51,22 +51,6 @@ export default {
         throw error.response;
       });
   },
-  cargarGestores: async (token) => {
-    return await axios
-      .get(global.url + "gestores", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((response) => {
-        if (response.data.data) {
-          return response.data.data;
-        }
-      })
-      .catch((error) => {
-        throw error.response;
-      });
-  },
   editarUsuarios: async (usuario, token) => {
     const formData = new FormData();
 
@@ -82,26 +66,6 @@ export default {
       })
       .then((response) => {
         return response.status;
-      })
-      .catch((error) => {
-        throw error.response;
-      });
-  },
-
-  editarEstadoUsuario: async (user, token) => {
-    const formData = new FormData();
-    formData.append("_method", "PATCH");
-    formData.append("estado", user.estado);
-    return await axios
-      .post(global.url + "editar-estado-usuario/" + user.id, formData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((response) => {
-        if (response.data) {
-          return response.data;
-        }
       })
       .catch((error) => {
         throw error.response;
@@ -127,117 +91,9 @@ export default {
         throw error.response;
       });
   },
-
-  enviarCodigo: async (email) => {
-    const formData = new FormData();
-    formData.append("correo", email);
-
+  eliminarUsuario: async (usuario, token) => {
     return await axios
-      .post(global.url + "usuarios/recuperar-contra", formData)
-      .then((res) => {
-        if (res.status === 201) {
-          return res.status;
-        }
-      })
-      .catch((err) => {
-        throw err.response;
-      });
-  },
-  confirmarCodigo: async (codigo, email) => {
-    const formData = new FormData();
-    formData.append("correo", email);
-    formData.append("codigo", codigo);
-
-    return await axios
-      .post(global.url + "usuarios/verificar-codigo", formData)
-      .then((res) => {
-        if (res.status === 200) {
-          return res.data;
-        }
-      })
-      .catch((error) => {
-        throw error.response;
-      });
-  },
-  eliminarCodigosDe: async (id) => {
-    return await axios
-      .delete(global.url + "usuarios/eliminar-codigos/" + id)
-      .then((res) => {
-        if (res.status === 204) {
-          return res.status;
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
-  },
-  cambiarContraseña: async (contraseña, confirmacion, id) => {
-    const formData = new FormData();
-
-    formData.append("contraseña", contraseña);
-    formData.append("contraseña_confirmation", confirmacion);
-
-    return await axios
-      .post(global.url + "usuarios/reiniciar-contra/" + id, formData)
-      .then((response) => {
-        if (response.status === 204) {
-          return response.status;
-        }
-      })
-      .catch((error) => {
-        throw error.response;
-      });
-  },
-
-  cambiarContra: async (password_act, password, password_conf, id, token) => {
-    const formData = new FormData();
-
-    formData.append("actualpassword", password_act);
-    formData.append("password", password);
-    formData.append("password_confirmation", password_conf);
-
-    return await axios
-      .post(global.url + "usuarios/cambio-contrasenna/" + id, formData, {
-        headers: { Authorization: "Bearer " + token },
-      })
-      .then((response) => {
-        if (response.status == 204) {
-          return response.status;
-        }
-      })
-      .catch((error) => {
-        throw error.response;
-      });
-  },
-  desasignarCobroAGestor: async (id_cobro, id_supervisor, id_gestor, token) => {
-    const formData = new FormData();
-
-    formData.append("id_supervisor", id_supervisor);
-    formData.append("id_gestor", id_gestor);
-
-    return await axios
-      .post(
-        global.url + `informacion-cobros/desasignar/${id_cobro}`,
-        formData,
-        {
-          headers: { Authorization: "Bearer " + token },
-        }
-      )
-      .then((response) => {
-        return response.status;
-      })
-      .catch((error) => {
-        throw error.response;
-      });
-  },
-  asignarCobroAGestor: async (id_cobro, id_supervisor, id_gestor, token) => {
-    const formData = new FormData();
-
-    formData.append("id_supervisor", id_supervisor);
-    formData.append("id_gestor", id_gestor);
-
-    return await axios
-      .post(global.url + `informacion-cobros/asignar/${id_cobro}`, formData, {
+      .delete(global.url + `usuario/eliminar/${usuario.cedula_usuario}`, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {

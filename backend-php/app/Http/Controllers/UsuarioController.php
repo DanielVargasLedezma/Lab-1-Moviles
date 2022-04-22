@@ -121,7 +121,9 @@ class UsuarioController extends Controller
      */
     public function destroy(Usuario $usuario)
     {
-        //
+        $usuario->delete();
+
+        return response(null, 204);
     }
 
     public function login(Request $request)
