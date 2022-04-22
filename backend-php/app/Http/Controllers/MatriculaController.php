@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Matricula;
 use Illuminate\Http\Request;
+use App\Http\Resources\MatriculaResource;
 
 class MatriculaController extends Controller
 {
@@ -74,6 +75,22 @@ class MatriculaController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Matricula  $matricula
+     * @return \Illuminate\Http\Response
+     */
+    public function obtenerMatricula($cedula_alumno, $numero_grupo)
+    {
+        $matricula = Matricula::select()
+            ->where('cedula_alumno', $cedula_alumno)
+            ->where('numero_grupo', $numero_grupo)
+            ->first();
+
+        return new MatriculaResource($matricula);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Matricula  $matricula
@@ -93,7 +110,16 @@ class MatriculaController extends Controller
      */
     public function update(Request $request, Matricula $matricula)
     {
-        //
+        $request->validate([
+            'nota'=> 'required|numeric',
+
+        ]);
+
+        $matricula->update([
+            'nota'=>$request->input('nota'),
+        ]);
+        
+        return response(null, 204);
     }
 
     /**

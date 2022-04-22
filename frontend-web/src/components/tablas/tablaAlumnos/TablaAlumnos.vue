@@ -44,8 +44,8 @@ import TablaAlumnosFila from "./TablaAlumnosFila.vue";
 
 // import Modal from "./Modal.vue";
 
-import carreraController from "../../../controllers/carreraController.js";
 import alumnosController from "../../../controllers/alumnoController.js";
+import gruposController from "../../../controllers/grupoController.js";
 
 import "@/assets/css/Tabla.css";
 
@@ -70,23 +70,45 @@ export default {
     if (
       this.UsuarioLoggeado &&
       this.UsuarioLoggeado.tipo_usuario !== 1 &&
-      this.UsuarioLoggeado.tipo_usuario !== 2
+      this.UsuarioLoggeado.tipo_usuario !== 2 &&
+      this.UsuarioLoggeado.tipo_usuario !== 3
     ) {
       this.$router.push("/inicio");
     }
 
-    this.SET_TABLE_NAME("Alumnos Registrados");
+    switch (window.location.pathname) {
+      case "/inicio/alumnos":
+        this.SET_TABLE_NAME("Alumnos Registrados");
 
-    await alumnosController
-      .cargarAlumnos(this.Token)
-      .then((response) => {
-        this.SET_ARRAY(response);
-        this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
-      })
-      .catch((error) => {
-        console.error(error);
-        this.SET_ARRAY([]);
-      });
+        await alumnosController
+          .cargarAlumnos(this.Token)
+          .then((response) => {
+            this.SET_ARRAY(response);
+            this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
+          })
+          .catch((error) => {
+            console.error(error);
+            this.SET_ARRAY([]);
+          });
+
+        break;
+      case "/inicio/grupos-asignados/alumnos":
+        this.SET_TABLE_NAME(
+          "Alumnos del " + this.GET_GRUPO_ACTUAL.numero_grupo
+        );
+
+        await gruposController
+          .cargarAlumnosDelGrupo(this.GET_GRUPO_ACTUAL, this.Token)
+          .then((response) => {
+            this.SET_ARRAY(response);
+            this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
+          })
+          .catch((error) => {
+            console.error(error);
+            this.SET_ARRAY([]);
+          });
+        break;
+    }
   },
   created() {
     this.SET_COLUMNS_TITLE([
@@ -113,6 +135,8 @@ export default {
       GET_MOSTRAR_TABLA: "TableAlumnoModule/GET_MOSTRAR_TABLA",
       GET_ARRAY: "TableAlumnoModule/GET_ARRAY",
       GetTexto: "TableAlumnoModule/GetTexto",
+
+      GET_GRUPO_ACTUAL: "TableGrupoModule/GET_GRUPO_ACTUAL",
     }),
     listaFiltrada: function () {
       return this.GET_ARRAY.filter((alumno) => {
