@@ -58,7 +58,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Nombre", "Cédula", "Carrera"],
+      opcionesOrdenado: ["nombre", "cedula", "carrera.codigo_carrera"],
     };
   },
   unmounted() {
@@ -141,7 +141,7 @@ export default {
     listaFiltrada: function () {
       return this.GET_ARRAY.filter((alumno) => {
         return (
-          //alumno.codigo_carrera.includes(this.GetTexto) ||
+          alumno.carrera.codigo_carrera.includes(this.GetTexto) ||
           alumno.nombre.includes(this.GetTexto) ||
           alumno.cedula.includes(this.GetTexto)
         );

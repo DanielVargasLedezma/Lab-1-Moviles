@@ -149,7 +149,8 @@ class AlumnoController extends Controller
      */
     public function destroy(Alumno $alumno)
     {
-        $matriculas = $alumno->matriculas;
+        $matriculas = $alumno->matriculas()
+            ->first();
 
         if (isset($matriculas)) {
             return response([

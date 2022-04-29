@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Nombre", "Cedula"],
+      opcionesOrdenado: ["nombre", "cedula_profesor"],
     };
   },
   unmounted() {
