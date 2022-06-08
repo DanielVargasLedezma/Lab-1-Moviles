@@ -78,6 +78,7 @@ export default {
 
     switch (window.location.pathname) {
       case "/inicio/alumnos":
+      case "/inicio/matricula":
         this.SET_TABLE_NAME("Alumnos Registrados");
 
         await alumnosController
