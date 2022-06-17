@@ -16,7 +16,7 @@ class GrupoResource extends JsonResource
     {
         return [
             'numero_grupo' => $this->numero_grupo,
-            'curso' => $this->curso,
+            'curso' => new CursoResource($this->curso),
             'profesor' => $this->profesor,
             'ciclo' => $this->ciclo,
             'horario' => $this->horario,

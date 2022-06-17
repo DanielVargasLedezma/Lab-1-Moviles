@@ -74,11 +74,11 @@ export default {
   registrarUsuarios: async (usuario, token) => {
     const formData = new FormData();
 
-    formData.append("cedula", usuario.cedula);
+    formData.append("cedula_usuario", usuario.cedula);
     formData.append("nombre", usuario.nombre);
     formData.append("tipo_usuario", usuario.tipo_usuario);
     formData.append("estado", usuario.estado);
-    formData.append("correo", usuario.correoE);
+    formData.append("correoE", usuario.correoE);
 
     return await axios
       .post(global.url + "crear-usuario", formData, {
