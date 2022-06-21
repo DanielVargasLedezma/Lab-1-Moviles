@@ -42,25 +42,25 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cedula' => 'required|string|unique:usuarios,cedula_usuario',
+            'cedula_usuario' => 'required|string|unique:usuarios,cedula_usuario',
             'nombre' => 'required|string',
             'tipo_usuario' => 'required|numeric',
-            'correo' => 'required|email',
+            'correoE' => 'required|email',
             'estado' => 'required|numeric'
         ]);
 
-        $password = GenerateTempPassword::generatePasswordTemp($request);
+        // $password = GenerateTempPassword::generatePasswordTemp($request);
 
         Usuario::create([
-            'cedula_usuario' => $request->input('cedula'),
+            'cedula_usuario' => $request->input('cedula_usuario'),
             'nombre' => $request->input('nombre'),
             'tipo_usuario' => $request->input('tipo_usuario'),
             'estado' => $request->input('estado'),
-            'correo' => $request->input('correo'),
-            'clave' => Hash::make($password),
+            'correo' => $request->input('correoE'),
+            'clave' => Hash::make("contrabase123"),
         ]);
 
-        TemporaryPassword::sendMail($request->input('cedula'), $request->input('nombre'), $request->input('correo'), $password);
+        // TemporaryPassword::sendMail($request->input('cedula'), $request->input('nombre'), $request->input('correo'), $password);
 
         return response(null, 201);
     }
@@ -101,13 +101,13 @@ class UsuarioController extends Controller
             'nombre' => 'required|string',
             'tipo_usuario' => 'required|numeric',
             'estado' => 'required|numeric',
-            'correo' => 'required|email',
+            'correoE' => 'required|email',
         ]);
         $usuario->update([
             'nombre' => $request->input('nombre'),
             'tipo_usuario' => $request->input('tipo_usuario'),
             'estado' => $request->input('estado'),
-            'correo' => $request->input('correo'),
+            'correo' => $request->input('correoE'),
         ]);
 
         return response(null, 204);

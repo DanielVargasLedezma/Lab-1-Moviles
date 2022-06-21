@@ -275,6 +275,12 @@ export default {
                 "El usuario ha sido editada con éxito.",
                 "success"
               );
+              if (this.usuario.cedula === this.UsuarioLoggeado.cedula) {
+                this.LogOut();
+                this.$router.push("/");
+                return;
+              }
+
               this.$router.push("/inicio/usuarios");
             }
           })

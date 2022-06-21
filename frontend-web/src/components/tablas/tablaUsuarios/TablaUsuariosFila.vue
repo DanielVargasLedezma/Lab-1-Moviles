@@ -79,6 +79,15 @@ export default {
           this.$router.push("/inicio/editar-usuario");
           break;
         case "2":
+          if (this.usuario.cedula_usuario === this.UsuarioLoggeado.cedula) {
+            Swal.fire(
+              "¡Acción cancelada!",
+              "No se puede eliminar a usted mismo.",
+              "info"
+            );
+
+            return;
+          }
           await Swal.fire({
             title: "¿Está seguro de eliminar este grupo?",
             showDenyButton: true,

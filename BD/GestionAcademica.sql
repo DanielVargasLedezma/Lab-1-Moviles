@@ -4,7 +4,7 @@ AS
 END;
 
 ------------------------------------------------------------ Carrera --------------------------------------------------------------------------
-CREATE TABLE Carreras(
+CREATE TABLE CARRERAS(
     codigo_carrera VARCHAR2(255) not null,
     nombre VARCHAR2(255),
     titulo VARCHAR2(255),
@@ -13,56 +13,50 @@ CREATE TABLE Carreras(
 
 ------------------------------------------------------------ Curso --------------------------------------------------------------------------
 
-CREATE TABLE Cursos(
+CREATE TABLE CURSOS(
     codigo_curso VARCHAR2(255) not null,
+    codigo_carrera VARCHAR2(255) not null,
     nombre VARCHAR2(255),
     creditos number(5),
     horas_semanales NUMBER(5),
+    num_semestre_a_llevar NUMBER(5),
+    anyo_a_llevar VARCHAR2(255),
     CONSTRAINT PK_Curso PRIMARY KEY(codigo_curso)
 );
 
 ------------------------------------------------------------ CICLO --------------------------------------------------------------------------
 
-CREATE TABLE CICLOs(
+CREATE TABLE CICLOS(
     ID_CICLO number(19) not null,
-    AÑO NUMBER(5),
     NUMERO_CICLO NUMBER(5),
+    YEAR NUMBER(5),
     FECHA_INICIO DATE,
-    FECHA_FIN DATE,
+    fecha_finalizacion DATE,
+    ciclo_activo NUMBER(5),
     CONSTRAINTS PK_CICLO PRIMARY KEY(ID_CICLO)
-);
-
------------------------------------------------------------- Cursos de Carrera --------------------------------------------------------------------------
-
-CREATE TABLE CursosDeCarrera(
-    codigo_carrera VARCHAR2(255) not null,
-    codigo_curso VARCHAR2(255) not null,
-    ID_ciclo number(19) not null,
-    AÑO number(5),
-    CONSTRAINT PK_Cursos_Carreras PRIMARY KEY(codigo_curso, codigo_carrera, ID_ciclo)
 );
 
 ------------------------------------------------------------ Profesor --------------------------------------------------------------------------
 
-CREATE TABLE Profesores(
+CREATE TABLE PROFESORES(
     cedula_profesor VARCHAR2(255) NOT NULL,
     nombre VARCHAR2(255),
     telefono number(19),
     correoE VARCHAR2(255),
-    contraseña VARCHAR2(255) NOT NULL,
+    clave VARCHAR2(255) NOT NULL,
     CONSTRAINTS PK_PROFESOR PRIMARY KEY(cedula_profesor)
 );
 
 ------------------------------------------------------------ ALUMNO --------------------------------------------------------------------------
 
-CREATE TABLE ALUMNO(
+CREATE TABLE ALUMNOS(
     CEDULA_ALUMNO VARCHAR2(255) not null,
     NOMBRE VARCHAR2(255),
     TELEFONO NUMBER(19),
-    EMAIL VARCHAR2(255),
+    CORREOE VARCHAR2(255),
     FECHA_NACIMIENTO DATE,
     CODIGO_CARRERA VARCHAR2(255) not null,
-    contraseña VARCHAR2(255) NOT NULL,
+    clave VARCHAR2(255) NOT NULL,
     CONSTRAINTS PK_ALUMNO PRIMARY KEY(CEDULA_ALUMNO)
 );
 
@@ -70,11 +64,12 @@ CREATE TABLE ALUMNO(
 
 CREATE TABLE GRUPOS(
     NUMERO_GRUPO VARCHAR2(255) not null,
-    CODIGO_CARRERA VARCHAR2(255) not null,
     CODIGO_CURSO VARCHAR2(255) not null,
     CEDULA_PROFESOR VARCHAR2(255) not null,
     ID_CICLO number(19) NOT NULL,
     HORARIO VARCHAR2(255),
+    dia_uno VARCHAR2(255),
+    dia_dos VARCHAR2(255),
     CONSTRAINTS PK_GRUPO PRIMARY KEY(NUMERO_GRUPO)
 );
 
@@ -93,20 +88,17 @@ CREATE TABLE MATRICULAS(
 CREATE TABLE USUARIOS(
     CEDULA_usuario VARCHAR2(255),
     CLAVE VARCHAR2(255),
+    nombre VARCHAR2(255),
+    correo VARCHAR2(255),
     tipo_usuario number(5),
+    estado number(5),
     CONSTRAINTS PK_USUARIOS PRIMARY KEY(CEDULA_usuario)
 );
 
------------------------------------------------------------- Foraneas Cursos de Carrera --------------------------------------------------------------------------
+------------------------------------------------------------ Foraneas Cursos --------------------------------------------------------------------------
 
-ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Carrera_CurCarr FOREIGN KEY (codigo_carrera) 
+ALTER TABLE GestionAcademica.Cursos ADD CONSTRAINT FK_Carrera_Cur FOREIGN KEY (codigo_carrera) 
 REFERENCES GestionAcademica.Carreras (codigo_carrera) on delete cascade;
-
-ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Cur_CurCarr FOREIGN KEY (codigo_curso) 
-REFERENCES GestionAcademica.Cursos (codigo_curso) on delete cascade;
-
-ALTER TABLE GestionAcademica.CursosDeCarrera ADD CONSTRAINT FK_Ciclo_CurCarr FOREIGN KEY (ID_ciclo) 
-REFERENCES GestionAcademica.CICLOs (ID_ciclo) on delete cascade;
 
 
 ------------------------------------------------------------ Foraneas Alumno --------------------------------------------------------------------------
@@ -116,9 +108,6 @@ REFERENCES GestionAcademica.Carreras (codigo_carrera) on delete cascade;
 
 
 ------------------------------------------------------------ Foraneas Grupo --------------------------------------------------------------------------
-
-ALTER TABLE GestionAcademica.grupo ADD CONSTRAINT FK_Carrera_grupo FOREIGN KEY (codigo_carrera) 
-REFERENCES GestionAcademica.Carreras (codigo_carrera) on delete cascade;
 
 ALTER TABLE GestionAcademica.grupo ADD CONSTRAINT FK_Cur_grupo FOREIGN KEY (codigo_curso) 
 REFERENCES GestionAcademica.Cursos (codigo_curso) on delete cascade;
@@ -179,12 +168,10 @@ AS
 BEGIN 
     OPEN carrera_cursor FOR 
        SELECT 
-            car.codigo_carrera, car.nombre, car.titulo, curr.codigo_curso, curr.nombre, curr.creditos, curr.horas_semanales,  
-            carcurr.year, cicl.numero_ciclo, cicl.year, cicl.fecha_inicio, cicl.fecha_finalizacion
+            curr.codigo_curso, curr.nombre, curr.creditos, curr.horas_semanales,
+            curr.num_semestre_a_llevar, curr.anyo_a_llevar
        FROM GestionAcademica.Carreras car
-       JOIN GestionAcademica.cursos_de_carreras carcurr ON (car.codigo_carrera = carcurr.codigo_carrera)
-       JOIN GestionAcademica.Cursos curr ON (carcurr.codigo_curso = curr.codigo_curso)
-       JOIN GestionAcademica.Ciclos cicl ON (cicl.id_ciclo = carcurr.id_ciclo)
+       JOIN GestionAcademica.Cursos curr ON (car.codigo_carrera = curr.codigo_carrera)
        WHERE (car.codigo_carrera = codigo_carrera_in); 
 
     RETURN carrera_cursor; 

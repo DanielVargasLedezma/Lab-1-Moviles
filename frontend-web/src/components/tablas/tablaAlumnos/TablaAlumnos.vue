@@ -58,7 +58,7 @@ export default {
   },
   data() {
     return {
-      opcionesOrdenado: ["Nombre", "Cédula", "Carrera"],
+      opcionesOrdenado: ["nombre", "cedula", "carrera.codigo_carrera"],
     };
   },
   unmounted() {
@@ -78,6 +78,7 @@ export default {
 
     switch (window.location.pathname) {
       case "/inicio/alumnos":
+      case "/inicio/matricula":
         this.SET_TABLE_NAME("Alumnos Registrados");
 
         await alumnosController
@@ -141,7 +142,7 @@ export default {
     listaFiltrada: function () {
       return this.GET_ARRAY.filter((alumno) => {
         return (
-          //alumno.codigo_carrera.includes(this.GetTexto) ||
+          alumno.carrera.codigo_carrera.includes(this.GetTexto) ||
           alumno.nombre.includes(this.GetTexto) ||
           alumno.cedula.includes(this.GetTexto)
         );
