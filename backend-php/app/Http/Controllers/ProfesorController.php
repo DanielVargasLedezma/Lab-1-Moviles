@@ -47,17 +47,17 @@ class ProfesorController extends Controller
             'correo' => 'required|email',
         ]);
 
-        $password = GenerateTempPassword::generatePasswordTemp($request);
+        // $password = GenerateTempPassword::generatePasswordTemp($request);
 
         Profesor::create([
             'cedula_profesor' => $request->input('cedula_profesor'),
             'nombre' => $request->input('nombre'),
             'telefono' => $request->input('telefono'),
             'correoE' => $request->input('correo'),
-            'clave' => Hash::make($password),
+            'clave' => Hash::make("Contrabase123"),
         ]);
 
-        TemporaryPassword::sendMail($request->input('cedula_profesor'), $request->input('nombre'), $request->input('correo'), $password);
+        // TemporaryPassword::sendMail($request->input('cedula_profesor'), $request->input('nombre'), $request->input('correo'), $password);
 
         return response(null, 201);
     }

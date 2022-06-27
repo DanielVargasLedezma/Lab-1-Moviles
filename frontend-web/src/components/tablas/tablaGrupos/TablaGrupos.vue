@@ -81,7 +81,14 @@ export default {
           await grupoController
             .cargarGruposDeCurso(this.Token, this.GET_CURSO_ACTUAL.codigo_curso)
             .then((response) => {
-              this.SET_ARRAY(response);
+              this.SET_ARRAY(
+                response.filter((grupo) => {
+                  return (
+                    grupo.ciclo.ciclo_activo.includes("1") ||
+                    grupo.ciclo.ciclo_activo.includes(1)
+                  );
+                })
+              );
               this.SET_CANTIDAD_UoC(this.GET_ARRAY.length);
             })
             .catch((error) => {

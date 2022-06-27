@@ -63,7 +63,7 @@ class AlumnoController extends Controller
             'codigo_carrera' => 'required|string',
         ]);
 
-        $password = GenerateTempPassword::generatePasswordTemp($request);
+        // $password = GenerateTempPassword::generatePasswordTemp($request);
 
         Alumno::create([
             'cedula_alumno' => $request->input('cedula_alumno'),
@@ -72,10 +72,10 @@ class AlumnoController extends Controller
             'correoE' => $request->input('correoe'),
             'fecha_nacimiento' => $request->input('fecha_nacimiento'),
             'codigo_carrera' => $request->input('codigo_carrera'),
-            'clave' => Hash::make($password),
+            'clave' => Hash::make("Contrabase123"),
         ]);
 
-        TemporaryPassword::sendMail($request->input('cedula_alumno'), $request->input('nombre'), $request->input('correoe'), $password);
+        // TemporaryPassword::sendMail($request->input('cedula_alumno'), $request->input('nombre'), $request->input('correoe'), $password);
 
         return response(null, 201);
     }

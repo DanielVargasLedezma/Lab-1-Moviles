@@ -62,7 +62,7 @@ class CicloController extends Controller
             );
         }
 
-        if ($request->input('ciclo_activo') === "1") {
+        if ($request->input('ciclo_activo') === 1) {
             DB::statement('Update GestionAcademica.Ciclos set CICLO_ACTIVO=0');
             DB::statement('commit');
         }
@@ -133,7 +133,7 @@ class CicloController extends Controller
             );
         }
 
-        if ($request->input('ciclo_activo') === "1") {
+        if ($request->input('ciclo_activo') === 1) {
             DB::statement('Update GestionAcademica.Ciclos set CICLO_ACTIVO=0');
             DB::statement('commit');
         }
